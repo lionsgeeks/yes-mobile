@@ -21,7 +21,7 @@ export default function TabLayout() {
 
   const tabScreen = [
     { route: "index", name: "Home", icon: "house", showTab: true },
-    { route: "speakers/index", name: "Speakers", icon: "speaker", showTab: true },
+    { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
     { route: "menu", name: "Menu", icon: "settings", showTab: true },

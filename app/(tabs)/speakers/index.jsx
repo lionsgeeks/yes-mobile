@@ -1,9 +1,261 @@
-import { Text, View } from "react-native";
+import { useState } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    FlatList,
+    Image,
+    Pressable,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "expo-router";
+import Navbar from "@/components/navigation/navbar";
+
+const allSpeakers = [
+    {
+        id: "1",
+        name: "Emma Johnson",
+        role: "Green Earth Initiative",
+        title: "Climate Activist",
+        image: "https://randomuser.me/api/portraits/women/45.jpg",
+        tags: ["Climate", "Policy", "Sustainability"],
+        year: 2025,
+    },
+    {
+        id: "2",
+        name: "Lucas Rivera",
+        role: "Digital Future Lab",
+        title: "Tech Entrepreneur",
+        image: "https://randomuser.me/api/portraits/men/85.jpg",
+        tags: ["Technology", "Innovation"],
+        year: 2024,
+    },
+    {
+        id: "3",
+        name: "Michael Chen",
+        role: "Global Learning Foundation",
+        title: "Education Director",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        tags: ["Education", "Development", "Youth"],
+        year: 2024,
+    },
+    {
+        id: "4",
+        name: "Fatima Al-Mansour",
+        role: "Health For All",
+        title: "Public Health Advocate",
+        image: "https://randomuser.me/api/portraits/women/52.jpg",
+        tags: ["Healthcare", "Wellness"],
+        year: 2025,
+    },
+    {
+        id: "5",
+        name: "Emma Johnson",
+        role: "Green Earth Initiative",
+        title: "Climate Activist",
+        image: "https://randomuser.me/api/portraits/women/45.jpg",
+        tags: ["Climate", "Policy", "Sustainability"],
+        year: 2025,
+    },
+    {
+        id: "6",
+        name: "Lucas Rivera",
+        role: "Digital Future Lab",
+        title: "Tech Entrepreneur",
+        image: "https://randomuser.me/api/portraits/men/85.jpg",
+        tags: ["Technology", "Innovation"],
+        year: 2024,
+    },
+    {
+        id: "7",
+        name: "Michael Chen",
+        role: "Global Learning Foundation",
+        title: "Education Director",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        tags: ["Education", "Development", "Youth"],
+        year: 2024,
+    },
+    {
+        id: "8",
+        name: "Fatima Al-Mansour",
+        role: "Health For All",
+        title: "Public Health Advocate",
+        image: "https://randomuser.me/api/portraits/women/52.jpg",
+        tags: ["Healthcare", "Wellness"],
+        year: 2025,
+    },
+    {
+        id: "9",
+        name: "Emma Johnson",
+        role: "Green Earth Initiative",
+        title: "Climate Activist",
+        image: "https://randomuser.me/api/portraits/women/45.jpg",
+        tags: ["Climate", "Policy", "Sustainability"],
+        year: 2025,
+    },
+    {
+        id: "10",
+        name: "Lucas Rivera",
+        role: "Digital Future Lab",
+        title: "Tech Entrepreneur",
+        image: "https://randomuser.me/api/portraits/men/85.jpg",
+        tags: ["Technology", "Innovation"],
+        year: 2024,
+    },
+    {
+        id: "11",
+        name: "Michael Chen",
+        role: "Global Learning Foundation",
+        title: "Education Director",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        tags: ["Education", "Development", "Youth"],
+        year: 2024,
+    },
+    {
+        id: "12",
+        name: "Fatima Al-Mansour",
+        role: "Health For All",
+        title: "Public Health Advocate",
+        image: "https://randomuser.me/api/portraits/women/52.jpg",
+        tags: ["Healthcare", "Wellness"],
+        year: 2025,
+    },
+
+];
+
+const categories = [
+    "All Speakers",
+    "Climate",
+    "Education",
+    "Healthcare",
+    "Technology",
+    "Human Rights",
+];
 
 export default function SpeakersScreen() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [activeCategory, setActiveCategory] = useState("All Speakers");
+
+    const filteredSpeakers = allSpeakers.filter((speaker) => {
+        const matchesSearch = speaker.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesYear = selectedYear ? speaker.year === selectedYear : true;
+        const matchesCategory =
+            activeCategory === "All Speakers" || speaker.tags.includes(activeCategory);
+        return matchesSearch && matchesYear && matchesCategory;
+    });
+
     return (
-        <View className="flex-1 items-center justify-center">
-            <Text>List of speakers will be displayed here.</Text>
+        <View
+
+            className="h-screen bg-white pt-10"
+        >
+            {/* Header */}
+
+            <Navbar title="Speakers" />
+
+            {/* Search */}
+            <View className="px-6 mb-4">
+                <TextInput
+                    placeholder="Search by name..."
+                    placeholderTextColor="#aaa"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm"
+                />
+            </View>
+
+            {/* Year Filter */}
+            <View className="px-6 mb-3">
+                <View className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <Picker
+                        selectedValue={selectedYear}
+                        onValueChange={(value) =>
+                            setSelectedYear(value === "all" ? null : value)
+                        }
+                        mode="dialog"
+                    >
+                        <Picker.Item label="Filter by Year" value="all" />
+                        <Picker.Item label="2025" value={2025} />
+                        <Picker.Item label="2024" value={2024} />
+                    </Picker>
+                </View>
+            </View>
+
+            {/* Tag Filter */}
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className="mb-4 px-6"
+            >
+                {categories.map((category) => {
+                    const isActive = activeCategory === category;
+                    return (
+                        <Pressable
+                            key={category}
+                            onPress={() => setActiveCategory(category)}
+                            className={`px-4 py-2 h-8 rounded-full mr-2 ${isActive ? "bg-beta" : "bg-gray-200"
+                                }`}
+                        >
+                            <Text
+                                className={`text-sm ${isActive ? "text-white font-semibold" : "text-gray-700"
+                                    }`}
+                            >
+                                {category}
+                            </Text>
+                        </Pressable>
+                    );
+                })}
+            </ScrollView>
+
+            {/* Speaker Cards */}
+            <ScrollView className="px-2 mb-4">
+                <View className="flex-row flex-wrap justify-between">
+                    {filteredSpeakers.length > 0 ? (
+                        filteredSpeakers.map((item) => (
+                            <Pressable
+                                key={item.id}
+                                className="bg-white rounded-2xl shadow-xl shadow-alpha  overflow-hidden mb-5 px-4 pt-5 pb-3 w-[48%]"
+                                style={{ elevation: 3 }}
+                                android_ripple={{ color: "#ccc" }}
+                            >
+                                <View className="items-center mb-3">
+                                    <Image
+                                        source={{ uri: item.image }}
+                                        className="w-20 h-20 rounded-full border border-gray-300"
+                                    />
+                                </View>
+                                <Text className="text-center text-base font-semibold text-alpha mb-1">
+                                    {item.name}
+                                </Text>
+                                <Text className="text-center text-sm text-gray-600 mb-0.5">
+                                    {item.title}
+                                </Text>
+                                <Text className="text-center text-xs text-gray-400 mb-2">
+                                    {item.role}
+                                </Text>
+                                <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
+                                    {item.tags.slice(0, 2).map((tag) => (
+                                        <View
+                                            key={tag}
+                                            className="bg-beta px-2 py-0.5 rounded-full"
+                                        >
+                                            <Text className="text-xs text-white">{tag}</Text>
+                                        </View>
+                                    ))}
+                                </View>
+                            </Pressable>
+                        ))
+                    ) : (
+                        <Text className="text-center text-gray-400 mt-12 w-full text-sm">
+                            No speakers match your filters.
+                        </Text>
+                    )}
+                </View>
+            </ScrollView>
         </View>
     );
 }
