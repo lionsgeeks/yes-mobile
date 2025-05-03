@@ -33,6 +33,7 @@ export default function TabLayout() {
     { route: "badge", name: "Badge", icon: "award", showTab: true },
     { route: "sign-in", name: "Sign In", icon: "settings", showTab: false },
     { route: "loading", name: "Loading", icon: "settings", showTab: false },
+    { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
   ]
 
 
@@ -62,13 +63,21 @@ export default function TabLayout() {
           options={{
             headerShown: false,
             title: screen.name,
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name={screen.icon} color={color} />
+            tabBarIcon: ({ focused }) => (
+              <IconSymbol
+                size={28}
+                name={screen.icon}
+                color={focused ? '#b09417' : '#2e539d'}
+              />
             ),
+            tabBarActiveTintColor: '#b09417',
+            tabBarInactiveTintColor: '#2e539d',
             tabBarStyle: screen.showTab ? undefined : { display: 'none' },
           }}
         />
       ))}
+
+
 
 
 

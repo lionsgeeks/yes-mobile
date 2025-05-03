@@ -16,13 +16,19 @@ import Navbar from "@/components/navigation/navbar";
 
 const allSpeakers = [
     {
-        id: "1",
+        id: 1,
         name: "Emma Johnson",
+        title: "Climate Architect",
         role: "Green Earth Initiative",
-        title: "Climate Activist",
-        image: "https://randomuser.me/api/portraits/women/45.jpg",
-        tags: ["Climate", "Policy", "Sustainability"],
-        year: 2025,
+        image: "https://randomuser.me/api/portraits/men/85.jpg",
+            description: "Leading advocate for sustainable practices with over 10 years...",
+        tags: ["Climate Policy", "Sustainability", "Community Engagement"],
+        education: "MSc Environmental Science, University of Oxford",
+        languages: ["English", "French", "Spanish"],
+        sessions: [
+            { title: "Opening Ceremony", time: "09:00 – 10:30", room: "Room 1" },
+            { title: "Climate Action Panel", time: "11:00 – 12:00", room: "Main Hall" }
+        ]
     },
     {
         id: "2",
@@ -136,9 +142,11 @@ const categories = [
 ];
 
 export default function SpeakersScreen() {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedYear, setSelectedYear] = useState(null);
     const [activeCategory, setActiveCategory] = useState("All Speakers");
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigation = useNavigation();
+
 
     const filteredSpeakers = allSpeakers.filter((speaker) => {
         const matchesSearch = speaker.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -189,7 +197,7 @@ export default function SpeakersScreen() {
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                className="mb-4 px-6"
+                className={`m-0 px-6 ${activeCategory == "All Speakers" && "pb-20"}`}
             >
                 {categories.map((category) => {
                     const isActive = activeCategory === category;
@@ -197,12 +205,11 @@ export default function SpeakersScreen() {
                         <Pressable
                             key={category}
                             onPress={() => setActiveCategory(category)}
-                            className={`px-4 py-2 h-8 rounded-full mr-2 ${isActive ? "bg-beta" : "bg-gray-200"
+                            className={`px-4 py-2 h-8 rounded-full mr-2 ${isActive ? "bg-beta" : "bg-alpha"
                                 }`}
                         >
                             <Text
-                                className={`text-sm ${isActive ? "text-white font-semibold" : "text-gray-700"
-                                    }`}
+                                className={`text-sm text-white`}
                             >
                                 {category}
                             </Text>
@@ -221,6 +228,8 @@ export default function SpeakersScreen() {
                                 className="bg-white rounded-2xl shadow-xl shadow-alpha  overflow-hidden mb-5 px-4 pt-5 pb-3 w-[48%]"
                                 style={{ elevation: 3 }}
                                 android_ripple={{ color: "#ccc" }}
+                                onPress={() => navigation.navigate('speakers/[id]', { speaker: item })}
+
                             >
                                 <View className="items-center mb-3">
                                     <Image
