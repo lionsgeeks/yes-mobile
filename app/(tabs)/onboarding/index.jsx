@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Image, Text, TouchableOpacity, View } from "react-native"
 import image1 from "../../../assets/images/icon.png"
+import { router } from "expo-router"
 
 
+// will be changed to better content/images later
 const onboardingData = [
     {
         title: "Welcome to Y.E.S Africa",
@@ -38,7 +40,8 @@ export default function OnboardingScreen() {
             setCurrentSlide(currentSlide + 1)
         } else {
             // TODO: redirect to interests 
-            setCurrentSlide(0);
+            // setCurrentSlide(0);
+            router.navigate("/");
         }
     }
 
@@ -60,21 +63,16 @@ export default function OnboardingScreen() {
                 />
 
                 <View className="p-6">
-                    <Text className="text-2xl font-bold text-alpha mb-2">{onboardingData[currentSlide].title}</Text>
+                    <Text className="text-3xl font-bold text-alpha mb-2">{onboardingData[currentSlide].title}</Text>
 
                     <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description}</Text>
+                    <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description}</Text>
+                </View>
 
-                    <View className="flex justify-center mb-6 flex-row gap-4">
-                        {onboardingData.map((_, index) => (
-                            <View
-                                key={index}
-                                className={`w-2.5 h-2.5 rounded-full mx-1 ${currentSlide === index ? "bg-alpha" : "bg-alpha/50"}`}
-                            />
-                        ))}
-                    </View>
+                <View className="p-6">
 
-                    <View className="flex flex-row justify-between">
 
+                    <View className="flex flex-row items-center justify-between">
                         <TouchableOpacity
                             onPress={prevSlide}
                             disabled={currentSlide === 0}
@@ -82,6 +80,16 @@ export default function OnboardingScreen() {
                         >
                             <Text className="text-white">Back</Text>
                         </TouchableOpacity>
+
+                        {/* the dots */}
+                        <View className="flex justify-center mb-6 flex-row gap-4">
+                            {onboardingData.map((_, index) => (
+                                <View
+                                    key={index}
+                                    className={`w-2.5 h-2.5 rounded-full mx-1 ${currentSlide === index ? "bg-alpha" : "bg-alpha/50"}`}
+                                />
+                            ))}
+                        </View>
 
                         <TouchableOpacity
                             onPress={nextSlide}
