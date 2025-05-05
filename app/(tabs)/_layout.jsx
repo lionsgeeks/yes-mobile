@@ -33,6 +33,7 @@ export default function TabLayout() {
     { route: "badge", name: "Badge", icon: "award", showTab: true },
     { route: "sign-in", name: "Sign In", icon: "settings", showTab: false },
     { route: "loading", name: "Loading", icon: "settings", showTab: false },
+    {route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
   ]
 
 
