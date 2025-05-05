@@ -2,7 +2,7 @@ import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -11,70 +11,84 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import ably, { cleanupAbly, setupAbly } from "@/utils/ably";
 
-
-
-export default function ChatScreen({ navigation }) {
-  const [conversations, setConversations] = useState([])
+export default function ChatScreen() {
+  const [conversations, setConversations] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
-  const { user } = useAuthContext()
+  const { user } = useAuthContext();
+  const ablyClient = useRef(null);
+  const ablyChannel = useRef(null);
+
+  const getConversations = async () => {
+    try {
+      const response = await api.get("chats/" + user.id);
+      setConversations(response.data.conversations);
+    } catch (error) {
+      console.error("Error fetching conversations:", error);
+    }
+  };
+
+  // Fetch on initial focus
+  useFocusEffect(
+    useCallback(() => {
+      getConversations();
+    }, [])
+  );
+
+   // 🔌 Setup Ably on mount
+   useEffect(() => {
+    setupAbly(ablyClient, ablyChannel, user, { id: null }, null, getConversations);
+
+    return () => {
+      cleanupAbly(ablyClient, ablyChannel);
+    };
+  }, []);
 
 
 
   const filteredConversations = conversations.filter((convo) => {
-    const matchRole = filter === "All" || convo.role === filter;
-    const matchSearch = convo.name.toLowerCase().includes(search.toLowerCase());
+    const matchRole =
+      filter === "All" || convo.user.role.toLowerCase() === filter.toLowerCase();
+    const matchSearch = convo.user.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
     return matchRole && matchSearch;
   });
 
-
-  const getConversations = async () => {
-    try {
-
-      let response = await api.get("chats/" + user.id)
-
-      let data = response.data
-
-      setConversations(data.conversations)
-
-    } catch (error) {
-      console.log(error);
-
-    }
-  }
-
-
-  useFocusEffect(
-    useCallback(() => {
-      getConversations()
-    }, [])
-  );
-
+  
 
   return (
-    <View className="flex-1  pt-20 px-6">
-      <Text className="text-2xl font-bold text-beta mb-4">Empower Chat</Text>
+    <View className="flex-1 bg-[#F9FAFB] pt-16 px-5">
+      <Text className="text-3xl font-bold text-yellow-600 mb-4">Empower Chat</Text>
 
       {/* Search Bar */}
       <TextInput
-        className="bg-white/10  border border-beta rounded-xl px-4 py-2 text-white mb-4"
-        placeholder="Search by name..."
-        placeholderTextColor="#b09417aa"
+        className="bg-yellow-100 border border-yellow-400 rounded-xl px-4 py-2 text-black mb-4"
+        placeholder="🔍 Search by name..."
+        placeholderTextColor="#9B870C"
         onChangeText={setSearch}
         value={search}
       />
 
       {/* Filter Tabs */}
       <View className="flex-row mb-4">
-        {["All", "ngo", "speaker"].map((type) => (
+        {["All", "alpha", "beta"].map((type) => (
           <TouchableOpacity
             key={type}
-            className={`px-4 py-1 rounded-full border mr-2 ${filter === type ? "bg-alpha border-alpha" : "border-beta"
-              }`}
             onPress={() => setFilter(type)}
+            className={`px-4 py-1.5 rounded-full border mr-2 ${
+              filter === type
+                ? "bg-yellow-500 border-yellow-500"
+                : "border-yellow-400"
+            }`}
           >
-            <Text className={`text-sm ${filter === type ? "text-white" : "text-beta"}`}>
+            <Text
+              className={`text-sm font-medium ${
+                filter === type ? "text-white" : "text-yellow-700"
+              }`}
+            >
               {type}
             </Text>
           </TouchableOpacity>
@@ -82,32 +96,42 @@ export default function ChatScreen({ navigation }) {
       </View>
 
       {/* Chat List */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} className="pb-12">
+        {filteredConversations.length === 0 && (
+          <Text className="text-center text-gray-500 mt-12">
+            😕 No conversations found.
+          </Text>
+        )}
+
         {filteredConversations.map((convo) => (
           <TouchableOpacity
-            key={convo.id}
-            onPress={() => router.push({
-              pathname: `chat/${convo.id}`,
-              params: convo
-            })}
-            className="flex-row items-center gap-4 bg-white/5 border border-alpha p-4 rounded-xl mb-4"
+            key={convo.user.id}
+            onPress={() =>
+              router.push({
+                pathname: `chat/${convo.user.id}`,
+                params: convo.user,
+              })
+            }
+            className="flex-row items-center gap-4 bg-yellow-50 border border-yellow-200 p-4 rounded-2xl mb-4 shadow-sm"
           >
             <Image
-              source={{ uri: convo.image }}
-              className="w-12 h-12 rounded-full border border-beta"
+              source={{ uri: convo.user.image }}
+              className="w-14 h-14 rounded-full border border-yellow-400"
             />
             <View className="flex-1">
-              <Text className="text-lg text-beta font-semibold">{convo.name}</Text>
-              <Text className="text-white text-sm opacity-80">{convo.message}</Text>
-              <Text className="text-xs text-white opacity-40 mt-1">{convo.role}</Text>
+              <Text className="text-lg text-yellow-800 font-bold mb-1">
+                {convo.user.name}
+              </Text>
+              <Text className="text-gray-800 text-sm" numberOfLines={1}>
+                {convo.last_message.sender_id === user.id ? "You: " : ""}
+                {convo.last_message.message}
+              </Text>
+              {/* <Text className="text-xs text-yellow-600 mt-1 capitalize">
+                {convo.user.role}
+              </Text> */}
             </View>
           </TouchableOpacity>
         ))}
-        {filteredConversations.length === 0 && (
-          <Text className="text-center text-white opacity-50 mt-10">
-            No conversations found.
-          </Text>
-        )}
       </ScrollView>
     </View>
   );

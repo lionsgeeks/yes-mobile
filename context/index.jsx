@@ -1,11 +1,34 @@
-import { createContext, useContext, useState } from "react";
-import { useColorScheme } from "react-native";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { Alert, useColorScheme } from "react-native";
+import * as Ably from "ably";
+import { cleanupAbly, connectAbly, setupAbly } from "@/utils/ably";
+import { useAuthContext } from "./auth";
 
 const appContext = createContext();
 
 const AppProvider = ({ children }) => {
-    const [language, setLanguage] = useState("en");
     const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
+    const [language, setLanguage] = useState("en");
+    const ablyClient = useRef(null);
+    const ablyChannel = useRef(null);
+    const { user } = useAuthContext()
+
+
+
+    useEffect(() => {
+        const initialize = async () => {
+            await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
+        };
+
+        initialize();
+
+        return () => {
+
+            cleanupAbly(ablyClient, ablyChannel)
+        };
+    }, [user?.id]);
+
+
 
     const appValue = {
         language,
