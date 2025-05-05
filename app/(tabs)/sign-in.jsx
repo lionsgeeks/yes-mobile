@@ -21,15 +21,12 @@ export default function SignInScreen() {
             const token = response.data.token;
 
 
-
             let hashHex;
             if (!token) {
                 console.warn('Invalid token format');
                 return;
             }
 
-
-            const [, rawToken] = token.split('|');
             if (!token.includes('|')) {
                 await AsyncStorage.setItem('token', token);
 
@@ -40,7 +37,6 @@ export default function SignInScreen() {
                     Crypto.CryptoDigestAlgorithm.SHA256,
                     rawToken
                 );
-
 
                 console.log('im in sign up screen: this is the hashhex token', hashHex);
                 await AsyncStorage.setItem('token', hashHex);
@@ -60,7 +56,7 @@ export default function SignInScreen() {
             setToken(hashHex);
 
             // redirect the user to the home screen
-            router.push("/");
+            router.push("/onboarding");
         }).catch(() => {
             alert("Invalid email or password. Please try again.");
         });

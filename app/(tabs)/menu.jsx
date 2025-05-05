@@ -56,10 +56,11 @@ export default function MenuScreen() {
     const lastTabs = [
         { name: "About", route: "about", icon: "info" },
         { name: "Settings", route: "settings", icon: "settings" },
+        { name: "Account", route: "account", icon: "person" },
     ]
 
     return (
-        <View className="h-full bg-white dark:bg-dark px-6 relative">
+        <View className="h-full bg-white px-6 relative">
             <View className="mt-16"></View>
             <View className="flex flex-row items-center gap-3 mb-4">
                 {/* TODO: change this for the app logo when available */}
