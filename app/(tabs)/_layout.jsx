@@ -24,6 +24,7 @@ export default function TabLayout() {
     { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
+    { route: "program/index", name: "program", icon: "code", showTab: true },
     { route: "menu", name: "Menu", icon: "settings", showTab: true },
 
   ]
@@ -36,6 +37,8 @@ export default function TabLayout() {
     { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
+    { route: "program/show", name: "program", icon: "settings", showTab: true},
+
   ]
 
 
