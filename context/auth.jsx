@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
 
         } else {
             // redirect to sign in screen
-            router.push('/sign-in');
+            router.navigate('/sign-in');
         }
     }
 

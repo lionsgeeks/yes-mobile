@@ -13,7 +13,7 @@ import {
 
 
 export default function AccountScreen() {
-    const {user} = useAuthContext();
+    const { user } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(null)
 
@@ -22,11 +22,11 @@ export default function AccountScreen() {
         fullName: user.name,
         email: user.email,
         password: "",
-        company: "Acme Inc.",
-        country: "United States",
-        bio: "Software developer passionate about creating amazing user experiences.",
-        interests: "Mobile development, UI/UX design, Photography",
-        location: "San Francisco, CA",
+        company: user.company,
+        country: user.country,
+        bio: user.description,
+        interests: "this is still in progress",
+        location: user.location,
         website: "https://example.com",
         twitter: "@johndoe",
         linkedin: "linkedin.com/in/johndoe",
@@ -79,7 +79,7 @@ export default function AccountScreen() {
     }
 
     const renderInputField = (label, value, field, placeholder, icon, isMultiline = false) => (
-        <View className="mb-4">
+        <View className="mb-2">
             <Text className="text-xl font-semibold mb-2 text-[#333]">{label}</Text>
             <View className="flex-row px-3 items-center border border-[#ddd] rounded bg-white">
 
@@ -99,66 +99,72 @@ export default function AccountScreen() {
         </View>
     )
 
+
+
+
     return (
-        <View>
-            <ScrollView>
-                <View className="bg-white rounded">
-                    <View className="items-center p-3">
-                        <TouchableOpacity className="mb-4">
-                            {profileImage ? (
-                                <Image source={{ uri: profileImage }} className="w-20 h-20 rounded-full" />
-                            ) : (
-                                <View className="w-24 h-24 rounded-full bg-gray-200 justify-center items-center">
-                                    <Text className="text-4xl font-bold text-[#777]">JD</Text>
-                                </View>
-                            )}
-                            <View className="absolute bottom-0 right-0 bg-alpha w-8 h-8 rounded-full justify-center items-center border-2 border-white">
-                                <IconSymbol size={20} name={"camera"} color={"#fff"} />
+        <ScrollView>
+            <View className="bg-white justify-around">
+                <View className="items-center p-3 mt-5">
+                    <TouchableOpacity className="mb-4">
+                        {profileImage ? (
+                            <Image source={{ uri: profileImage }} className="w-20 h-20 rounded-full" />
+                        ) : (
+                            <View className="w-24 h-24 rounded-full bg-gray-200 justify-center items-center">
+                                <Text className="text-4xl font-bold text-[#777]">JD</Text>
                             </View>
-                        </TouchableOpacity>
-
-                        <Text className="text-2xl mb-2">Account Settings</Text>
-                        <Text className="text-[#666]">Update your personal information and account settings.</Text>
-                    </View>
-
-                    <View className="p-5">
-                        {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
-                        {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
-                        {renderInputField("Password", formData.password, "password", "••••••••", "lock")}
-                        {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
-                        {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
-                        {renderInputField("Country", formData.country, "country", "United States", "")}
-                        {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
-                        {renderInputField(
-                            "Interests",
-                            formData.interests,
-                            "interests",
-                            "Mobile development, UI/UX design, Photography",
-                            "",
-                            true,
                         )}
-                        {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
-                        {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
-                        {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
-                        {renderInputField("Instagram", formData.instagram, "instagram", "@johndoe", "")}
+                        <View className="absolute bottom-0 right-0 bg-alpha w-8 h-8 rounded-full justify-center items-center border-2 border-white">
+                            <IconSymbol size={20} name={"camera"} color={"#fff"} />
+                        </View>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            // style={[styles.saveButton, isLoading && styles.saveButtonDisabled]}
-                            onPress={handleSave}
-                            disabled={isLoading}
-                            className="bg-alpha text-white p-4 rounded my-2 items-center"
-                        >
-                            <Text className="text-xl font-bold text-white">{isLoading ? "Saving..." : "Save Changes"}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="bg-red-600 text-white p-4 rounded mt-2 items-center" onPress={handleDelete}>
-                            <Text className="text-white font-bold">Delete Account</Text>
-                        </TouchableOpacity>
-                    </View>
-
+                    <Text className="text-2xl mb-2">Account Settings</Text>
+                    <Text className="text-[#666]">Update your personal information and account settings.</Text>
                 </View>
-            </ScrollView>
-        </View>
+
+                <View className="p-5">
+
+                    <Text className="text-2xl font-bold mb-4">Account Information: </Text>
+                    {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
+                    {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
+                    {renderInputField("Password", formData.password, "password", "••••••••", "lock")}
+
+
+                    <Text className="text-2xl font-bold my-4">General Information:</Text>
+                    {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
+                    {renderInputField("Country", formData.country, "country", "United States", "")}
+                    {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
+                    {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
+                    {renderInputField(
+                        "Interests",
+                        formData.interests,
+                        "interests",
+                        "Mobile development, UI/UX design, Photography",
+                        "",
+                        true,
+                    )}
+
+                    <Text className="text-2xl font-bold my-4">Social Information: </Text>
+                    {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
+                    {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
+                    {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
+                    {renderInputField("Instagram", formData.instagram, "instagram", "@johndoe", "")}
+                </View>
+
+                <View className="p-5">
+                    <TouchableOpacity
+                        onPress={handleSave}
+                        disabled={isLoading}
+                        className="bg-alpha text-white p-4 rounded my-2 items-center"
+                    >
+                        <Text className="text-xl font-bold text-white">{isLoading ? "Saving..." : "Save Changes"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity className="bg-red-500 text-white p-4 rounded mt-2 items-center" onPress={handleDelete}>
+                        <Text className="text-white font-bold">Delete Account</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </ScrollView>
     )
 }
-
-

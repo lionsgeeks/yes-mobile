@@ -59,7 +59,7 @@ export default function OnboardingScreen() {
             <View className="w-full h-full flex justify-between">
                 <Image
                     source={onboardingData[currentSlide].image}
-                    className="w-full h-[65vh]"
+                    className="w-full h-[60vh]"
                 />
 
                 <View className="p-6">
