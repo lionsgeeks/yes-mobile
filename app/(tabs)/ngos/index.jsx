@@ -55,7 +55,7 @@ export default function NgosScreen() {
   ];
 
   return (
-    <View className="mb-2 pt-10">
+    <View className="mb-2 pt-10 ">
       <Navbar title="Ngo's" />
     <ScrollView className="">
       <View className="flex px-6 flex-col gap-4 mt-4 mb-20">
@@ -63,7 +63,7 @@ export default function NgosScreen() {
           <Pressable
             key={ngo.id}
             onPress={() => router.push(`ngos/${ngo.id}`)}
-            className="border border-gray-300 flex flex-col gap-3 rounded-lg p-5"
+            className="border bg-white/40 border-gray-300 flex flex-col gap-3 rounded-lg p-5"
           >
             <View className="bg-beta w-2 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
             <View className="flex flex-row items-center gap-4 mb-2">

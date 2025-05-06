@@ -1,12 +1,4 @@
-import {
-  Location,
-  LinkedIn,
-  Instagram,
-  GlobeWorld,
-  Twitter,
-  Youtube,
-} from "@/constants/icons";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import React from "react";
@@ -16,8 +8,7 @@ import handleBack from "@/utils/handleBack";
 const NgoDetails = () => {
   const { params } = useRoute();
   console.log(params);
-  const navigation = useNavigation();
-  const panHandlers = handleBack("/ngos") 
+    const panHandlers = handleBack("/ngos") 
 
   const ngos = [
     {
@@ -93,7 +84,7 @@ const NgoDetails = () => {
         <View className="w-32 h-32 rounded-full border-4 border-[#b09417] mb-4 bg-alpha"></View>
         <Text className="text-2xl font-bold text-[#2e539d]">{ngo.name}</Text>
         <View className="flex flex-row items-center gap-2 mb-2">
-          <Location color={"#000"} size={15} />
+          <Ionicons name="locate" color={"#000"} size={15} />
           <Text className="text-base text-gray-600">
             {ngo.city}, {ngo.country}
           </Text>
