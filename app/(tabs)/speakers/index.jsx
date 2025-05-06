@@ -9,6 +9,8 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
+     Modal,
+     TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "expo-router";
@@ -146,8 +148,17 @@ export default function SpeakersScreen() {
     const [selectedYear, setSelectedYear] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const navigation = useNavigation();
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const years = [
+        { label: 'Filter by Year', value: 'all' },
+        { label: '2025', value: 2025 },
+        { label: '2024', value: 2024 },
+    ];
 
-
+    const handleSelectYear = (value) => {
+        setSelectedYear(value === 'all' ? null : value);
+        setDropdownVisible(false); // Close dropdown after selecting a year
+    };
     const filteredSpeakers = allSpeakers.filter((speaker) => {
         const matchesSearch = speaker.name.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesYear = selectedYear ? speaker.year === selectedYear : true;
@@ -176,8 +187,34 @@ export default function SpeakersScreen() {
                 />
             </View>
 
+          {/* Year Dropdown */}
+          <View className="px-6 mb-3 ">
+                <TouchableOpacity
+                    className="bg-white border border-gray-300 rounded-xl p-3"
+                    onPress={() => setDropdownVisible(!dropdownVisible)}
+                >
+                    <Text className="text-base text-gray-800">
+                        {selectedYear || 'Filter by Year'}
+                    </Text>
+                </TouchableOpacity>
+
+                {dropdownVisible && (
+                    <View className=" bg-white border border-gray-300 rounded-xl mt-2 w-full z-10 relative">
+                        {years.map((year) => (
+                            <TouchableOpacity
+                                key={year.value}
+                                className="py-3 px-4"
+                                onPress={() => handleSelectYear(year.value)}
+                            >
+                                <Text className="text-base text-gray-700">{year.label}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                )}
+            </View>
+
             {/* Year Filter */}
-            <View className="px-6 mb-3">
+            {/* <View className="px-6 mb-3">
                 <View className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                     <Picker
                         selectedValue={selectedYear}
@@ -191,7 +228,7 @@ export default function SpeakersScreen() {
                         <Picker.Item label="2024" value={2024} />
                     </Picker>
                 </View>
-            </View>
+            </View> */}
 
             {/* Tag Filter */}
             <ScrollView
@@ -246,7 +283,7 @@ export default function SpeakersScreen() {
                                 <Text className="text-center text-xs text-gray-400 mb-2">
                                     {item.role}
                                 </Text>
-                                {/* <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
+                                <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
                                     {item.tags.slice(0, 2).map((tag) => (
                                         <View
                                             key={tag}
@@ -255,7 +292,7 @@ export default function SpeakersScreen() {
                                             <Text className="text-xs text-white">{tag}</Text>
                                         </View>
                                     ))}
-                                </View> */}
+                                </View>
                             </Pressable>
                         ))
                     ) : (
