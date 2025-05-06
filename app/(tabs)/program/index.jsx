@@ -6,12 +6,25 @@ import {
   ScrollView,
   TextInput,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import Navbar from "@/components/navigation/navbar";
 
 const mockSessions = [
   {
     id: '1',
+    title: 'Opening Ceremony',
+    description: 'Welcome address and keynote speeches from event organizers.',
+    time: { start: '09:00', end: '10:30' },
+    location: 'Main Hall',
+    day: 'day1',
+    speakers: [
+      { id: '1', name: 'Emma Johnson' },
+      { id: '2', name: 'David Patel' },
+    ],
+  },
+  {
+    id: '2',
     title: 'Opening Ceremony',
     description: 'Welcome address and keynote speeches from event organizers.',
     time: { start: '09:00', end: '10:30' },
@@ -61,9 +74,9 @@ export default function Program() {
 
 
         {/* Sessions */}
-        <View className="px-4">
+        <View className="px-6">
           {filteredSessions.map(session => (
-            <View key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm">
+            <TouchableOpacity onPress={() => router.navigate("/program/show")} key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center">
                   <Text className="mr-2 text-gray-600">🕒</Text>
@@ -83,7 +96,7 @@ export default function Program() {
               </View>
 
               {session.speakers.length > 0 && (
-                <View>
+                <View className='flex-row items-center mb-3 gap-x-2'>
                   <View className="flex-row items-center mb-2">
                     <Text className="mr-2 text-gray-600">🧑‍💼</Text>
                     <Text className="text-gray-600 font-medium">Speakers:</Text>
@@ -97,8 +110,8 @@ export default function Program() {
                   </View>
                 </View>
               )}
-              <Button title="View Details" onPress={() => router.navigate("/program/show")} />
-            </View>
+              {/* <Button title="View Details"  /> */}
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

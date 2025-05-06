@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { router } from "expo-router"
 
 const SessionDetails = () => {
     const session = {
@@ -40,44 +41,45 @@ const SessionDetails = () => {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white ">
+        <>
             {/* Header */}
-            <View className="bg-[#334481] p-4 pt-8 flex-row items-center">
-                <TouchableOpacity>
+            <View className="bg-alpha p-4 pt-10 ios:pt-16 flex-row items-center">
+                <TouchableOpacity  onPress={() => router.navigate("/program")}>
                     <Text className="text-white text-lg">←</Text>
                 </TouchableOpacity>
                 <Text className="text-white text-lg font-semibold ml-3">Session Details</Text>
             </View>
+            
+
+            <ScrollView className="flex-1">
                 {/* Hero Section */}
-                <View className="bg-[#334481] px-4 pb-6">
-                    <Text className="text-2xl font-bold text-white mb-2">{session.title}</Text>
+                <View className=" px-6 py-6">
+                    <Text className="text-2xl font-bold text-black mb-2">{session.title}</Text>
                     <View className="flex-row items-center mb-2">
-                        <Text className="text-white mr-2">📅</Text>
-                        <Text className="text-white">{session.date}</Text>
+                        <Text className="text-black mr-2">📅</Text>
+                        <Text className="text-black">{session.date}</Text>
                         <View className="bg-white/20 rounded-full px-3 py-1 ml-2">
-                            <Text className="text-white text-sm">Day 1</Text>
+                            <Text className="text-black text-sm">Day 1</Text>
                         </View>
                     </View>
                     <View className="flex-row items-center">
-                        <Text className="text-white mr-2">⏰</Text>
-                        <Text className="text-white">
+                        <Text className="text-black mr-2">⏰</Text>
+                        <Text className="text-black">
                             {session.time.start} - {session.time.end}
-                            <Text className="text-white/70"> ({session.time.duration})</Text>
+                            <Text className="text-black/70"> ({session.time.duration})</Text>
                         </Text>
                     </View>
                 </View>
 
-            <ScrollView className="flex-1">
-
                 {/* Content */}
-                <View className="p-4">
-                    <Text className="text-xl font-semibold text-[#334481] mb-4">About this Session</Text>
+                <View className="py-4 px-6">
+                    <Text className="text-xl font-semibold text-alpha mb-4">About this Session</Text>
                     <Text className="text-gray-600 mb-6">{session.description}</Text>
 
-                    <Text className="text-xl font-semibold text-[#334481] mb-4">Location</Text>
+                    <Text className="text-xl font-semibold text-alpha mb-4">Location</Text>
                     <View className="bg-gray-50 p-4 rounded-lg mb-6">
                         <View className="flex-row items-start">
-                            <Text className="text-[#334481] mr-2 mt-1">📍</Text>
+                            <Text className="text-alpha mr-2 mt-1">📍</Text>
                             <View>
                                 <Text className="font-semibold text-gray-800">{session.location.name}</Text>
                                 <Text className="text-gray-600">{session.location.details}</Text>
@@ -85,7 +87,7 @@ const SessionDetails = () => {
                         </View>
                     </View>
 
-                    <Text className="text-xl font-semibold text-[#334481] mb-4">Speakers</Text>
+                    <Text className="text-xl font-semibold text-alpha mb-4">Speakers</Text>
                     <View className="space-y-4 mb-6">
                         {session.speakers.map(speaker => (
                             <View key={speaker.id} className="flex-row items-center bg-gray-50 p-4 rounded-lg">
@@ -102,16 +104,16 @@ const SessionDetails = () => {
                         ))}
                     </View>
 
-                    <Text className="text-xl font-semibold text-[#334481] mb-4">Tags</Text>
+                    <Text className="text-xl font-semibold text-alpha mb-4">Tags</Text>
                     <View className="flex-row flex-wrap gap-2 mb-6">
                         {session.tags.map(tag => (
-                            <View key={tag} className="bg-[#334481]/10 px-3 py-1 rounded-full">
-                                <Text className="text-[#334481]">{tag}</Text>
+                            <View key={tag} className="bg-alpha/10 px-3 py-1 rounded-full">
+                                <Text className="text-alpha">{tag}</Text>
                             </View>
                         ))}
                     </View>
 
-                    <Text className="text-xl font-semibold text-[#334481] mb-4">Capacity</Text>
+                    <Text className="text-xl font-semibold text-alpha mb-4">Capacity</Text>
                     <View className="bg-gray-50 p-4 rounded-lg mb-6">
                         <View className="flex-row justify-between mb-2">
                             <Text className="text-gray-600">{session.capacity.registered} registered</Text>
@@ -119,7 +121,7 @@ const SessionDetails = () => {
                         </View>
                         <View className="h-2 bg-gray-200 rounded-full overflow-hidden">
                             <View
-                                className="h-full bg-[#334481]"
+                                className="h-full bg-alpha"
                                 style={{ width: `${(session.capacity.registered / session.capacity.total) * 100}%` }}
                             />
                         </View>
@@ -128,12 +130,12 @@ const SessionDetails = () => {
             </ScrollView>
 
             {/* Footer */}
-            <View className="p-4 border-t border-gray-200">
-                <TouchableOpacity className="bg-[#334481] py-3 rounded-lg">
+            <View className="py-4 px-6 border-t border-gray-200">
+                <TouchableOpacity className="bg-alpha py-3 rounded-lg">
                     <Text className="text-white text-center font-semibold">Register for Session</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </>
     );
 };
 
