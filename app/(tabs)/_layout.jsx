@@ -36,6 +36,7 @@ export default function TabLayout() {
     { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
+    { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
   ]
 
 
