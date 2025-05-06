@@ -39,6 +39,7 @@ export default function TabLayout() {
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "program/show", name: "program", icon: "settings", showTab: true},
 
+    { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
   ]
 
 

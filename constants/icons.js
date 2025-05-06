@@ -21,6 +21,11 @@ export * from "../assets/icons/pin";
 export * from "../assets/icons/eye";
 export * from "../assets/icons/nonEye";
 export * from "../assets/icons/casaMemoire";
+export * from "../assets/icons/linkedIn";
+export * from "../assets/icons/instagram";
+export * from "../assets/icons/globe";
+export * from "../assets/icons/twitter";
+export * from "../assets/icons/youtube";
 
 export * from "../assets/icons/settings/moon";
 export * from "../assets/icons/settings/sun";

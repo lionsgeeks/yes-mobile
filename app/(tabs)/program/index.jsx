@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
 } from 'react-native';
+import Navbar from "@/components/navigation/navbar";
 
 const mockSessions = [
   {
@@ -38,31 +39,24 @@ export default function Program() {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50 pt-10">
+    {/* Header */}
 
-      {/* Header */}
-      <View className="bg-[#334481] pt-10 pb-4 px-4">
-        <View className="flex-row items-center mb-4">
-          <Text className="flex-1 text-center text-white text-xl font-semibold">Daily Program</Text>
-          <View className="w-10" />
-        </View>
+            <Navbar title="Program" />
 
-        <View className="flex-row items-center bg-white rounded-lg px-3 py-2">
-          <Text className="mr-2 text-gray-400">🔍</Text>
-          <TextInput
-            className="flex-1 text-base text-gray-800"
-            placeholder="Search sessions..."
-            placeholderTextColor="#858585"
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-          />
-        </View>
-      </View>
+            {/* Search */}
+            <View className="px-6 mb-4">
+                <TextInput
+                    placeholder="Search by name..."
+                    placeholderTextColor="#aaa"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm"
+                />
+            </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <Text className="text-gray-600 mx-4 mt-4 mb-3 text-base">
-          Explore the schedule of events, workshops, and panels.
-        </Text>
+    
 
 
 

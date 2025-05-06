@@ -40,16 +40,14 @@ const SessionDetails = () => {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView className="flex-1 bg-white ">
             {/* Header */}
-            <View className="bg-[#334481] p-4 flex-row items-center">
+            <View className="bg-[#334481] p-4 pt-8 flex-row items-center">
                 <TouchableOpacity>
                     <Text className="text-white text-lg">←</Text>
                 </TouchableOpacity>
                 <Text className="text-white text-lg font-semibold ml-3">Session Details</Text>
             </View>
-
-            <ScrollView className="flex-1">
                 {/* Hero Section */}
                 <View className="bg-[#334481] px-4 pb-6">
                     <Text className="text-2xl font-bold text-white mb-2">{session.title}</Text>
@@ -68,6 +66,8 @@ const SessionDetails = () => {
                         </Text>
                     </View>
                 </View>
+
+            <ScrollView className="flex-1">
 
                 {/* Content */}
                 <View className="p-4">
