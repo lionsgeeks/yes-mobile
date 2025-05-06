@@ -246,7 +246,7 @@ export default function SpeakersScreen() {
                                 <Text className="text-center text-xs text-gray-400 mb-2">
                                     {item.role}
                                 </Text>
-                                <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
+                                {/* <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
                                     {item.tags.slice(0, 2).map((tag) => (
                                         <View
                                             key={tag}
@@ -255,7 +255,7 @@ export default function SpeakersScreen() {
                                             <Text className="text-xs text-white">{tag}</Text>
                                         </View>
                                     ))}
-                                </View>
+                                </View> */}
                             </Pressable>
                         ))
                     ) : (

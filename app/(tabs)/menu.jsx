@@ -1,5 +1,5 @@
 import { useAppContext } from "@/context";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { Icon } from "@/constants";
 import TransText from "@/components/TransText";
 import { Link, router } from "expo-router";
@@ -16,7 +16,7 @@ const MenuItem = ({ name, icon, route }) => {
             className={`justify-between items-center my-1 ${language == "ar" ? "flex-row-reverse" : "flex-row"
                 }`}
         >
-            <View className={` items-center  ${language == "ar" ? "flex-row-reverse" : "flex-row"
+            <View className={` items-center gap-2 ${language == "ar" ? "flex-row-reverse" : "flex-row"
                 }`}>
 
                 <View className="bg-[#FBFBFD] border border-[#F0F0F2] rounded-2xl p-2.5">
@@ -44,7 +44,7 @@ export default function MenuScreen() {
         { name: "Home", route: "", icon: "house" },
         { name: "Speakers", route: "speakers", icon: "speaker" },
         { name: "NGOs", route: "ngos", icon: "business" },
-        { name: "Sponsors", route: "sponsors", icon: "money" },
+        { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
         { name: "Program", route: "program", icon: "timer" },
     ]
 
@@ -60,7 +60,7 @@ export default function MenuScreen() {
     ]
 
     return (
-        <View className="h-full bg-white px-6 relative">
+        <ScrollView className="h-full bg-white px-6 relative">
             <View className="mt-16"></View>
             <View className="flex flex-row items-center gap-3 mb-4">
                 {/* TODO: change this for the app logo when available */}
@@ -74,7 +74,7 @@ export default function MenuScreen() {
                 ))
             }
 
-            <View className="h-[1px] bg-[#F0F0F2] my-4" />
+            <View className="h-[1px] bg-[#F0F0F2] my-4 " />
 
             {
                 middleTabs.map(({ name, route, icon }, index) => (
@@ -90,18 +90,18 @@ export default function MenuScreen() {
                 ))
             }
 
-            <View className="absolute bottom-[10px] left-[25px] mx-auto w-full">
+            <View className=" w-full">
                 {
                     isSignedIn ?
                         <SignOutButton />
                         :
-                        <View className='flex-row items-center gap-2 mt-4'>
-                            <Link href="/sign-in" className='bg-alpha p-2 rounded-md text-white'>
+                        <View className='flex-row items-center gap-2 my-4  '>
+                            <Link href="/sign-in" className='bg-alpha px-5 py-3 rounded-full text-white'>
                                 <Text>Create an Account</Text>
                             </Link>
                         </View>
                 }
             </View>
-        </View>
+        </ScrollView>
     );
 }
