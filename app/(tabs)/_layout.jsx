@@ -24,6 +24,7 @@ export default function TabLayout() {
     { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-month", showTab: true },
+    { route: "bailleur/bailleur", name: "Bailleur", icon: "handshake", showTab: true },
     { route: "menu", name: "Menu", icon: "settings", showTab: true },
     
   ]

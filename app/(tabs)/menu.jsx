@@ -46,6 +46,8 @@ export default function MenuScreen() {
         // { name: "NGOs", route: "ngos", icon: "business" },
         { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
         // { name: "Program", route: "program", icon: "timer" },
+        { route: "bailleur/bailleur", name: "Bailleur", icon: "handshake" },
+        { name: "Program", route: "program", icon: "timer" },
     ]
 
     const middleTabs = [

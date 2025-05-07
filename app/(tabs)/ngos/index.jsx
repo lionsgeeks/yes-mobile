@@ -65,7 +65,7 @@ export default function NgosScreen() {
             onPress={() => router.push(`ngos/${ngo.id}`)}
             className="border bg-white/40 border-gray-300 flex flex-col gap-3 rounded-lg p-5"
           >
-            <View className="bg-beta w-2 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
+            <View className="bg-beta w-1 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
             <View className="flex flex-row items-center gap-4 mb-2">
               <View>
                 <View className="w-20 aspect-square rounded-full bg-alpha"></View>
