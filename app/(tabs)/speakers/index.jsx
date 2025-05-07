@@ -9,8 +9,8 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
-     Modal,
-     TouchableOpacity,
+    Modal,
+    TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "expo-router";
@@ -23,7 +23,7 @@ const allSpeakers = [
         title: "Climate Architect",
         role: "Green Earth Initiative",
         image: "https://randomuser.me/api/portraits/men/85.jpg",
-            description: "Leading advocate for sustainable practices with over 10 years...",
+        description: "Leading advocate for sustainable practices with over 10 years...",
         tags: ["Climate Policy", "Sustainability", "Community Engagement"],
         education: "MSc Environmental Science, University of Oxford",
         languages: ["English", "French", "Spanish"],
@@ -187,8 +187,8 @@ export default function SpeakersScreen() {
                 />
             </View>
 
-          {/* Year Dropdown */}
-          <View className="px-6 mb-3 ">
+            {/* Year Dropdown */}
+            <View className="px-6 mb-3 ">
                 <TouchableOpacity
                     className="bg-white border border-gray-300 rounded-xl p-3"
                     onPress={() => setDropdownVisible(!dropdownVisible)}
@@ -213,22 +213,6 @@ export default function SpeakersScreen() {
                 )}
             </View>
 
-            {/* Year Filter */}
-            {/* <View className="px-6 mb-3">
-                <View className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <Picker
-                        selectedValue={selectedYear}
-                        onValueChange={(value) =>
-                            setSelectedYear(value === "all" ? null : value)
-                        }
-                        mode="dialog"
-                    >
-                        <Picker.Item label="Filter by Year" value="all" />
-                        <Picker.Item label="2025" value={2025} />
-                        <Picker.Item label="2024" value={2024} />
-                    </Picker>
-                </View>
-            </View> */}
 
             {/* Tag Filter */}
             <ScrollView
@@ -283,7 +267,7 @@ export default function SpeakersScreen() {
                                 <Text className="text-center text-xs text-gray-400 mb-2">
                                     {item.role}
                                 </Text>
-                                <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
+                                {/* <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
                                     {item.tags.slice(0, 2).map((tag) => (
                                         <View
                                             key={tag}
@@ -292,7 +276,7 @@ export default function SpeakersScreen() {
                                             <Text className="text-xs text-white">{tag}</Text>
                                         </View>
                                     ))}
-                                </View>
+                                </View> */}
                             </Pressable>
                         ))
                     ) : (

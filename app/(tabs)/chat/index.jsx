@@ -12,6 +12,7 @@ import {
   Image,
 } from "react-native";
 import ably, { cleanupAbly, setupAbly } from "@/utils/ably";
+import Navbar from "@/components/navigation/navbar";
 
 export default function ChatScreen() {
   const [conversations, setConversations] = useState([]);
@@ -30,23 +31,19 @@ export default function ChatScreen() {
     }
   };
 
-  // Fetch on initial focus
   useFocusEffect(
     useCallback(() => {
       getConversations();
     }, [])
   );
 
-   // 🔌 Setup Ably on mount
-   useEffect(() => {
+  useEffect(() => {
     setupAbly(ablyClient, ablyChannel, user, { id: null }, null, getConversations);
 
     return () => {
       cleanupAbly(ablyClient, ablyChannel);
     };
   }, []);
-
-
 
   const filteredConversations = conversations.filter((convo) => {
     const matchRole =
@@ -57,82 +54,138 @@ export default function ChatScreen() {
     return matchRole && matchSearch;
   });
 
-  
 
   return (
-    <View className="flex-1 bg-[#F9FAFB] pt-16 px-5">
-      <Text className="text-3xl font-bold text-yellow-600 mb-4">Empower Chat</Text>
+    <View className=" bg-[#F9FAFB] flex-1">
+      <View className="pt-10 pb-6">
 
-      {/* Search Bar */}
-      <TextInput
-        className="bg-yellow-100 border border-yellow-400 rounded-xl px-4 py-2 text-black mb-4"
-        placeholder="🔍 Search by name..."
-        placeholderTextColor="#9B870C"
-        onChangeText={setSearch}
-        value={search}
-      />
+        <Navbar title="chat" />
+      </View>
+      <View className="flex-1 px-6 ">
 
-      {/* Filter Tabs */}
-      <View className="flex-row mb-4">
-        {["All", "alpha", "beta"].map((type) => (
-          <TouchableOpacity
-            key={type}
-            onPress={() => setFilter(type)}
-            className={`px-4 py-1.5 rounded-full border mr-2 ${
-              filter === type
-                ? "bg-yellow-500 border-yellow-500"
-                : "border-yellow-400"
-            }`}
-          >
-            <Text
-              className={`text-sm font-medium ${
-                filter === type ? "text-white" : "text-yellow-700"
-              }`}
+        {/* Header */}
+        <Text className="text-3xl font-extrabold text-alpha mb-4">Empower Chat</Text>
+
+        {/* Search */}
+        <TextInput
+          className="bg-white border border-gray-300 rounded-xl px-4 py-3 text-black mb-4 shadow-sm"
+          placeholder="🔍 Search by name..."
+          placeholderTextColor="#888"
+          onChangeText={setSearch}
+          value={search}
+        />
+
+        {/* Filters */}
+        <View className="flex-row mb-4">
+          {["All", "speaker", "ngo", "visitor"].map((type) => (
+            <TouchableOpacity
+              key={type}
+              onPress={() => setFilter(type)}
+              className={`px-4 py-2 rounded-full mr-2 border shadow-sm ${filter === type
+                ? "bg-alpha border-black"
+                : "border-gray-300 bg-white"
+                }`}
             >
-              {type}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                className={`text-sm capitalize font-semibold ${filter === type ? "text-white" : "text-gray-800"
+                  }`}
+              >
+                {type}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Chat List */}
+        <ScrollView showsVerticalScrollIndicator={false} className="pb-24">
+          {filteredConversations.length === 0 && (
+            <Text className="text-center text-gray-400 mt-20">😕 No conversations found.</Text>
+          )}
+
+          {filteredConversations.map((convo) => {
+            const isMine = convo.last_message.sender_id === user.id;
+            const isUnread = convo.last_message.read_at === null && !isMine;
+
+            return (
+              <TouchableOpacity
+                key={convo.user.id}
+                onPress={() =>
+                  router.push({
+                    pathname: `chat/${convo.user.id}`,
+                    params: convo.user,
+                  })
+                }
+                className="flex-row bg-white rounded-xl overflow-hidden mb-3 shadow-sm"
+              >
+                {/* Left color bar */}
+                <View
+                  className="w-1.5"
+
+                />
+                <View className="bg-beta w-1 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
+
+                {/* Chat content */}
+                <View className="flex-row items-center p-4 flex-1">
+                  <Image
+                    source={{ uri: convo.user.image }}
+                    className="w-12 h-12 rounded-full mr-4 border border-beta"
+                  />
+                  <View className="flex-1">
+                    <View className="flex-row justify-between items-center mb-1">
+                      <Text className="text-base font-semibold text-gray-900">
+                        {convo.user.name}
+                      </Text>
+                      <Text className="text-xs text-gray-500">
+                        {(() => {
+                          const createdAt = new Date(convo.last_message.created_at);
+                          const now = new Date();
+                          const diffMs = now - createdAt;
+                          const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                          const isToday =
+                            createdAt.getDate() === now.getDate() &&
+                            createdAt.getMonth() === now.getMonth() &&
+                            createdAt.getFullYear() === now.getFullYear();
+
+                          if (isToday && diffMinutes < 60) {
+                            if (diffMinutes < 1) return "just now";
+                            if (diffMinutes === 1) return "1 min ago";
+                            return `${diffMinutes} min ago`;
+                          }
+
+                          if (isToday) {
+                            return createdAt.toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            });
+                          }
+
+                          return createdAt.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          });
+                        })()}
+                      </Text>
+
+                    </View>
+                    <Text
+                      className="text-sm text-gray-700"
+                      numberOfLines={1}
+                    >
+                      {isMine ? "You: " : ""}
+                      {convo.last_message.message}
+                    </Text>
+                  </View>
+
+                  {isUnread && (
+                    <View className="ml-2 w-2.5 h-2.5 rounded-full bg-blue-500" />
+                  )}
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
       </View>
 
-      {/* Chat List */}
-      <ScrollView showsVerticalScrollIndicator={false} className="pb-12">
-        {filteredConversations.length === 0 && (
-          <Text className="text-center text-gray-500 mt-12">
-            😕 No conversations found.
-          </Text>
-        )}
-
-        {filteredConversations.map((convo) => (
-          <TouchableOpacity
-            key={convo.user.id}
-            onPress={() =>
-              router.push({
-                pathname: `chat/${convo.user.id}`,
-                params: convo.user,
-              })
-            }
-            className="flex-row items-center gap-4 bg-yellow-50 border border-yellow-200 p-4 rounded-2xl mb-4 shadow-sm"
-          >
-            <Image
-              source={{ uri: convo.user.image }}
-              className="w-14 h-14 rounded-full border border-yellow-400"
-            />
-            <View className="flex-1">
-              <Text className="text-lg text-yellow-800 font-bold mb-1">
-                {convo.user.name}
-              </Text>
-              <Text className="text-gray-800 text-sm" numberOfLines={1}>
-                {convo.last_message.sender_id === user.id ? "You: " : ""}
-                {convo.last_message.message}
-              </Text>
-              {/* <Text className="text-xs text-yellow-600 mt-1 capitalize">
-                {convo.user.role}
-              </Text> */}
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
     </View>
   );
 }

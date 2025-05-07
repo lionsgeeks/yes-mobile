@@ -55,11 +55,10 @@ export default function ChatDetail() {
             message: inputMessage.trim(),
         };
 
-        // Optimistic UI update
-        setMessages((prev) => [
-            ...prev,
-            { ...newMessage, id: Date.now(), text: newMessage.message, sender: "me" }
-        ]);
+        // setMessages((prev) => [ 
+        //     ...prev,
+        //     { ...newMessage, id: Date.now(), text: newMessage.message, sender: "me" }
+        // ]);
         setInputMessage('');
         scrollToBottom();
 
@@ -84,14 +83,14 @@ export default function ChatDetail() {
 
 
 
-    const panHandlers = handleBack("/chat") 
+    const panHandlers = handleBack("/chat")
 
     const renderItem = ({ item }) => {
         const isMe = item.sender === "me" || parseInt(item.sender) === parseInt(user.id);
 
         return (
             <View className={`my-2 flex ${isMe ? "items-end" : "items-start"}`}>
-                <View className={`max-w-[70%] p-3 rounded-2xl ${isMe ? "bg-beta" : "bg-white"}`}>
+                <View className={`max-w-[70%] p-3 rounded-2xl ${isMe ? "bg-alpha" : "bg-white"}`}>
                     <Text className={`${isMe ? "text-white" : "text-black"}`}>{item.text}</Text>
                 </View>
             </View>

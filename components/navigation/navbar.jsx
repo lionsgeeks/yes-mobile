@@ -25,9 +25,12 @@ export default function Navbar({ title = "Screen" }) {
             {/* Right: Bell + Profile */}
             <View className="flex-row items-center gap-x-4">
 
-                <Pressable onPress={() => router.push("/chat")}>
-                    <IconSymbol name="message" size={22} color="#000" />
-                </Pressable>
+                {
+                    title != "chat" &&
+                    <Pressable onPress={() => router.push("/chat")}>
+                        <IconSymbol name="message" size={22} color="#000" />
+                    </Pressable>
+                }
 
                 <Pressable >
                     <Feather name="bell" size={22} color="#000" />
