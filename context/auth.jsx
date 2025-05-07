@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "@/api";
-import { router, usePathname } from "expo-router";
+import { router } from "expo-router";
 
 
 const authContext = createContext();
@@ -29,7 +29,6 @@ const AuthProvider = ({ children }) => {
             router.replace('/sign-in');
         }
     }
-    console.log('is signed in', isSignedIn);
 
 
     useEffect(() => {
@@ -43,6 +42,7 @@ const AuthProvider = ({ children }) => {
         setUser,
         token,
         setToken,
+        fetchUserInfo,
     };
 
 

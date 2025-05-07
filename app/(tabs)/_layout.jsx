@@ -11,7 +11,7 @@ import { useAuthContext } from '@/context/auth';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { isSignedIn } = useAuthContext();
+  // const { isSignedIn } = useAuthContext();
 
   // if (isSignedIn) {
   //   return <View className="h-screen items-center justify-center">
@@ -26,9 +26,9 @@ export default function TabLayout() {
     { route: "program/index", name: "program", icon: "calendar-month", showTab: true },
     { route: "bailleur/bailleur", name: "Funders", icon: "handshake", showTab: true },
     { route: "menu", name: "Menu", icon: "settings", showTab: true },
-    
+
   ]
-  
+
   const hiddenScreens = [
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
     { route: "chat/[id]", name: "ChatDetail", icon: "message", },
@@ -38,7 +38,8 @@ export default function TabLayout() {
     { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
-    { route: "program/show", name: "program", icon: "settings", showTab: true},
+    { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
+    { route: "program/show", name: "program", icon: "settings", showTab: true },
 
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },

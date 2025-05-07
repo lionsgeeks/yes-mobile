@@ -10,6 +10,7 @@ import {
     ScrollView,
     Image,
     Alert,
+    Pressable,
 } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -17,7 +18,7 @@ import { router } from "expo-router";
 
 
 export default function AccountScreen() {
-    const { user, token, setIsSignedIn } = useAuthContext();
+    const { user, token, setIsSignedIn, fetchUserInfo } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(null)
 
@@ -25,8 +26,8 @@ export default function AccountScreen() {
     const [formData, setFormData] = useState({
         fullName: user.name,
         email: user.email,
-        password: "",
         company: user.company,
+        city: user.city,
         country: user.country,
         bio: user.description,
         interests: "this is still in progress",
@@ -43,7 +44,6 @@ export default function AccountScreen() {
             [field]: value,
         })
 
-        console.log(formData);
     }
 
     // TODO: Add image picker for user to update their image
@@ -68,13 +68,21 @@ export default function AccountScreen() {
     }
 
     const handleSave = () => {
+        console.log(formData.fullName, formData.email)
+        if (!formData.fullName || !formData.email) {
+            Alert.alert("Invalid Information", 'Please Fill In the Name AND Email')
+        }
+
         setIsLoading(true)
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false)
-            Alert.alert("Profile Updated", "Your profile information has been updated successfully.", [{ text: "OK" }])
-        }, 1000)
+        api.put('participant/' + user.id, token, formData).then((res) => {
+            console.log('this is the updating response', res.data);
+
+            if (res.status == 200) {
+                fetchUserInfo()
+            }
+        })
+        setIsLoading(false);
     }
 
     const deleteAccount = () => {
@@ -114,7 +122,6 @@ export default function AccountScreen() {
                     placeholderTextColor="#999"
                     multiline={isMultiline}
                     numberOfLines={isMultiline ? 4 : 1}
-                    secureTextEntry={field === "password"}
                     className=""
                 />
             </View>
@@ -148,27 +155,28 @@ export default function AccountScreen() {
                 <ScrollView className="h-[70vh] mb-12">
                     <View className="p-5">
 
-                        <Text className="text-2xl font-bold mb-4">Account Information: </Text>
+                        <Text className="text-2xl font-bold mb-4 text-beta">Account Information: </Text>
                         {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
                         {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
-                        {/* {renderInputField("Password", formData.password, "password", "••••••••", "lock")} */}
+
+                        <Pressable 
+                        onPress={() => {router.push('/account/changePassword')}}
+                        className="border px-2 py-3 mt-2 rounded border-alpha flex-row justify-between">
+                            <Text className="text-lg">Change Password:</Text>
+
+                            <IconSymbol size={24} name={"arrow-right"} color={"#000"} />
+                        </Pressable>
 
 
-                        <Text className="text-2xl font-bold my-4">General Information:</Text>
+                        <Text className="text-2xl font-bold my-4 text-beta">General Information:</Text>
                         {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
                         {renderInputField("Country", formData.country, "country", "United States", "")}
-                        {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
+                        {renderInputField("City", formData.city, "city", "United States", "")}
                         {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
-                        {/* {renderInputField(
-                            "Interests",
-                            formData.interests,
-                            "interests",
-                            "Mobile development, UI/UX design, Photography",
-                            "",
-                            true,
-                        )} */}
+                        {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
 
-                        <Text className="text-2xl font-bold my-4">Social Information: </Text>
+
+                        <Text className="text-2xl font-bold my-4 text-beta">Social Information: </Text>
                         {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
                         {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
                         {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
