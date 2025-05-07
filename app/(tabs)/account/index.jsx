@@ -1,3 +1,4 @@
+import api from "@/api";
 import { IconSymbol } from "@/components/ui/IconSymbol"
 import { useAuthContext } from "@/context/auth"
 import { useState } from "react"
@@ -10,10 +11,13 @@ import {
     Image,
     Alert,
 } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+
 
 
 export default function AccountScreen() {
-    const { user } = useAuthContext();
+    const { user, token, setIsSignedIn } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(null)
 
@@ -38,6 +42,8 @@ export default function AccountScreen() {
             ...formData,
             [field]: value,
         })
+
+        console.log(formData);
     }
 
     // TODO: Add image picker for user to update their image
@@ -71,10 +77,26 @@ export default function AccountScreen() {
         }, 1000)
     }
 
+    const deleteAccount = () => {
+        if (token) {
+            api.remove('participant/' + user.id, token).then(async (res) => {
+
+                if (res.status == 200) {
+                    await AsyncStorage.setItem("token", "");
+                    setIsSignedIn(false);
+                    router.replace("/(tabs)/sign-in");
+
+                }
+            })
+        } else {
+            console.log('there should be a token here.')
+        }
+    }
+
     const handleDelete = () => {
         Alert.alert("Delete Account", "Are you sure you want to delete your account? This action cannot be undone.", [
             { text: "Cancel", style: "cancel" },
-            { text: "Delete", style: "destructive", onPress: () => console.log("Delete account") },
+            { text: "Delete", style: "destructive", onPress: () => deleteAccount() },
         ])
     }
 
@@ -103,9 +125,9 @@ export default function AccountScreen() {
 
 
     return (
-        <ScrollView>
+        <View>
             <View className="bg-white justify-around">
-                <View className="items-center p-3 mt-5">
+                <View className="items-center py-10 mt-5">
                     <TouchableOpacity className="mb-4">
                         {profileImage ? (
                             <Image source={{ uri: profileImage }} className="w-20 h-20 rounded-full" />
@@ -123,48 +145,50 @@ export default function AccountScreen() {
                     <Text className="text-[#666]">Update your personal information and account settings.</Text>
                 </View>
 
-                <View className="p-5">
+                <ScrollView className="h-[70vh] mb-12">
+                    <View className="p-5">
 
-                    <Text className="text-2xl font-bold mb-4">Account Information: </Text>
-                    {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
-                    {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
-                    {renderInputField("Password", formData.password, "password", "••••••••", "lock")}
+                        <Text className="text-2xl font-bold mb-4">Account Information: </Text>
+                        {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
+                        {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
+                        {/* {renderInputField("Password", formData.password, "password", "••••••••", "lock")} */}
 
 
-                    <Text className="text-2xl font-bold my-4">General Information:</Text>
-                    {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
-                    {renderInputField("Country", formData.country, "country", "United States", "")}
-                    {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
-                    {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
-                    {renderInputField(
-                        "Interests",
-                        formData.interests,
-                        "interests",
-                        "Mobile development, UI/UX design, Photography",
-                        "",
-                        true,
-                    )}
+                        <Text className="text-2xl font-bold my-4">General Information:</Text>
+                        {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
+                        {renderInputField("Country", formData.country, "country", "United States", "")}
+                        {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
+                        {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
+                        {/* {renderInputField(
+                            "Interests",
+                            formData.interests,
+                            "interests",
+                            "Mobile development, UI/UX design, Photography",
+                            "",
+                            true,
+                        )} */}
 
-                    <Text className="text-2xl font-bold my-4">Social Information: </Text>
-                    {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
-                    {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
-                    {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
-                    {renderInputField("Instagram", formData.instagram, "instagram", "@johndoe", "")}
-                </View>
+                        <Text className="text-2xl font-bold my-4">Social Information: </Text>
+                        {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
+                        {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
+                        {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
+                        {renderInputField("Instagram", formData.instagram, "instagram", "@johndoe", "")}
+                    </View>
 
-                <View className="p-5">
-                    <TouchableOpacity
-                        onPress={handleSave}
-                        disabled={isLoading}
-                        className="bg-alpha text-white p-4 rounded my-2 items-center"
-                    >
-                        <Text className="text-xl font-bold text-white">{isLoading ? "Saving..." : "Save Changes"}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity className="bg-red-500 text-white p-4 rounded mt-2 items-center" onPress={handleDelete}>
-                        <Text className="text-white font-bold">Delete Account</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View className="p-5">
+                        <TouchableOpacity
+                            onPress={handleSave}
+                            disabled={isLoading}
+                            className="bg-alpha text-white p-4 rounded my-2 items-center"
+                        >
+                            <Text className="text-xl font-bold text-white">{isLoading ? "Saving..." : "Save Changes"}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className="bg-red-500 text-white p-4 rounded mt-2 items-center" onPress={handleDelete}>
+                            <Text className="text-white font-bold">Delete Account</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
-        </ScrollView>
+        </View>
     )
 }

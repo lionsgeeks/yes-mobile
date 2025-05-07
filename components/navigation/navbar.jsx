@@ -10,21 +10,25 @@ export default function Navbar({ title = "Screen" }) {
     return (
         <View className="flex-row items-center justify-between px-6 py-4  ">
             {/* Left: Home Button */}
-            <Image
-                source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
-                className="w-10 h-10 rounded-full border border-gray-300"
-            />
+            <Pressable
+                onPress={() => { router.push('/account') }}
+            >
+                <Image
+                    source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
+                    className="w-10 h-10 rounded-full border border-gray-300"
+                />
+            </Pressable>
 
             {/* Center: Title */}
             <Text className="text-lg font-semibold text-alpha">{title}</Text>
 
             {/* Right: Bell + Profile */}
             <View className="flex-row items-center gap-x-4">
-     
+
                 <Pressable onPress={() => router.push("/chat")}>
                     <IconSymbol name="message" size={22} color="#000" />
                 </Pressable>
-     
+
                 <Pressable >
                     <Feather name="bell" size={22} color="#000" />
                 </Pressable>

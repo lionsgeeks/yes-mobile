@@ -11,13 +11,13 @@ import { useAuthContext } from '@/context/auth';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { isLoading } = useAuthContext();
+  const { isSignedIn } = useAuthContext();
 
-  if (isLoading) {
-    return <View className="h-screen items-center justify-center">
-      <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].tint} />
-    </View>;
-  }
+  // if (isSignedIn) {
+  //   return <View className="h-screen items-center justify-center">
+  //     <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].tint} />
+  //   </View>;
+  // }
 
   const tabScreen = [
     { route: "index", name: "Home", icon: "house", showTab: true },

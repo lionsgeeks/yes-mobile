@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "@/api";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 
 
 const authContext = createContext();
@@ -25,13 +25,16 @@ const AuthProvider = ({ children }) => {
 
         } else {
             // redirect to sign in screen
-            router.navigate('/sign-in');
+            setIsSignedIn(false)
+            router.replace('/sign-in');
         }
     }
+    console.log('is signed in', isSignedIn);
+
 
     useEffect(() => {
         fetchUserInfo();
-    }, []);
+    }, [token]);
 
     const appValue = {
         isSignedIn,

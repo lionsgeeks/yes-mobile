@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
+import handleBack from "@/utils/handleBack";
 
 
 export default function SignInScreen() {
@@ -13,6 +14,7 @@ export default function SignInScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const panHandlers = handleBack("/sign-in") 
 
     const onSignIn = () => {
 
@@ -64,7 +66,7 @@ export default function SignInScreen() {
 
 
     return (
-        <View className="h-screen items-center justify-center">
+        <View {...panHandlers} className="h-screen items-center justify-center">
             <Text className="text-2xl font-bold">Sign In</Text>
             <Text className="text-gray-500">Please enter your email and password</Text>
             <TextInput

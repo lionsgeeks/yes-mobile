@@ -83,3 +83,7 @@ const remove = async (endpoint, Token) => {
 };
 
 export default { get, put, post, remove, APP_URL, IMAGE_URL, VIDEO_URL };
+
+
+
+// Made By Ilyass 'I.E' Orphane 

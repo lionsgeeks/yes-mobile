@@ -41,11 +41,11 @@ export default function MenuScreen() {
     const { isSignedIn } = useAuthContext();
 
     const topTabs = [
-        { name: "Home", route: "", icon: "house" },
-        { name: "Speakers", route: "speakers", icon: "speaker" },
-        { name: "NGOs", route: "ngos", icon: "business" },
+        // { name: "Home", route: "", icon: "house" },
+        // { name: "Speakers", route: "speakers", icon: "speaker" },
+        // { name: "NGOs", route: "ngos", icon: "business" },
         { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
-        { name: "Program", route: "program", icon: "timer" },
+        // { name: "Program", route: "program", icon: "timer" },
     ]
 
     const middleTabs = [
