@@ -23,7 +23,7 @@ import axios from "axios";
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
-    const [profileImage, setProfileImage] = useState(process.env.EXPO_PUBLIC_APP_URL + '/storage/images/participants/' + user.image)
+    const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image)
 
     // Form state
     const [formData, setFormData] = useState({
@@ -69,8 +69,10 @@ export default function AccountScreen() {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            console.log("Form is sent");
-            console.log('this is the photo response', response.data);
+
+            if (response.status == 200) {
+                fetchUserInfo();
+            }
 
         } catch (error) {
             console.error("Error uploading photo:", error.response?.data || error.message);

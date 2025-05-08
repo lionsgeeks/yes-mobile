@@ -22,8 +22,9 @@ import partner10 from "../../assets/images/partners/unfpa.jpeg";
 import jadara from "../../assets/images/partners/Jadaralogo.png";
 import pan from "../../assets/images/partners/pan.jpeg";
 import { useNavigation } from "expo-router";
+import ShareEvent from "@/components/ShareEvent";
 export default function HomeScreen() {
-  const { user } = useAuthContext();
+  const { user, imagePath } = useAuthContext();
   const navigation = useNavigation();
   const items = [
     {
@@ -208,6 +209,7 @@ export default function HomeScreen() {
           </View>
         ))}
       </View>
+      {/* <ShareEvent imagePath={imagePath}/> */}
       {/* speakers */}
       <View className="px-6 py-6">
         <Text className="text-xl font-bold text-alpha">Featured Speakers</Text>

@@ -2,11 +2,16 @@ import { View, Text, Pressable, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { IconSymbol } from "../ui/IconSymbol";
 import { router } from "expo-router";
+import { useAuthContext } from "@/context/auth";
+import api from "@/api"
 
 export default function Navbar({ title = "Screen" }) {
 
+    const { user } = useAuthContext();
 
+    const imageURL = api.IMAGE_URL + user.image;
 
+    
     return (
         <View className="flex-row items-center justify-between px-6 py-4  ">
             {/* Left: Home Button */}
@@ -14,7 +19,7 @@ export default function Navbar({ title = "Screen" }) {
                 onPress={() => { router.push('/account') }}
             >
                 <Image
-                    source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
+                    source={{ uri: imageURL }}
                     className="w-10 h-10 rounded-full border border-gray-300"
                 />
             </Pressable>

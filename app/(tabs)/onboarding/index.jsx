@@ -1,6 +1,11 @@
 import { useState } from "react"
 import { Image, Text, TouchableOpacity, View } from "react-native"
-import image1 from "../../../assets/images/icon.png"
+import image1 from "@/assets/images/yes_patterns.png";
+
+import africa1 from "@/assets/images/onboarding/africa1.jpg";
+import africa2 from "@/assets/images/onboarding/africa2.jpg";
+import africa3 from "@/assets/images/onboarding/africa3.jpg";
+import africa4 from "@/assets/images/onboarding/africa4.jpg";
 import { router } from "expo-router"
 
 
@@ -10,25 +15,25 @@ const onboardingData = [
         title: "Welcome to Y.E.S Africa",
         description:
             "Youth Empowerment Summit Africa is dedicated to inspiring and equipping young Africans with the skills and knowledge needed to drive positive change across the continent.",
-        image: image1,
+        image: africa1,
     },
     {
         title: "Our Mission",
         description:
             "We bring together young leaders, entrepreneurs, and changemakers from across Africa to connect, learn, and collaborate on solutions to the continent's most pressing challenges.",
-        image: image1,
+        image: africa2,
     },
     {
         title: "What to Expect",
         description:
             "Engaging workshops, inspiring keynote speakers, networking opportunities, and hands-on projects that will help you develop your skills and expand your professional network.",
-        image: image1,
+        image: africa3,
     },
     {
         title: "Join the Movement",
         description:
             "Be part of a growing community of young Africans who are passionate about creating a better future for Africa through innovation, leadership, and sustainable development.",
-        image: image1,
+        image: africa4,
     },
 ]
 
@@ -40,8 +45,8 @@ export default function OnboardingScreen() {
             setCurrentSlide(currentSlide + 1)
         } else {
             // TODO: redirect to interests 
-            // setCurrentSlide(0);
             router.navigate("/");
+            setCurrentSlide(0);
         }
     }
 
@@ -59,7 +64,7 @@ export default function OnboardingScreen() {
             <View className="w-full h-full flex justify-between">
                 <Image
                     source={onboardingData[currentSlide].image}
-                    className=" h-1/2 aspect-square"
+                    className="w-full h-1/2"
                 />
 
                 <View className="p-6">
