@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import yeslogo from "../../assets/images/yeslogo.png"
-// import handleBack from "@/utils/handleBack";
+import handleBack from "@/utils/handleBack";
 
 
 export default function SignInScreen() {
@@ -17,7 +17,7 @@ export default function SignInScreen() {
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
 
-    // const panHandlers = handleBack("/sign-in") 
+    const panHandlers = handleBack("/sign-in") 
 
     const onSignIn = () => {
 
@@ -69,7 +69,7 @@ export default function SignInScreen() {
 
 
     return (
-        <View className="h-full items-center justify-center bg-white px-6">
+        <View {...panHandlers} className="h-full items-center justify-center bg-white px-6">
 
                 <Image
                     source={yeslogo}
@@ -96,7 +96,7 @@ export default function SignInScreen() {
             </View>
 
             <View className="my-4">
-                <Text className="text-beta">Password</Text>
+                <Text className="text-beta">Passsword</Text>
                 <View className="flex-row items-center border border-gray-300 rounded-md px-3  my-2 w-full">
                     <MaterialIcons name="lock" size={20} color="#2e539d" />
                     <TextInput

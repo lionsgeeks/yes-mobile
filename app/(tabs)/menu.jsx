@@ -1,11 +1,12 @@
 import { useAppContext } from "@/context";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { Icon } from "@/constants";
 import TransText from "@/components/TransText";
 import { Link, router } from "expo-router";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { useAuthContext } from "@/context/auth";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import yeslogo from "@/assets/images/yeslogo.png"
 
 
 const MenuItem = ({ name, icon, route }) => {
@@ -46,13 +47,13 @@ export default function MenuScreen() {
         // { name: "NGOs", route: "ngos", icon: "business" },
         { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
         // { name: "Program", route: "program", icon: "timer" },
-        { route: "bailleur/bailleur", name: "Funders", icon: "handshake" },
-        { name: "Program", route: "program", icon: "timer" },
+        // { route: "bailleur/bailleur", name: "Funders", icon: "handshake" },
+        // { name: "Program", route: "program", icon: "timer" },
     ]
 
     const middleTabs = [
         { name: "Badge", route: "badge", icon: "badge" },
-        { name: "Chat", route: "chat", icon: "message" },
+        // { name: "Chat", route: "chat", icon: "message" },
     ];
 
     const lastTabs = [
@@ -65,9 +66,14 @@ export default function MenuScreen() {
         <ScrollView className="h-full bg-white px-6 relative">
             <View className="mt-16"></View>
             <View className="flex flex-row items-center gap-3 mb-4">
-                {/* TODO: change this for the app logo when available */}
-                <IconSymbol size={50} name="settings" color={"#2e539d"} />
-                <Text className="text-2xl font-bold">Y.E.S Mobile</Text>
+                <Image 
+                    source={yeslogo}
+                    style={{
+                        width: 200,
+                        height: 75,
+                        resizeMode: 'contain'
+                    }}
+                />
             </View>
 
             {
@@ -76,7 +82,7 @@ export default function MenuScreen() {
                 ))
             }
 
-            <View className="h-[1px] bg-[#F0F0F2] my-4 " />
+            {/* <View className="h-[1px] bg-[#F0F0F2] my-4 " /> */}
 
             {
                 middleTabs.map(({ name, route, icon }, index) => (
