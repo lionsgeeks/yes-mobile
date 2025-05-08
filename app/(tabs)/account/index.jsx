@@ -23,7 +23,7 @@ import axios from "axios";
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
-    const [profileImage, setProfileImage] = useState(null)
+    const [profileImage, setProfileImage] = useState(process.env.EXPO_PUBLIC_APP_URL + '/storage/images/participants/' + user.image)
 
     // Form state
     const [formData, setFormData] = useState({
@@ -48,6 +48,7 @@ export default function AccountScreen() {
         })
 
     }
+
 
     const uploadPhoto = async (uri) => {
         const formData = new FormData();
