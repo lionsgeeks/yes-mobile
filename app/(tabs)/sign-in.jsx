@@ -2,10 +2,12 @@ import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
-import handleBack from "@/utils/handleBack";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import yeslogo from "../../assets/images/yeslogo.png"
+// import handleBack from "@/utils/handleBack";
 
 
 export default function SignInScreen() {
@@ -13,8 +15,9 @@ export default function SignInScreen() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [hidePassword, setHidePassword] = useState(true);
 
-    const panHandlers = handleBack("/sign-in") 
+    // const panHandlers = handleBack("/sign-in") 
 
     const onSignIn = () => {
 
@@ -66,26 +69,63 @@ export default function SignInScreen() {
 
 
     return (
-        <View {...panHandlers} className="h-screen items-center justify-center">
-            <Text className="text-2xl font-bold">Sign In</Text>
-            <Text className="text-gray-500">Please enter your email and password</Text>
-            <TextInput
-                className="border border-gray-300 rounded-md p-2 mt-4 w-80"
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-            />
-            <TextInput
-                className="border border-gray-300 rounded-md p-2 mt-4 w-80"
-                placeholder="Password"
-                secureTextEntry={true}
-                value={password}
-                onChangeText={setPassword}
-            />
+        <View className="h-full items-center justify-center bg-white px-6">
+
+                <Image
+                    source={yeslogo}
+                    style={{
+                        width: 320,
+                        resizeMode: 'contain'
+                    }}
+                />
+
+            <View className="">
+                <Text className="text-beta">Email: </Text>
+                <View
+                    className="flex-row items-center border border-gray-300 rounded-md px-3  my-2 w-full"
+                >
+                    <MaterialIcons name="email" size={20} color="#2e539d" />
+                    <TextInput
+                        style={{ flex: 1, marginLeft: 10 }}
+                        placeholder="you@example.com"
+                        autoCapitalize="none"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                </View>
+            </View>
+
+            <View className="my-4">
+                <Text className="text-beta">Password</Text>
+                <View className="flex-row items-center border border-gray-300 rounded-md px-3  my-2 w-full">
+                    <MaterialIcons name="lock" size={20} color="#2e539d" />
+                    <TextInput
+                        className="flex-1 ml-2"
+                        placeholder="Password"
+                        secureTextEntry={hidePassword}
+                        autoCapitalize="none"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+
+                    <Pressable
+                        onPress={() => { setHidePassword(!hidePassword) }}
+                    >
+                        {
+                            hidePassword ?
+                                <Ionicons name="eye-off" size={20} color="#2e539d" />
+                                :
+                                <Ionicons name="eye" size={20} color="#2e539d" />
+                        }
+                    </Pressable>
+                </View>
+
+                <Text className="text-beta text-right text-sm underline">Forgot Password ?</Text>
+            </View>
 
             <TouchableOpacity
                 onPress={onSignIn}
-                className="bg-alpha text-white rounded-md p-2 mt-4 w-80 text-center">
+                className="bg-alpha text-white rounded-md p-3 mt-4 w-full text-center font-bold">
                 <Text className="text-white text-center">Sign In</Text>
             </TouchableOpacity>
 
