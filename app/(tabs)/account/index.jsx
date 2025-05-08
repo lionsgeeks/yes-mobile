@@ -11,16 +11,19 @@ import {
     Image,
     Alert,
     Pressable,
+    Button,
 } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+import * as ImagePicker from 'expo-image-picker';
+import axios from "axios";
 
 
 
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
-    const [profileImage, setProfileImage] = useState(null)
+    const [profileImage, setProfileImage] = useState(process.env.EXPO_PUBLIC_APP_URL + '/storage/images/participants/' + user.image)
 
     // Form state
     const [formData, setFormData] = useState({
@@ -46,7 +49,36 @@ export default function AccountScreen() {
 
     }
 
-    // TODO: Add image picker for user to update their image
+
+    const uploadPhoto = async (uri) => {
+        const formData = new FormData();
+        const fileName = uri.split("/").pop();
+
+        formData.append("photo", {
+            uri: uri,
+            name: fileName,
+            type: "image/jpeg",
+        });
+
+        const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
+
+        try {
+            console.log("Form is sending now");
+            const response = await axios.post(APP_URL + "/api/participant/image/" + user.id, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            console.log("Form is sent");
+            console.log('this is the photo response', response.data);
+
+        } catch (error) {
+            console.error("Error uploading photo:", error.response?.data || error.message);
+        }
+    };
+
+
+
     const pickImage = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
 
@@ -55,17 +87,20 @@ export default function AccountScreen() {
             return
         }
 
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 0.5,
-        })
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images', 'videos'],
+            // allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
 
         if (!result.canceled && result.assets && result.assets.length > 0) {
             setProfileImage(result.assets[0].uri)
+            uploadPhoto(result.assets[0].uri)
         }
     }
+
+
 
     const handleSave = () => {
         console.log(formData.fullName, formData.email)
@@ -130,12 +165,13 @@ export default function AccountScreen() {
 
 
 
-
     return (
         <View>
             <View className="bg-white justify-around">
                 <View className="items-center py-10 mt-5">
-                    <TouchableOpacity className="mb-4">
+                    <TouchableOpacity
+                        onPress={() => { pickImage() }}
+                        className="mb-4">
                         {profileImage ? (
                             <Image source={{ uri: profileImage }} className="w-20 h-20 rounded-full" />
                         ) : (
@@ -152,6 +188,7 @@ export default function AccountScreen() {
                     <Text className="text-[#666]">Update your personal information and account settings.</Text>
                 </View>
 
+
                 <ScrollView className="h-[70vh] mb-12">
                     <View className="p-5">
 
@@ -159,9 +196,9 @@ export default function AccountScreen() {
                         {renderInputField("Full Name", formData.fullName, "fullName", "John Doe", "person-outline")}
                         {renderInputField("Email", formData.email, "email", "john.doe@example.com", "mail-outline")}
 
-                        <Pressable 
-                        onPress={() => {router.push('/account/changePassword')}}
-                        className="border px-2 py-3 mt-2 rounded border-alpha flex-row justify-between">
+                        <Pressable
+                            onPress={() => { router.push('/account/changePassword') }}
+                            className="border px-2 py-3 mt-2 rounded border-alpha flex-row justify-between">
                             <Text className="text-lg">Change Password:</Text>
 
                             <IconSymbol size={24} name={"arrow-right"} color={"#000"} />
