@@ -87,7 +87,7 @@ export default function SignInScreen() {
             />
 
             <View className="w-full">
-                <Text className="text-beta text-white">Email: </Text>
+                <Text className=" text-white">Email: </Text>
                 <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
                     <MaterialIcons name="email" size={20} color="white" />
                     <TextInput
@@ -102,7 +102,7 @@ export default function SignInScreen() {
             </View>
 
             <View className="my-4 w-full">
-                <Text className="text-beta text-white">Password:</Text>
+                <Text className=" text-white">Password:</Text>
                 <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
                     <MaterialIcons name="lock" size={20} color="white" />
                     <TextInput
@@ -123,7 +123,7 @@ export default function SignInScreen() {
                         }
                     </Pressable>
                 </View>
-                <Text className="text-beta text-right text-sm underline text-white">Forgot Password ?</Text>
+                <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text>
             </View>
 
             <TouchableOpacity

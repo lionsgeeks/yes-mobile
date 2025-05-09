@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Alert, useColorScheme } from "react-native";
-import * as Ably from "ably";
 import { cleanupAbly, connectAbly, setupAbly } from "@/utils/ably";
 import { useAuthContext } from "./auth";
 
