@@ -26,16 +26,16 @@ export default function SignInScreen() {
             const participant = response.data.participant;
             const token = response.data.token;
 
-
             let hashHex;
             if (!token) {
-                console.warn('Invalid token format');
+                console.log('Invalid token format');
                 return;
             }
 
             if (!token.includes('|')) {
                 await AsyncStorage.setItem('token', token);
-
+                setToken(token);
+                
             } else {
                 const [, rawToken] = token.split('|');
 
@@ -43,9 +43,9 @@ export default function SignInScreen() {
                     Crypto.CryptoDigestAlgorithm.SHA256,
                     rawToken
                 );
-
-                console.log('im in sign up screen: this is the hashhex token', hashHex);
+                
                 await AsyncStorage.setItem('token', hashHex);
+                setToken(hashHex);
 
             }
 

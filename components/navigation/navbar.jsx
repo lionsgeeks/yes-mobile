@@ -9,7 +9,7 @@ export default function Navbar({ title = "Screen" }) {
 
     const { user } = useAuthContext();
 
-    const imageURL = api.IMAGE_URL + user.image;
+    const imageURL = api.IMAGE_URL + user?.image;
 
     
     return (
