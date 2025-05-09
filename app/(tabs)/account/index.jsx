@@ -11,7 +11,6 @@ import {
     Image,
     Alert,
     Pressable,
-    Button,
 } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
@@ -24,7 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo , socials } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
-    const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image)
+    const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -36,10 +35,10 @@ export default function AccountScreen() {
         bio: user.description,
         interests: "this is still in progress",
         location: user.location,
-        website: socials.website,
-        youtube: socials.youtube,
-        linkedin: socials.linkedin,
-        instagram: socials.instagram,
+        website: socials?.website,
+        youtube: socials?.youtube,
+        linkedin: socials?.linkedin,
+        instagram: socials?.instagram,
     })
 
     const updateField = (field, value) => {
@@ -47,12 +46,7 @@ export default function AccountScreen() {
             ...formData,
             [field]: value,
         })
-
     }
-
-
-
-
 
     const uploadPhoto = async (uri) => {
         const formData = new FormData();
@@ -157,7 +151,7 @@ export default function AccountScreen() {
                 {icon && <Ionicons size={20} name={icon} color={"#2e539d"} />}
 
                 <TextInput
-                    value={socials[label]}
+                    value={value}
                     onChangeText={(text) => updateField(field, text)}
                     placeholder={placeholder}
                     placeholderTextColor="#999"

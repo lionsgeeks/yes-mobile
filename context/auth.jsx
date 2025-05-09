@@ -8,7 +8,7 @@ const authContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [socials, setSocials] = useState(null);
   const [token, setToken] = useState(null);

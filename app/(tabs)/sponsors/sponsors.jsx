@@ -1,47 +1,49 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import { Text, View, Pressable, Image, ScrollView, TextInput, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from "@/components/navigation/navbar";
 import { Picker } from '@react-native-picker/picker';
+import { useAppContext } from '@/context';
+import api from '@/api';
 
 const allSponsors = [{
   id: 1,
   name: "Lionsgeek",
-  tier: "Association",
+  type: "Association",
   description: "Leading technology company providing software, hardware, and cloud services.",
   image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFkbeAL5Awr6mwkecJV2mP5MVdedqFq7Oaqg&s",
-  url: "https://microsoft.com"
+  website: "https://microsoft.com"
 },
 {
   id: "2",
   name: "2m",
-  tier: "Media",
+  type: "Media",
   description: "Leading technology company providing software, hardware, and cloud services.",
   image: "https://upload.wikimedia.org/wikipedia/fr/thumb/a/ac/2M_Logo.svg/1280px-2M_Logo.svg.png",
-  url: "https://microsoft.com"
+  website: "https://microsoft.com"
 },
 {
   id: "3",
   name: "Jadara",
-  tier: "Association",
+  type: "Association",
   description: "Leading technology company providing software, hardware, and cloud services.",
   image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQur9cHxmm6RW6cOtQeRF2FXbJS0M8fo897BA&s",
-  url: "https://microsoft.com"
+  website: "https://microsoft.com"
 },
 {
   id: "4",
   name: "Yes Africa",
-  tier: "Finance",
+  type: "Finance",
   description: "Leading technology company providing software, hardware, and cloud services.",
   image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVp9SrShiyf0Zxu6O5C7CWT3t4AMZTiT5U7w&s",
-  url: "https://microsoft.com"
+  website: "https://microsoft.com"
 }, {
   id: "5",
   name: "Microsoft",
-  tier: "Technology",
+  type: "Technology",
   description: "Leading technology company providing software, hardware, and cloud services.",
   image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Microsoft_icon.svg/1200px-Microsoft_icon.svg.png",
-  url: "https://microsoft.com"
+  website: "https://microsoft.com"
 }];
 
 const Sponsors = () => {
@@ -50,14 +52,19 @@ const Sponsors = () => {
   const navigation = useNavigation();
   const categories = ["All", "Finance", "Marketing", "Media", "Technology", "Association"];
 
+  // TODO: change to sponsors from api
+  // const { sponsors } = useAppContext();
+
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setDropdownVisible(false); // Close the dropdown after selection
   };
 
-  const filteredSponsors = allSponsors.filter((item) => {
-    return selectedCategory === "all" || item.tier === selectedCategory;
+  const filteredSponsors = allSponsors?.filter((item) => {
+    return selectedCategory === "all" || item.type === selectedCategory.toLowerCase();
   });
+
+
   return (
     <View className="h-screen bg-white pt-10">
       <Navbar title="Sponsors" />
@@ -92,7 +99,13 @@ const Sponsors = () => {
               <View className="flex-row items-center mb-4">
                 <Image
                   source={{ uri: item.image }}
-                  className="w-16 h-16 rounded-lg mr-4"
+                  // source={{ uri: api.IMAGE_URL + item.image }}
+                  style={{
+                    width: 70,
+                    aspectRatio: 1,
+                    borderRadius: 500,
+                    marginRight: 10,
+                  }}
                   resizeMode="contain"
                 />
                 <View>
@@ -101,21 +114,31 @@ const Sponsors = () => {
                 </View>
               </View>
               <View className='flex-row justify-between items-center'>
-                <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
-                  <Text className="text-beta font-medium text-sm">{item.tier}</Text>
-                </View>
+                {/* could be null from backend */}
+                {
+                  item.type ? (
+                    <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
+                      <Text className="text-beta font-medium text-sm capitalize">{item.type} </Text>
+                    </View>
+                  )
+                    :
+                    <View></View>
+                }
 
-                <Pressable
-                  className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
-                  onPress={() => Linking.openURL(item.url)}
-                >
+                {
+                  item.website && (
+                    <Pressable
+                      className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
+                      onPress={() => Linking.openURL(item.website)}
+                    >
 
-                <Text className="text-white font-medium">Visit site</Text>
-                <Text className="text-blue-400 ml-2">→</Text>
-                </Pressable>
+                      <Text className="text-white font-medium">Visit site</Text>
+                      <Text className="text-blue-400 ml-2">→</Text>
+                    </Pressable>
+                  )
+                }
 
               </View>
-
             </View>
           ))}
         </View>
