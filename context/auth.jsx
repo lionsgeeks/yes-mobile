@@ -8,6 +8,7 @@ const authContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [socials, setSocials] = useState(null);
   const [token, setToken] = useState(null);
   const [imagePath, setImagePath] = useState(null);
 
@@ -18,7 +19,8 @@ const AuthProvider = ({ children }) => {
       // get user data from the server
       setToken(token);
       api.post("getuser/token", { token }).then((response) => {
-        setUser(response.data.user);
+        setUser(response.data.user);        
+        setSocials(response.data.socials);
         setIsSignedIn(true);
       });
     } else {
@@ -31,6 +33,8 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     fetchUserInfo();
   }, [token]);
+
+  
 
   useEffect(() => {
     api
@@ -49,6 +53,8 @@ const AuthProvider = ({ children }) => {
     setIsSignedIn,
     user,
     setUser,
+    socials,
+    setSocials,
     token,
     setToken,
     fetchUserInfo,

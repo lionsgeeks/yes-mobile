@@ -17,11 +17,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 
 
 export default function AccountScreen() {
-    const { user, token, setIsSignedIn, fetchUserInfo } = useAuthContext();
+    const { user, token, setIsSignedIn, fetchUserInfo , socials } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image)
 
@@ -35,10 +36,10 @@ export default function AccountScreen() {
         bio: user.description,
         interests: "this is still in progress",
         location: user.location,
-        website: "https://example.com",
-        twitter: "@johndoe",
-        linkedin: "linkedin.com/in/johndoe",
-        instagram: "@johndoe",
+        website: socials.website,
+        youtube: socials.youtube,
+        linkedin: socials.linkedin,
+        instagram: socials.instagram,
     })
 
     const updateField = (field, value) => {
@@ -48,6 +49,9 @@ export default function AccountScreen() {
         })
 
     }
+
+
+
 
 
     const uploadPhoto = async (uri) => {
@@ -147,19 +151,19 @@ export default function AccountScreen() {
 
     const renderInputField = (label, value, field, placeholder, icon, isMultiline = false) => (
         <View className="mb-2">
-            <Text className="text-xl font-semibold mb-2 text-[#333]">{label}</Text>
+            <Text className="text-xl capitalize font-semibold mb-2 text-[#333]">{label}</Text>
             <View className="flex-row px-3 items-center border border-[#ddd] rounded bg-white">
 
-                {icon && <IconSymbol size={20} name={icon} color={"#2e539d"} />}
+                {icon && <Ionicons size={20} name={icon} color={"#2e539d"} />}
 
                 <TextInput
-                    value={value}
+                    value={socials[label]}
                     onChangeText={(text) => updateField(field, text)}
                     placeholder={placeholder}
                     placeholderTextColor="#999"
                     multiline={isMultiline}
                     numberOfLines={isMultiline ? 4 : 1}
-                    className=""
+                    className=" w-full"
                 />
             </View>
         </View>
@@ -211,15 +215,15 @@ export default function AccountScreen() {
                         {renderInputField("Company", formData.company, "company", "Acme Inc.", "business")}
                         {renderInputField("Country", formData.country, "country", "United States", "")}
                         {renderInputField("City", formData.city, "city", "United States", "")}
-                        {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location-on")}
+                        {renderInputField("Location", formData.location, "location", "San Francisco, CA", "location")}
                         {renderInputField("Bio", formData.bio, "bio", "Tell us about yourself", "", true)}
 
 
                         <Text className="text-2xl font-bold my-4 text-beta">Social Information: </Text>
-                        {renderInputField("Website", formData.website, "website", "https://example.com", "email")}
-                        {renderInputField("Twitter", formData.twitter, "twitter", "@johndoe", "")}
-                        {renderInputField("LinkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "")}
-                        {renderInputField("Instagram", formData.instagram, "instagram", "@johndoe", "")}
+                        {renderInputField("linkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "logo-linkedin")}
+                        {renderInputField("instagram", formData.instagram, "instagram", "@johndoe", "logo-instagram")}
+                        {renderInputField("website", formData.website, "website", "https://example.com", "globe")}
+                        {renderInputField("youtube", formData.youtube, "youtube", "@johndoe", "logo-youtube")}
                     </View>
 
                     <View className="p-5">

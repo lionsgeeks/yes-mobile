@@ -191,7 +191,7 @@ export default function HomeScreen() {
         <Image
           source={hero}
           // className=" h-full w-full absolute"
-          style={{ width:'100%', height: '100%', position:'absolute', resizeMode: "cover" }}
+          style={{ width:'100%', height: '100%', position:'absolute', resizeMode: "cover" ,  }}
         />
         <Image
           source={logo}
