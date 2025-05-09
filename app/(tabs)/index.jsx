@@ -1,13 +1,8 @@
 import { useAuthContext } from "@/context/auth";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, Image, Pressable, TouchableOpacity, } from "react-native";
+import { useState } from "react";
+import { useWindowDimensions, Animated } from "react-native";
 import logo from "../../assets/images/yeslogo.png";
 import hero from "../../assets/images/yes_patterns.png";
 import partner1 from "../../assets/images/partners/Africa_50.jpg";
@@ -23,6 +18,7 @@ import jadara from "../../assets/images/partners/Jadaralogo.png";
 import pan from "../../assets/images/partners/pan.jpeg";
 import { useNavigation } from "expo-router";
 import ShareEvent from "@/components/ShareEvent";
+import Navbar from "@/components/navigation/navbar";
 export default function HomeScreen() {
   const { user, imagePath } = useAuthContext();
   const navigation = useNavigation();
@@ -185,162 +181,184 @@ export default function HomeScreen() {
       image: pan,
     },
   ];
+
+
+  const [scrollY] = useState(new Animated.Value(0));
+  const screenHeight = useWindowDimensions().height;
+
+  const bgColor = scrollY.interpolate({
+    inputRange: [0, screenHeight * 0.5],
+    outputRange: ["transparent", "white"],
+    extrapolate: "clamp",
+  });
+
   return (
-    <ScrollView className="">
-      <View className="items-center justify-center flex-col w-full overflow-hidden h-[30vh] bg-[#ddcfaa] realtive">
-        <Image
-          source={hero}
-          // className=" h-full w-full absolute"
-          style={{ width:'100%', height: '100%', position:'absolute', resizeMode: "cover" ,  }}
-        />
-        <Image
-          source={logo}
-          style={{ width: 700, height: 100, resizeMode: "contain" }}
-          className=""
-        />
-      </View>
-      <View className="flex-row justify-around py-5 bg-beta rounded-b-3xl">
-        {items.map((item, index) => (
-          <View key={index} className="justify-center items-center">
-            <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
-              <Ionicons name={item.icon} color="#ffffff" size={26} />
-            </View>
-            <Text className="text-white/90 text-md font-bold">{item.label}</Text>
-          </View>
-        ))}
-      </View>
-      {/* <ShareEvent imagePath={imagePath}/> */}
-      {/* speakers */}
-      <View className="px-6 py-6">
-        <Text className="text-xl font-bold text-alpha">Featured Speakers</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="py-6 "
-          contentContainerStyle={{ paddingRight: 80 }}
-        >
-          {allSpeakers.map((item, index) => (
-            <Pressable
-              key={index}
-              className="bg-white rounded-2xl shadow-xl shadow-alpha overflow-hidden px-4 pt-5"
-              style={{ elevation: 3, marginRight: 16, width: "20%" }}
-              android_ripple={{ color: "#ccc" }}
-              onPress={() =>
-                navigation.navigate("speakers/[id]", { speaker: item })
-              }
-            >
-              <View className="items-center mb-3">
-                <Image
-                  source={{ uri: item.image }}
-                  className="w-20 h-20 rounded-full border border-gray-300"
-                />
-              </View>
-              <Text className="text-center text-base font-semibold text-alpha mb-1">
-                {item.name}
-              </Text>
-              <Text className="text-center text-sm text-gray-600 mb-0.5">
-                {item.title}
-              </Text>
-              <Text className="text-center text-xs text-gray-400 mb-2">
-                {item.role}
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-      </View>
-      {/* highlights */}
-      <View className="px-6">
-        <View className="flex-row items-center justify-between">
-          <Text className="text-xl font-bold text-alpha">Today's Highlights</Text>
-          <TouchableOpacity>
-            <Text
-              className="text-alpha"
-              style={{ textDecorationLine: "underline" }}
-            >
-              View all
-            </Text>
-          </TouchableOpacity>
+    <View>
+      <Animated.View style={{ paddingTop: 22, position: "absolute", zIndex: 20, width: "100%", backgroundColor: bgColor }}>
+        <Navbar title="" />
+      </Animated.View>
+      <Animated.ScrollView
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        scrollEventThrottle={16}
+        className="">
+        <View className="items-center justify-center flex-col w-full overflow-hidden h-[30vh] bg-[#ddcfaa] realtive">
+          <Image
+            source={hero}
+            // className=" h-full w-full absolute"
+            style={{ width: '100%', height: '100%', position: 'absolute', resizeMode: "cover", }}
+          />
+          <Image
+            source={logo}
+            style={{ width: 700, height: 100, resizeMode: "contain" }}
+            className=""
+          />
         </View>
-        <View className="py-4">
-          {sessions.map((session, index) => (
-            <TouchableOpacity
-              key={index}
-              className="bg-white rounded-lg p-3 m-2 mb-4 "
-            >
-              <View className="bg-beta w-2 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
-              <View className="flex flex-row items-center gap-4 mb-2">
-                <View className="px-2 py-1">
-                  <View className="flex-row items-center ">
-                    <Text className="text-black mr-2">⏰</Text>
-                    <Text className="text-black">
-                      {session.time.start} - {session.time.end}
+        <View className="flex-row justify-around py-5 bg-beta rounded-b-3xl">
+          {items.map((item, index) => (
+            <View key={index} className="justify-center items-center">
+              <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
+                <Ionicons name={item.icon} color="#ffffff" size={26} />
+              </View>
+              <Text className="text-white/90 text-md font-bold">{item.label}</Text>
+            </View>
+          ))}
+        </View>
+        {/* <ShareEvent imagePath={imagePath}/> */}
+        {/* speakers */}
+        <View className="px-6 py-6">
+          <Text className="text-xl font-bold text-alpha">Featured Speakers</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="pt-6 "
+            contentContainerStyle={{ paddingRight: 80 }}
+          >
+            {allSpeakers.map((item, index) => (
+              <Pressable
+                key={index}
+                className="bg-white rounded-2xl shadow-xl shadow-alpha overflow-hidden px-4 pt-5"
+                style={{ elevation: 3, marginRight: 16, width: "20%" }}
+                android_ripple={{ color: "#ccc" }}
+                onPress={() =>
+                  navigation.navigate("speakers/[id]", { speaker: item })
+                }
+              >
+                <View className="items-center mb-3">
+                  <Image
+                    source={{ uri: item.image }}
+                    className="w-20 h-20 rounded-full border border-gray-300"
+                  />
+                </View>
+                <Text className="text-center text-base font-semibold text-alpha mb-1">
+                  {item.name}
+                </Text>
+                <Text className="text-center text-sm text-gray-600 mb-0.5">
+                  {item.title}
+                </Text>
+                <Text className="text-center text-xs text-gray-400 mb-2">
+                  {item.role}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
+        {/* highlights */}
+        <View className="px-6">
+          <View className="flex-row items-center justify-between">
+            <Text className="text-xl font-bold text-alpha">Today's Highlights</Text>
+            <TouchableOpacity>
+              <Text
+                className="text-alpha"
+                style={{ textDecorationLine: "underline" }}
+              >
+                View all
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View className="py-4">
+            {sessions.map((session, index) => (
+              <TouchableOpacity
+                key={index}
+                className="bg-white rounded-lg p-3 m-2 mb-4 "
+              >
+                <View className="bg-beta w-2 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
+                <View className="flex flex-row items-center gap-4 mb-2">
+                  <View className="px-2 py-1">
+                    <View className="flex-row items-center ">
+                      <Text className="text-black mr-2">⏰</Text>
+                      <Text className="text-black">
+                        {session.time.start} - {session.time.end}
+                      </Text>
+                    </View>
+                    <Text className="text-md pt-3 font-bold ">{session.title}</Text>
+                  </View>
+                </View>
+                <View className="flex-row items-start">
+                  <Text className="text-alpha mr-2 mt-1">📍</Text>
+                  <View>
+                    <Text className="font-semibold text-gray-800">
+                      {session.location.name}
+                    </Text>
+                    <Text className="text-gray-600">
+                      {session.location.details}
                     </Text>
                   </View>
-                  <Text className="text-md pt-3 font-bold ">{session.title}</Text>
                 </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+        {/* orgnazires */}
+        <View className="px-6 py-6">
+          <Text className="text-xl font-bold text-alpha">Organizers</Text>
+          <View className="flex py-6 flex-row justify-between w-full ">
+            {organizres.map((organizre, index) => (
+              <View
+                key={index}
+                className="bg-white justify-center items-center rounded-lg p-3 m-2 "
+                style={{
+                  elevation: 3,
+                  width: "48%",
+                  // marginLeft: index % 2 ? 16 : 0,
+                  marginBottom: 16,
+                }}
+              >
+                <Image
+                  source={organizre.image}
+                  className="w-32 h-32 "
+                  style={{ resizeMode: "contain" }}
+                />
               </View>
-              <View className="flex-row items-start">
-                <Text className="text-alpha mr-2 mt-1">📍</Text>
-                <View>
-                  <Text className="font-semibold text-gray-800">
-                    {session.location.name}
-                  </Text>
-                  <Text className="text-gray-600">
-                    {session.location.details}
-                  </Text>
-                </View>
+            ))}
+          </View>
+        </View>
+        {/* partners */}
+        <View className="px-6">
+          <Text className="text-xl font-bold text-alpha">Our Partners</Text>
+          <View className="flex flex-row py-6 flex-wrap w-full ">
+            {partners.map((partner, index) => (
+              <View
+                key={index}
+                className="bg-white rounded-lg p-3 "
+                style={{
+                  elevation: 3,
+                  width: "30%",
+                  marginLeft: index % 3 ? 16 : 0,
+                  marginBottom: 16,
+                }}
+              >
+                <Image
+                  source={partner.image}
+                  style={{ width: 80, height: 60, resizeMode: "contain" }}
+                />
               </View>
-            </TouchableOpacity>
-          ))}
+            ))}
+          </View>
         </View>
-      </View>
-      {/* orgnazires */}
-      <View className="px-6 py-6">
-        <Text className="text-xl font-bold text-alpha">Organizers</Text>
-        <View className="flex py-6 flex-row justify-between w-full ">
-          {organizres.map((organizre, index) => (
-            <View
-              key={index}
-              className="bg-white justify-center items-center rounded-lg p-3 m-2 "
-              style={{
-                elevation: 3,
-                width: "48%",
-                // marginLeft: index % 2 ? 16 : 0,
-                marginBottom: 16,
-              }}
-            >
-              <Image
-                source={organizre.image}
-                className="w-32 h-32 "
-                style={{ resizeMode: "contain" }}
-              />
-            </View>
-          ))}
-        </View>
-      </View>
-      {/* partners */}
-      <View className="px-6">
-        <Text className="text-xl font-bold text-alpha">Our Partners</Text>
-        <View className="flex flex-row py-6 flex-wrap w-full ">
-          {partners.map((partner, index) => (
-            <View
-              key={index}
-              className="bg-white rounded-lg p-3 "
-              style={{
-                elevation: 3,
-                width: "30%",
-                marginLeft: index % 3 ? 16 : 0,
-                marginBottom: 16,
-              }}
-            >
-              <Image
-                source={partner.image}
-                style={{ width: 80, height: 60, resizeMode: "contain" }}
-              />
-            </View>
-          ))}
-        </View>
-      </View>
-    </ScrollView>
+      </Animated.ScrollView>
+    </View>
   );
 }
