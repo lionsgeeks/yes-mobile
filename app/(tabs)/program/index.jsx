@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Navbar from "@/components/navigation/navbar";
+const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
-const mockSessions = [
+const Programes = [
   {
     id: '1',
-    title: 'Opening Ceremony',
+    name: 'Opening Ceremony',
     description: 'Welcome address and keynote speeches from event organizers.',
-    time: { start: '09:00', end: '10:30' },
+    start_date: '2023-05-15T09:00:00',
+    end_date: '2023-05-15T10:30:00',
     location: 'Main Hall',
     day: 'day1',
     speakers: [
@@ -25,9 +27,9 @@ const mockSessions = [
   },
   {
     id: '2',
-    title: 'Opening Ceremony',
+    name: 'Opening Ceremony',
     description: 'Welcome address and keynote speeches from event organizers.',
-    time: { start: '09:00', end: '10:30' },
+   
     location: 'Main Hall',
     day: 'day1',
     speakers: [
@@ -42,11 +44,41 @@ import { router } from "expo-router"
 
 export default function Program() {
   const [searchQuery, setSearchQuery] = useState('');
+   const [Programe, setProgrames] = useState([]);
+    const [error, setError] = useState(null);
 
-  const filteredSessions = mockSessions.filter(session => {
+    useEffect(() => {
+          const fetchProgrames = async () => {
+            try {
+              const response = await fetch(`${APP_URL}/api/programe/create`);
+              
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.json();
+      
+              if (data.programes) {
+                console.log(data.programes);
+                  // console.log(data.data);
+                  
+                setProgrames(data.programes);
+              } else {
+                setError('No programe found.');
+              }
+              
+            } catch (err) {
+              console.error('Fetch Error:', err); 
+              setError(err.message);
+            }
+          };
+      
+          fetchProgrames();
+        }, []);
+
+  const filteredSessions = Programes.filter(session => {
     const matchesSearch =
       searchQuery === '' ||
-      session.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      session.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       session.location.toLowerCase().includes(searchQuery.toLowerCase());
     return  matchesSearch;
   });
@@ -76,18 +108,18 @@ export default function Program() {
         {/* Sessions */}
         <View className="px-6">
           {filteredSessions.map(session => (
-            <TouchableOpacity onPress={() => router.navigate("/program/show")} key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
+            <TouchableOpacity onPress={() => router.navigate(`/program/${session.id}`)} key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center">
                   <Text className="mr-2 text-gray-600">🕒</Text>
-                  <Text className="text-gray-600">{session.time.start} - {session.time.end}</Text>
+                  <Text className="text-gray-600">{session.start_date} - {session.end_date}</Text>
                 </View>
                 <View className="bg-blue-50 px-3 py-1 rounded-full">
 
                 </View>
               </View>
 
-              <Text className="text-lg font-semibold text-gray-800 mb-2">{session.title}</Text>
+              <Text className="text-lg font-semibold text-gray-800 mb-2">{session.name}</Text>
               <Text className="text-gray-600 mb-3">{session.description}</Text>
 
               <View className="flex-row items-center mb-3">
@@ -95,7 +127,7 @@ export default function Program() {
                 <Text className="text-gray-600">{session.location}</Text>
               </View>
 
-              {session.speakers.length > 0 && (
+              {/* {session.speakers.length > 0 && (
                 <View className='flex-row items-center mb-3 gap-x-2'>
                   <View className="flex-row items-center mb-2">
                     <Text className="mr-2 text-gray-600">🧑‍💼</Text>
@@ -109,7 +141,7 @@ export default function Program() {
                     ))}
                   </View>
                 </View>
-              )}
+              )} */}
               {/* <Button title="View Details"  /> */}
             </TouchableOpacity>
           ))}

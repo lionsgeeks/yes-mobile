@@ -39,7 +39,7 @@ export default function TabLayout() {
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
-    { route: "program/show", name: "program", icon: "settings", showTab: true },
+    { route: "program/[id]", name: "program", icon: "settings", showTab: true },
 
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },
