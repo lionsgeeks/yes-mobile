@@ -53,7 +53,9 @@ export default function MenuScreen() {
 
     const middleTabs = [
         { name: "Badge", route: "badge", icon: "badge" },
-        // { name: "Chat", route: "chat", icon: "message" },
+        { name: "Chat", route: "chat", icon: "message" },
+        { name: "Connect", route: "match", icon: "flame" },
+        { name: "Matches", route: "matches", icon: "flame" },
     ];
 
     const lastTabs = [

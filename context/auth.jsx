@@ -50,6 +50,16 @@ const AuthProvider = ({ children }) => {
         console.log("image error", error);
       });
   }, [user]);
+  // useEffect(() => {
+  //   api.post('participant/logged', {
+  //    currentParticipant: user?.id
+  //   }).catch(error => {        
+  //    console.error('Failed to send user:',error);
+  //  });
+   
+    
+  //  }, [user])
+  
 
   const appValue = {
     isSignedIn,
