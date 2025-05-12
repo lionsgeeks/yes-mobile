@@ -12,35 +12,35 @@ import Navbar from "@/components/navigation/navbar";
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 import { useAuthContext } from '@/context/auth';
 
-const Programes = [
-  {
-    id: '1',
-    name: 'Opening Ceremony',
-    description: 'Welcome address and keynote speeches from event organizers.',
-    start_date: '2023-05-15T09:00:00',
-    end_date: '2023-05-15T10:30:00',
-    location: 'Main Hall',
-    day: 'day1',
-    speakers: [
-      { id: '1', name: 'Emma Johnson' },
-      { id: '2', name: 'David Patel' },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Opening Ceremony',
-    description: 'Welcome address and keynote speeches from event organizers.',
-    start_date: '2023-05-15T09:00:00',
-    end_date: '2023-05-15T10:30:00',
-    location: 'Main Hall',
-    day: 'day1',
-    speakers: [
-      { id: '1', name: 'Emma Johnson' },
-      { id: '2', name: 'David Patel' },
-    ],
-  },
+// const Programes = [
+//   {
+//     id: '1',
+//     name: 'Opening Ceremony',
+//     description: 'Welcome address and keynote speeches from event organizers.',
+//     start_date: '2023-05-15T09:00:00',
+//     end_date: '2023-05-15T10:30:00',
+//     location: 'Main Hall',
+//     day: 'day1',
+//     speakers: [
+//       { id: '1', name: 'Emma Johnson' },
+//       { id: '2', name: 'David Patel' },
+//     ],
+//   },
+//   {
+//     id: '2',
+//     name: 'Opening Ceremony',
+//     description: 'Welcome address and keynote speeches from event organizers.',
+//     start_date: '2023-05-15T09:00:00',
+//     end_date: '2023-05-15T10:30:00',
+//     location: 'Main Hall',
+//     day: 'day1',
+//     speakers: [
+//       { id: '1', name: 'Emma Johnson' },
+//       { id: '2', name: 'David Patel' },
+//     ],
+//   },
 
-];
+// ];
 import { router } from "expo-router"
 
 
@@ -189,7 +189,7 @@ export default function Program() {
                 </View>
               )} */}
 
-              {enrolledPrograms.includes(session.id) ? (
+              {/* {enrolledPrograms.includes(session.id) ? (
                 <View className="bg-gray-300 px-4 py-2 rounded-lg mt-2">
                   <Text className="text-white text-center font-medium">Enrolled</Text>
                 </View>
@@ -200,7 +200,7 @@ export default function Program() {
                 >
                   <Text className="text-white text-center font-medium">Enroll</Text>
                 </TouchableOpacity>
-              )}
+              )} */}
 
 
             </TouchableOpacity>

@@ -8,41 +8,43 @@ import {
   Image
 } from "react-native"
 import Navbar from "@/components/navigation/navbar";
-import { useLocalSearchParams } from 'expo-router';''
+import { useLocalSearchParams } from 'expo-router'; ''
+import { useAuthContext } from '@/context/auth';
 
 export default function SessionDetails() {
-  const Programe = {
-  name: "Opening Ceremony",
-  date: "May 15, 2023",
-  start_date: "09:00 AM",
-  end_time: "10:30 AM",
-  description: "Welcome address and keynote speeches from event organizers.",
-  location: "Main Hall", 
-  edition: "2023",
-  speakers: [
-    {
-      id: 1,
-      name: "Emma Johnson",
-      role: "Climate Activist",
-      organization: "Green Earth Initiative",
-      image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
-    },
-    {
-      id: 2,
-      name: "David Patel",
-      role: "Tech for Good Lead",
-      organization: "Digital Bridges",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
-    }
-  ],
-  tags: ["Keynote", "Opening", "Welcome"],
-  capacity: 50,
-}
+  //   const Programes = {
+  //   name: "Opening Ceremony",
+  //   date: "May 15, 2023",
+  //   start_date: "09:00 AM",
+  //   end_time: "10:30 AM",
+  //   description: "Welcome address and keynote speeches from event organizers.",
+  //   location: "Main Hall", 
+  //   edition: "2023",
+  //   speakers: [
+  //     {
+  //       id: 1,
+  //       name: "Emma Johnson",
+  //       role: "Climate Activist",
+  //       organization: "Green Earth Initiative",
+  //       image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "David Patel",
+  //       role: "Tech for Good Lead",
+  //       organization: "Digital Bridges",
+  //       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
+  //     }
+  //   ],
+  //   tags: ["Keynote", "Opening", "Welcome"],
+  //   capacity: 50,
+  // }
+  const { user } = useAuthContext();
 
   const [isSaved, setIsSaved] = useState(false);
   const { id } = useLocalSearchParams();
-
-  const [Programes, setPrograme] = useState(null);
+  const [enrolledPrograms, setEnrolledPrograms] = useState([]);
+  const [Programe, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
 
@@ -70,6 +72,41 @@ export default function SessionDetails() {
 
     fetchProgrames();
   }, []);
+
+
+
+  const handleEnroll = async (programId) => {
+    try {
+      const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          programe_id: parseInt(programId),
+          participant_id: user.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 409) {
+        alert(data.message); // Already enrolled
+        setEnrolledPrograms(prev => [...prev, programId]);
+        return;
+      }
+
+      if (response.ok) {
+        alert(data.message || 'Enrolled successfully!');
+        setEnrolledPrograms(prev => [...prev, programId]); // Mark this program as enrolled
+      } else {
+        alert(data.message || 'Failed to enroll.');
+      }
+    } catch (error) {
+      console.error('Enrollment Error:', error);
+      alert('Something went wrong. Try again.');
+    }
+  };
 
   if (loading) {
     return (
@@ -119,7 +156,7 @@ export default function SessionDetails() {
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
           <Text className="text-lg font-semibold text-[#2952a3] mb-3">Speakers</Text>
           <View className="space-y-4">
-            {Programe.speakers?.map(speaker => (
+            {/* {Programe.speakers?.map(speaker => (
               <View key={speaker.id} className="flex-row items-center space-x-4">
                 <Image
                   source={{ uri: speaker.image }}
@@ -131,7 +168,7 @@ export default function SessionDetails() {
                   <Text className="text-xs text-gray-500">{speaker.organization}</Text>
                 </View>
               </View>
-            ))}
+            ))} */}
           </View>
         </View>
 
@@ -139,18 +176,29 @@ export default function SessionDetails() {
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
           <Text className="text-lg font-semibold text-[#2952a3] mb-3">Tags</Text>
           <View className="flex-row flex-wrap gap-2">
-            {Programe.tags?.map((tag, index) => (
+            {/* {Programe.tags?.map((tag, index) => (
               <Text key={index} className="bg-[#2952a3] text-white px-3 py-1 rounded-full text-sm">
                 {tag}
               </Text>
-            ))}
+            ))} */}
           </View>
         </View>
 
         {/* Register Button */}
-        <TouchableOpacity className="bg-[#2952a3] py-4 rounded-lg mt-4">
-          <Text className="text-center text-white text-base font-medium">Register for Session</Text>
-        </TouchableOpacity>
+
+
+
+
+
+        {enrolledPrograms.includes(Programe.id) ? (
+          <View className="bg-[#2952a3] py-4 rounded-lg mt-4">
+            <Text className="text-white text-center font-medium">Enrolled</Text>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={() => handleEnroll(Programe.id)} className="bg-[#2952a3] py-4 rounded-lg mt-4">
+            <Text className="text-center text-white text-base font-medium">Register for Session</Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </View>
   );
