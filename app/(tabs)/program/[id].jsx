@@ -18,7 +18,7 @@ export default function SessionDetails() {
   end_time: "10:30 AM",
   description: "Welcome address and keynote speeches from event organizers.",
   location: "Main Hall", 
-
+  edition: "2023",
   speakers: [
     {
       id: 1,
@@ -94,6 +94,7 @@ export default function SessionDetails() {
         {/* Title Section */}
         <View className="items-center mb-6">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">{Programe.name}</Text>
+          <Text className="text-sm text-gray-600 mb-1">{Programe.edition} Edition</Text>
           <Text className="text-sm text-gray-600 mb-1">{Programe.date} • Day 1</Text>
           <Text className="text-sm text-gray-600">{Programe.start_date} - {Programe.end_time}</Text>
         </View>

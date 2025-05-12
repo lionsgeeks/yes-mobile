@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Navbar from "@/components/navigation/navbar";
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
+import { useAuthContext } from '@/context/auth';
 
 const Programes = [
   {
@@ -29,7 +30,8 @@ const Programes = [
     id: '2',
     name: 'Opening Ceremony',
     description: 'Welcome address and keynote speeches from event organizers.',
-   
+    start_date: '2023-05-15T09:00:00',
+    end_date: '2023-05-15T10:30:00',
     location: 'Main Hall',
     day: 'day1',
     speakers: [
@@ -43,65 +45,106 @@ import { router } from "expo-router"
 
 
 export default function Program() {
+  const { user } = useAuthContext();
   const [searchQuery, setSearchQuery] = useState('');
-   const [Programe, setProgrames] = useState([]);
-    const [error, setError] = useState(null);
+  const [Programe, setProgrames] = useState([]);
+  const [error, setError] = useState(null);
+  const [enrolledPrograms, setEnrolledPrograms] = useState([]);
 
-    useEffect(() => {
-          const fetchProgrames = async () => {
-            try {
-              const response = await fetch(`${APP_URL}/api/programe/create`);
-              
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              const data = await response.json();
-      
-              if (data.programes) {
-                console.log(data.programes);
-                  // console.log(data.data);
-                  
-                setProgrames(data.programes);
-              } else {
-                setError('No programe found.');
-              }
-              
-            } catch (err) {
-              console.error('Fetch Error:', err); 
-              setError(err.message);
-            }
-          };
-      
-          fetchProgrames();
-        }, []);
 
-  const filteredSessions = Programes.filter(session => {
+  useEffect(() => {
+    const fetchProgrames = async () => {
+      try {
+        const response = await fetch(`${APP_URL}/api/programe/create`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        if (data.programes) {
+          console.log(data.programes);
+          // console.log(data.data);
+
+          setProgrames(data.programes);
+        } else {
+          setError('No programe found.');
+        }
+
+      } catch (err) {
+        console.error('Fetch Error:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchProgrames();
+  }, []);
+
+
+
+
+
+  const filteredSessions = Programe.filter(session => {
     const matchesSearch =
       searchQuery === '' ||
       session.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       session.location.toLowerCase().includes(searchQuery.toLowerCase());
-    return  matchesSearch;
+    return matchesSearch;
   });
+
+  const handleEnroll = async (programId) => {
+    try {
+      const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          programe_id: parseInt(programId),
+          participant_id: user.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 409) {
+        alert(data.message); // Already enrolled
+        setEnrolledPrograms(prev => [...prev, programId]);
+        return;
+      }
+
+      if (response.ok) {
+        alert(data.message || 'Enrolled successfully!');
+        setEnrolledPrograms(prev => [...prev, programId]); // Mark this program as enrolled
+      } else {
+        alert(data.message || 'Failed to enroll.');
+      }
+    } catch (error) {
+      console.error('Enrollment Error:', error);
+      alert('Something went wrong. Try again.');
+    }
+  };
+
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 pt-10">
-    {/* Header */}
+      {/* Header */}
 
-            <Navbar title="Program" />
+      <Navbar title="Program" />
 
-            {/* Search */}
-            <View className="px-6 mb-4">
-                <TextInput
-                    placeholder="Search by name..."
-                    placeholderTextColor="#aaa"
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                    className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm"
-                />
-            </View>
+      {/* Search */}
+      <View className="px-6 mb-4">
+        <TextInput
+          placeholder="Search by name..."
+          placeholderTextColor="#aaa"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm"
+        />
+      </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-    
+
 
 
 
@@ -127,6 +170,9 @@ export default function Program() {
                 <Text className="text-gray-600">{session.location}</Text>
               </View>
 
+
+            
+
               {/* {session.speakers.length > 0 && (
                 <View className='flex-row items-center mb-3 gap-x-2'>
                   <View className="flex-row items-center mb-2">
@@ -142,7 +188,21 @@ export default function Program() {
                   </View>
                 </View>
               )} */}
-              {/* <Button title="View Details"  /> */}
+
+              {enrolledPrograms.includes(session.id) ? (
+                <View className="bg-gray-300 px-4 py-2 rounded-lg mt-2">
+                  <Text className="text-white text-center font-medium">Enrolled</Text>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleEnroll(session.id)}
+                  className="bg-green-500 px-4 py-2 rounded-lg mt-2"
+                >
+                  <Text className="text-white text-center font-medium">Enroll</Text>
+                </TouchableOpacity>
+              )}
+
+
             </TouchableOpacity>
           ))}
         </View>
