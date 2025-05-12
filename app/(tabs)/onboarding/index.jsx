@@ -45,7 +45,7 @@ export default function OnboardingScreen() {
             setCurrentSlide(currentSlide + 1)
         } else {
             // TODO: redirect to interests 
-            router.navigate("/");
+            router.navigate("/onboarding/interest");
             setCurrentSlide(0);
         }
     }
@@ -75,8 +75,6 @@ export default function OnboardingScreen() {
                 </View>
 
                 <View className="p-6">
-
-
                     <View className="flex flex-row items-center justify-between">
                         <TouchableOpacity
                             onPress={prevSlide}

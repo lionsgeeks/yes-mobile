@@ -188,7 +188,7 @@ export default function SpeakersScreen() {
             </View>
 
             {/* Year Dropdown */}
-            <View className="px-6 mb-3 ">
+            {/* <View className="px-6 mb-3 ">
                 <TouchableOpacity
                     className="bg-white border border-gray-300 rounded-xl p-3"
                     onPress={() => setDropdownVisible(!dropdownVisible)}
@@ -211,7 +211,7 @@ export default function SpeakersScreen() {
                         ))}
                     </View>
                 )}
-            </View>
+            </View> */}
 
 
             {/* Tag Filter */}

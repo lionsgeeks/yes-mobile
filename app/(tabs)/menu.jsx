@@ -42,33 +42,36 @@ export default function MenuScreen() {
     const { isSignedIn } = useAuthContext();
 
     const topTabs = [
-        // { name: "Home", route: "", icon: "house" },
-        // { name: "Speakers", route: "speakers", icon: "speaker" },
-        // { name: "NGOs", route: "ngos", icon: "business" },
+        { name: "Account", route: "account", icon: "person" },
         { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
-        // { name: "Program", route: "program", icon: "timer" },
-        // { route: "bailleur/bailleur", name: "Funders", icon: "handshake" },
-        // { name: "Program", route: "program", icon: "timer" },
     ]
 
     const middleTabs = [
         { name: "Badge", route: "badge", icon: "badge" },
-        { name: "Chat", route: "chat", icon: "message" },
         { name: "Connect", route: "match", icon: "flame" },
-        { name: "Matches", route: "matches", icon: "flame" },
     ];
 
     const lastTabs = [
         { name: "About", route: "about", icon: "info" },
+        { name: "Terms and Privacy", route: "privacy", icon: "lock" },
         { name: "Settings", route: "settings", icon: "settings" },
+    ]
+
+    const gridTabs = [
         { name: "Account", route: "account", icon: "person" },
+        { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
+        { name: "Badge", route: "badge", icon: "badge" },
+        { name: "Connect", route: "match", icon: "flame" },
+        { name: "About", route: "about", icon: "info" },
+        { name: "Terms and Privacy", route: "privacy", icon: "lock" },
+        { name: "Settings", route: "settings", icon: "settings" },
     ]
 
     return (
         <ScrollView className="h-full bg-white px-6 relative">
             <View className="mt-16"></View>
             <View className="flex flex-row items-center gap-3 mb-4">
-                <Image 
+                <Image
                     source={yeslogo}
                     style={{
                         width: 200,
@@ -83,8 +86,6 @@ export default function MenuScreen() {
                     <MenuItem key={index} name={name} icon={icon} route={route} />
                 ))
             }
-
-            {/* <View className="h-[1px] bg-[#F0F0F2] my-4 " /> */}
 
             {
                 middleTabs.map(({ name, route, icon }, index) => (

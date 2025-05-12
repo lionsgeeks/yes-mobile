@@ -53,14 +53,14 @@ const Sponsors = () => {
   const categories = ["All", "Finance", "Marketing", "Media", "Technology", "Association"];
 
   // TODO: change to sponsors from api
-  // const { sponsors } = useAppContext();
+  const { sponsors } = useAppContext();
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setDropdownVisible(false); // Close the dropdown after selection
   };
 
-  const filteredSponsors = allSponsors?.filter((item) => {
+  const filteredSponsors = sponsors?.filter((item) => {
     return selectedCategory === "all" || item.type === selectedCategory.toLowerCase();
   });
 
@@ -98,8 +98,8 @@ const Sponsors = () => {
             <View key={item.id} className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
               <View className="flex-row items-center mb-4">
                 <Image
-                  source={{ uri: item.image }}
-                  // source={{ uri: api.IMAGE_URL + item.image }}
+                  // source={{ uri: item.image }}
+                  source={{ uri: api.IMAGE_URL + item.image }}
                   style={{
                     width: 70,
                     aspectRatio: 1,

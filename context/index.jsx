@@ -18,6 +18,7 @@ const AppProvider = ({ children }) => {
     const ablyChannel = useRef(null);
     const { user } = useAuthContext()
     const [sponsors, setSponsors] = useState([]);
+    const [interests, setInterests] = useState([]);
 
     //* get participamts from the backend
     const [participants, setParticipants] = useState([])
@@ -83,15 +84,26 @@ const AppProvider = ({ children }) => {
                 setSponsors(receivedSponsors);
             }
         }).catch((err) => {
-            console.log('getting sponsors err', err);
+            console.log('error getting sponsors', err);
         })
     }
 
-    // useEffect(() => {
-    //     // add the other fetches here ?
+    const fetchInterests = () => {
+        api.get('interests').then((res) => {
+            const receivedInterests = res.data.interests;
+            if (receivedInterests) {
+                setInterests(receivedInterests)
+            }
+        }).catch((err) => {
+            console.log('error getting interests', err)
+        })
+    }
 
-    //     fetchSponsors();
-    // }, [])
+    useEffect(() => {
+        // add the other fetches here ?
+        fetchSponsors();
+        fetchInterests();     
+    }, []) 
 
       
     useEffect(() => {
@@ -118,7 +130,8 @@ const AppProvider = ({ children }) => {
         sponsors,
         participants,
         matches,
-        fetchMatches
+        fetchMatches,
+        interests
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;
 };

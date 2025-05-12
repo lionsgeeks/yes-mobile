@@ -5,22 +5,16 @@ import { useState } from "react";
 import { useWindowDimensions, Animated } from "react-native";
 import logo from "../../assets/images/yeslogo.png";
 import hero from "../../assets/images/yes_patterns.png";
-import partner1 from "../../assets/images/partners/Africa_50.jpg";
-import partner2 from "../../assets/images/partners/cnuced.jpeg";
-import partner3 from "../../assets/images/partners/iecd.png";
-import partner4 from "../../assets/images/partners/iom.jpeg";
-import partner5 from "../../assets/images/partners/kamlin.jpeg";
-import partner6 from "../../assets/images/partners/lionsgeek.png";
-import partner7 from "../../assets/images/partners/oit.jpeg";
-import partner8 from "../../assets/images/partners/onusida.jpeg";
-import partner10 from "../../assets/images/partners/unfpa.jpeg";
 import jadara from "../../assets/images/partners/Jadaralogo.png";
 import pan from "../../assets/images/partners/pan.jpeg";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import ShareEvent from "@/components/ShareEvent";
 import Navbar from "@/components/navigation/navbar";
+import { useAppContext } from "@/context";
+import api from "@/api";
 export default function HomeScreen() {
   const { user, imagePath } = useAuthContext();
+  const { sponsors } = useAppContext();
   const navigation = useNavigation();
   const items = [
     {
@@ -107,44 +101,7 @@ export default function HomeScreen() {
       year: 2024,
     },
   ];
-  const partners = [
-    {
-      name: "Lionsgeek",
-      image: partner6,
-    },
-    {
-      name: "Africa 50",
-      image: partner1,
-    },
-    {
-      name: "CNUCED",
-      image: partner2,
-    },
-    {
-      name: "IECD",
-      image: partner3,
-    },
-    {
-      name: "IOM",
-      image: partner4,
-    },
-    {
-      name: "Kamlin",
-      image: partner5,
-    },
-    {
-      name: "OIT",
-      image: partner7,
-    },
-    {
-      name: "ONUSIDA",
-      image: partner8,
-    },
-    {
-      name: "UNFPA",
-      image: partner10,
-    },
-  ];
+
   const sessions = [
     {
       title: "SOURCES OF FUNDING: BRINGING YOUR PROJECT TO LIFE",
@@ -336,28 +293,34 @@ export default function HomeScreen() {
           </View>
         </View>
         {/* partners */}
-        <View className="px-6">
-          <Text className="text-xl font-bold text-alpha">Our Partners</Text>
-          <View className="flex flex-row py-6 flex-wrap w-full ">
-            {partners.map((partner, index) => (
-              <View
-                key={index}
-                className="bg-white rounded-lg p-3 "
-                style={{
-                  elevation: 3,
-                  width: "30%",
-                  marginLeft: index % 3 ? 16 : 0,
-                  marginBottom: 16,
-                }}
-              >
-                <Image
-                  source={partner.image}
-                  style={{ width: 80, height: 60, resizeMode: "contain" }}
-                />
+        {
+          sponsors?.length > 0 && (
+            <Pressable 
+            onPress={() => {router.push('/sponsors/sponsors')}}
+            className="px-6">
+              <Text className="text-xl font-bold text-alpha">Our Partners</Text>
+              <View className="flex flex-row py-6 flex-wrap w-full ">
+                {sponsors.map((partner, index) => (
+                  <View
+                    key={index}
+                    className="bg-white rounded-lg p-3 "
+                    style={{
+                      elevation: 3,
+                      width: "30%",
+                      marginLeft: index % 3 ? 16 : 0,
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Image
+                      source={{ uri: api.IMAGE_URL + partner.image }}
+                      style={{ width: 80, height: 60, resizeMode: "contain" }}
+                    />
+                  </View>
+                ))}
               </View>
-            ))}
-          </View>
-        </View>
+            </Pressable>
+          )
+        }
       </Animated.ScrollView>
     </View>
   );
