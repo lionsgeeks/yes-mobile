@@ -20,7 +20,8 @@ const AppProvider = ({ children }) => {
     const [sponsors, setSponsors] = useState([]);
     const [interests, setInterests] = useState([]);
     const [speakers, setSpeakers] = useState([]);
-
+    const [badge, setBadge] = useState([]);
+    const [Programe, setPrograme] = useState([]);
     //* get participamts from the backend
     const [participants, setParticipants] = useState([])
     // console.log(user.id);
@@ -55,6 +56,7 @@ const AppProvider = ({ children }) => {
         useCallback(() => {
             fetchParticipants();
             fetchMatches();
+            fetchBadge
         }, [user?.id])
     )
     // useEffect(() => {
@@ -88,7 +90,31 @@ const AppProvider = ({ children }) => {
             console.log('error getting sponsors', err);
         })
     }
+    
 
+    const fetchBadge = () => {
+        api.get(`qrcodes/${user?.id}`).then((res) => {
+            const receivedBadge = res.data.badge;
+            console.log(receivedBadge);
+            
+            if (receivedBadge) {
+                setBadge(receivedBadge);
+            }
+        }).catch((err) => {
+            console.log('error getting badge', err);
+        })
+    }
+
+    const fetchPrograme = () => {
+        api.get('programe/create').then((res) => {
+            const receivedPrograme = res.data.programes;
+            if (receivedPrograme) {
+                setPrograme(receivedPrograme);
+            }
+        }).catch((err) => {
+            console.log('error getting programe', err);
+        })
+    }
     const fetchSpeakers = () => {
         api.get('speakers').then((res) => {
             const receivedSpeakers = res.data.speakers;
@@ -115,7 +141,9 @@ const AppProvider = ({ children }) => {
         // add the other fetches here ?
         fetchSponsors();
         fetchInterests(); 
-        fetchSpeakers();    
+        fetchSpeakers();  
+        fetchBadge();
+        fetchPrograme();
     }, []) 
 
       
@@ -146,6 +174,8 @@ const AppProvider = ({ children }) => {
         fetchMatches,
         interests,
         speakers,
+        badge,
+        Programe,
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;
 };
