@@ -1,9 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Alert, useColorScheme } from "react-native";
-import { cleanupAbly, connectAbly, setupAbly } from "@/utils/ably";
+import {  useColorScheme } from "react-native";
+import { cleanupAbly, setupAbly } from "@/utils/ably";
 import { useAuthContext } from "./auth";
 import api from "@/api";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "expo-router";
 
 const appContext = createContext();
 
@@ -11,9 +11,8 @@ const AppProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
     const [language, setLanguage] = useState("en");
     const [loading, setLoading] = useState(false);
-    const [matches, setMatches] = useState([]);
     
-
+    
     const ablyClient = useRef(null);
     const ablyChannel = useRef(null);
     const { user } = useAuthContext()
@@ -26,28 +25,18 @@ const AppProvider = ({ children }) => {
     const [participants, setParticipants] = useState([])
     // console.log(user.id);
     
+    const [matches, setMatches] = useState([]);
+    const [allParticipants, setAllParticipants] = useState([]);
+
+
     const fetchParticipants = async () => {
         try {
             setLoading(true)
-            const response = await  api.get('participants/?auth=' + user?.id)
+            const response = await api.get('participants/?auth=' + user?.id)
             setParticipants(response.data.participants)
         } catch (error) {
             console.error("❌ Failed to fetch participants:", error);
-        } finally{
-            setLoading(false)  
-        }
-    }
-    
-    const fetchMatches = async () => {
-        try {
-            setLoading(true)
-            const response = await  api.get('participants/matches/?auth=' + user?.id)
-            setMatches(response.data.matches)
-            // console.log(response.data);
-            
-        } catch (error) {
-            console.error("❌ Failed to fetch matches:", error);
-        } finally{
+        } finally {
             setLoading(false)
         }
     }
@@ -79,6 +68,28 @@ const AppProvider = ({ children }) => {
     //     });
     //   }, [user?.id]);
     
+
+    const fetchMatches = async () => {
+        try {
+            setLoading(true)
+            const response = await api.get('participants/matches/?auth=' + user?.id)
+            setMatches(response.data.matches)
+
+        } catch (error) {
+            console.error("❌ Failed to fetch matches:", error);
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const fetchAllParticipants = () => {
+        api.get('participants/all').then((res) => {
+            const allParts = res.data.participants;
+            if (allParts) {
+                setAllParticipants(allParts);
+            }
+        })
+    }
 
     const fetchSponsors = () => {
         api.get('sponsors').then((res) => {
@@ -137,8 +148,15 @@ const AppProvider = ({ children }) => {
         })
     }
 
+    const initialize = async () => {
+        await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
+    };
+
     useEffect(() => {
         // add the other fetches here ?
+        fetchAllParticipants();
+        fetchParticipants();
+        fetchMatches();
         fetchSponsors();
         fetchInterests(); 
         fetchSpeakers();  
@@ -153,13 +171,14 @@ const AppProvider = ({ children }) => {
             await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
         };
 
+        fetchSpeakers();    
+        fetchInterests(); 
+        
         initialize();
-
         return () => {
-
             cleanupAbly(ablyClient, ablyChannel)
         };
-    }, [user?.id]);
+    }, [user?.id]) 
 
 
 
@@ -176,6 +195,7 @@ const AppProvider = ({ children }) => {
         speakers,
         badge,
         Programe,
+        allParticipants,
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;
 };

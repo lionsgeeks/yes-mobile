@@ -34,7 +34,7 @@ export default function Card({ user, onSkip, onConnect }) {
             >
 
               <Text className="absolute top-2 right-3 bg-beta text-white rounded-full px-4 py-1">{user.role}</Text>
-              <View className="absolute bottom-0 right-1 p-4">
+              <View className="absolute bottom-0 right-100 p-4">
 
                 <Text className="text-2xl font-semibold text-white">{user.name}</Text>
                 <View style={styles.interestContainer}>
@@ -52,7 +52,7 @@ export default function Card({ user, onSkip, onConnect }) {
             className="flex-row items-center justify-around my-4"
           >
             <TouchableOpacity
-              className="bg-beta p-4 w-[30%] border border-gray-300 rounded-lg flex-row"
+              className="bg-beta p-4 w-[35%] border border-gray-300 rounded-lg flex-row"
               onPress={onSkip}
             >
               <Icon.Cross color="white" size={28} />
@@ -60,7 +60,7 @@ export default function Card({ user, onSkip, onConnect }) {
             </TouchableOpacity>
             <TouchableOpacity
 
-              className="bg-alpha p-4 w-[60%] border border-gray-300 rounded-lg flex-row items-center justify-center"
+              className="bg-alpha p-4 w-[65%] border border-gray-300 rounded-lg flex-row items-center justify-center"
               onPress={onConnect}
             >
               <Icon.Heart color="#fff" size={28} />

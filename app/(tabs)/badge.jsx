@@ -1,50 +1,12 @@
-import { useAuthContext } from '@/context/auth';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
-const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
+
 
 export default function Badge() {
-    const { user } = useAuthContext();
-    // const [qrcode, setQrcode] = useState([]);
-    // const [error, setError] = useState(null);
-  const { badge } = useAppContext();
-
-    // useEffect(() => {
-    //     const fetchQRCodes = async () => {
-    //         try {
-    //             const response = await fetch(`${APP_URL}/api/qrcodes/${user.id}`);
-    //             // console.log(`${APP_URL}/api/qrcodes/${user.id}`);
-                
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! status: ${response.status}`);
-    //             }
-    //             const data = await response.json();
-    //             // console.log(data.data);
-                
-    //             if (data.data) {
-                    
-    //                 // console.log(data.data);
-    //                 setQrcode(data.data);
-    //                 // console.log(qrcode);
-                    
-    //             } else {
-    //                 setError('No QR codes found.');
-    //             }
-
-    //         } catch (err) {
-    //             console.error('Fetch Error:', err);
-    //             setError(err.message);
-    //         }
-    //     };
-
-    //     fetchQRCodes();
-    // }, []);
-
-
-console.log(badge);
+    const { badge } = useAppContext();
 
 
 

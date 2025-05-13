@@ -42,7 +42,6 @@ export default function SessionDetails() {
   // }
   const { user } = useAuthContext();
 
-  const [isSaved, setIsSaved] = useState(false);
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
   const [Programe, setPrograme] = useState(null);
