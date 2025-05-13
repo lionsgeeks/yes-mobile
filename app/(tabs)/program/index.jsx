@@ -10,46 +10,43 @@ import {
 } from 'react-native';
 import Navbar from "@/components/navigation/navbar";
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
-import { useAuthContext } from '@/context/auth';
 
-// const Programes = [
-//   {
-//     id: '1',
-//     name: 'Opening Ceremony',
-//     description: 'Welcome address and keynote speeches from event organizers.',
-//     start_date: '2023-05-15T09:00:00',
-//     end_date: '2023-05-15T10:30:00',
-//     location: 'Main Hall',
-//     day: 'day1',
-//     speakers: [
-//       { id: '1', name: 'Emma Johnson' },
-//       { id: '2', name: 'David Patel' },
-//     ],
-//   },
-//   {
-//     id: '2',
-//     name: 'Opening Ceremony',
-//     description: 'Welcome address and keynote speeches from event organizers.',
-//     start_date: '2023-05-15T09:00:00',
-//     end_date: '2023-05-15T10:30:00',
-//     location: 'Main Hall',
-//     day: 'day1',
-//     speakers: [
-//       { id: '1', name: 'Emma Johnson' },
-//       { id: '2', name: 'David Patel' },
-//     ],
-//   },
+const Programe = [
+  {
+    id: 1,
+    name: 'Opening Ceremony',
+    description: 'Welcome address and keynote speeches from event organizers.',
+    start_date: '09:00',
+    end_date: '10:30',
+    location: 'Main Hall',
+    day: 'day1',
+    speakers: [
+      { id: '1', name: 'Emma Johnson' },
+      { id: '2', name: 'David Patel' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Opening Ceremony',
+    description: 'Welcome address and keynote speeches from event organizers.',
+    start_date: '09:00',
+    end_date: '10:30',
+    location: 'Main Hall',
+    day: 'day1',
+    speakers: [
+      { id: '1', name: 'Emma Johnson' },
+      { id: '2', name: 'David Patel' },
+    ],
+  },
 
-// ];
+];
 import { router } from "expo-router"
 
 
 export default function Program() {
-  const { user } = useAuthContext();
   const [searchQuery, setSearchQuery] = useState('');
-  const [Programe, setProgrames] = useState([]);
+  const [Programes, setProgrames] = useState([]);
   const [error, setError] = useState(null);
-  const [enrolledPrograms, setEnrolledPrograms] = useState([]);
 
 
   useEffect(() => {
@@ -92,38 +89,7 @@ export default function Program() {
     return matchesSearch;
   });
 
-  const handleEnroll = async (programId) => {
-    try {
-      const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          programe_id: parseInt(programId),
-          participant_id: user.id,
-        }),
-      });
 
-      const data = await response.json();
-
-      if (response.status === 409) {
-        alert(data.message); // Already enrolled
-        setEnrolledPrograms(prev => [...prev, programId]);
-        return;
-      }
-
-      if (response.ok) {
-        alert(data.message || 'Enrolled successfully!');
-        setEnrolledPrograms(prev => [...prev, programId]); // Mark this program as enrolled
-      } else {
-        alert(data.message || 'Failed to enroll.');
-      }
-    } catch (error) {
-      console.error('Enrollment Error:', error);
-      alert('Something went wrong. Try again.');
-    }
-  };
 
 
   return (
@@ -171,7 +137,7 @@ export default function Program() {
               </View>
 
 
-            
+
 
               {/* {session.speakers.length > 0 && (
                 <View className='flex-row items-center mb-3 gap-x-2'>
@@ -189,18 +155,6 @@ export default function Program() {
                 </View>
               )} */}
 
-              {/* {enrolledPrograms.includes(session.id) ? (
-                <View className="bg-gray-300 px-4 py-2 rounded-lg mt-2">
-                  <Text className="text-white text-center font-medium">Enrolled</Text>
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => handleEnroll(session.id)}
-                  className="bg-green-500 px-4 py-2 rounded-lg mt-2"
-                >
-                  <Text className="text-white text-center font-medium">Enroll</Text>
-                </TouchableOpacity>
-              )} */}
 
 
             </TouchableOpacity>

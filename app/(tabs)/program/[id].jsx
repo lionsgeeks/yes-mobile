@@ -12,39 +12,40 @@ import { useLocalSearchParams } from 'expo-router'; ''
 import { useAuthContext } from '@/context/auth';
 
 export default function SessionDetails() {
-  //   const Programes = {
-  //   name: "Opening Ceremony",
-  //   date: "May 15, 2023",
-  //   start_date: "09:00 AM",
-  //   end_time: "10:30 AM",
-  //   description: "Welcome address and keynote speeches from event organizers.",
-  //   location: "Main Hall", 
-  //   edition: "2023",
-  //   speakers: [
-  //     {
-  //       id: 1,
-  //       name: "Emma Johnson",
-  //       role: "Climate Activist",
-  //       organization: "Green Earth Initiative",
-  //       image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "David Patel",
-  //       role: "Tech for Good Lead",
-  //       organization: "Digital Bridges",
-  //       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
-  //     }
-  //   ],
-  //   tags: ["Keynote", "Opening", "Welcome"],
-  //   capacity: 50,
-  // }
+  const Programe = {
+    id: 1,
+    name: "Opening Ceremony",
+    date: "May 15, 2023",
+    start_date: "09:00 AM",
+    end_time: "10:30 AM",
+    description: "Welcome address and keynote speeches from event organizers.",
+    location: "Main Hall",
+    edition: "2023",
+    speakers: [
+      {
+        id: 1,
+        name: "Emma Johnson",
+        role: "Climate Activist",
+        organization: "Green Earth Initiative",
+        image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
+      },
+      {
+        id: 2,
+        name: "David Patel",
+        role: "Tech for Good Lead",
+        organization: "Digital Bridges",
+        image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
+      }
+    ],
+    tags: ["Keynote", "Opening", "Welcome"],
+    capacity: 50,
+  }
   const { user } = useAuthContext();
 
   const [isSaved, setIsSaved] = useState(false);
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
-  const [Programe, setPrograme] = useState(null);
+  const [Programes, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
 
@@ -131,7 +132,7 @@ export default function SessionDetails() {
         {/* Title Section */}
         <View className="items-center mb-6">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">{Programe.name}</Text>
-          <Text className="text-sm text-gray-600 mb-1">{Programe.edition} Edition</Text>
+          {/* <Text className="text-sm text-gray-600 mb-1">{Programe.edition} Edition</Text> */}
           <Text className="text-sm text-gray-600 mb-1">{Programe.date} • Day 1</Text>
           <Text className="text-sm text-gray-600">{Programe.start_date} - {Programe.end_time}</Text>
         </View>
@@ -156,7 +157,7 @@ export default function SessionDetails() {
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
           <Text className="text-lg font-semibold text-[#2952a3] mb-3">Speakers</Text>
           <View className="space-y-4">
-            {/* {Programe.speakers?.map(speaker => (
+            {Programe.speakers?.map(speaker => (
               <View key={speaker.id} className="flex-row items-center space-x-4">
                 <Image
                   source={{ uri: speaker.image }}
@@ -168,21 +169,11 @@ export default function SessionDetails() {
                   <Text className="text-xs text-gray-500">{speaker.organization}</Text>
                 </View>
               </View>
-            ))} */}
+            ))}
           </View>
         </View>
 
-        {/* Tags */}
-        <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">Tags</Text>
-          <View className="flex-row flex-wrap gap-2">
-            {/* {Programe.tags?.map((tag, index) => (
-              <Text key={index} className="bg-[#2952a3] text-white px-3 py-1 rounded-full text-sm">
-                {tag}
-              </Text>
-            ))} */}
-          </View>
-        </View>
+
 
         {/* Register Button */}
 
