@@ -11,41 +11,41 @@ import {
 import Navbar from "@/components/navigation/navbar";
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
-const Programe = [
-  {
-    id: 1,
-    name: 'Opening Ceremony',
-    description: 'Welcome address and keynote speeches from event organizers.',
-    start_date: '09:00',
-    end_date: '10:30',
-    location: 'Main Hall',
-    day: 'day1',
-    speakers: [
-      { id: '1', name: 'Emma Johnson' },
-      { id: '2', name: 'David Patel' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Opening Ceremony',
-    description: 'Welcome address and keynote speeches from event organizers.',
-    start_date: '09:00',
-    end_date: '10:30',
-    location: 'Main Hall',
-    day: 'day1',
-    speakers: [
-      { id: '1', name: 'Emma Johnson' },
-      { id: '2', name: 'David Patel' },
-    ],
-  },
+// const Programes = [
+//   {
+//     id: 1,
+//     name: 'Opening Ceremony',
+//     description: 'Welcome address and keynote speeches from event organizers.',
+//     start_date: '09:00',
+//     end_date: '10:30',
+//     location: 'Main Hall',
+//     day: 'day1',
+//     speakers: [
+//       { id: '1', name: 'Emma Johnson' },
+//       { id: '2', name: 'David Patel' },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: 'Opening Ceremony',
+//     description: 'Welcome address and keynote speeches from event organizers.',
+//     start_date: '09:00',
+//     end_date: '10:30',
+//     location: 'Main Hall',
+//     day: 'day1',
+//     speakers: [
+//       { id: '1', name: 'Emma Johnson' },
+//       { id: '2', name: 'David Patel' },
+//     ],
+//   },
 
-];
+// ];
 import { router } from "expo-router"
 
 
 export default function Program() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [Programes, setProgrames] = useState([]);
+  const [Programe, setProgrames] = useState([]);
   const [error, setError] = useState(null);
 
 

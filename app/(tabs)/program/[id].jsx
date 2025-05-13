@@ -12,67 +12,71 @@ import { useLocalSearchParams } from 'expo-router'; ''
 import { useAuthContext } from '@/context/auth';
 
 export default function SessionDetails() {
-  const Programe = {
-    id: 1,
-    name: "Opening Ceremony",
-    date: "May 15, 2023",
-    start_date: "09:00 AM",
-    end_time: "10:30 AM",
-    description: "Welcome address and keynote speeches from event organizers.",
-    location: "Main Hall",
-    edition: "2023",
-    speakers: [
-      {
-        id: 1,
-        name: "Emma Johnson",
-        role: "Climate Activist",
-        organization: "Green Earth Initiative",
-        image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
-      },
-      {
-        id: 2,
-        name: "David Patel",
-        role: "Tech for Good Lead",
-        organization: "Digital Bridges",
-        image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
-      }
-    ],
-    tags: ["Keynote", "Opening", "Welcome"],
-    capacity: 50,
-  }
+  // const Programes = {
+  //   id: 1,
+  //   name: "Opening Ceremony",
+  //   date: "May 15, 2023",
+  //   start_date: "09:00 AM",
+  //   end_time: "10:30 AM",
+  //   description: "Welcome address and keynote speeches from event organizers.",
+  //   location: "Main Hall",
+  //   edition: "2023",
+  //   speakers: [
+  //     {
+  //       id: 1,
+  //       name: "Emma Johnson",
+  //       role: "Climate Activist",
+  //       organization: "Green Earth Initiative",
+  //       image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "David Patel",
+  //       role: "Tech for Good Lead",
+  //       organization: "Digital Bridges",
+  //       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
+  //     }
+  //   ],
+  //   tags: ["Keynote", "Opening", "Welcome"],
+  //   capacity: 50,
+  // }
   const { user } = useAuthContext();
 
   const [isSaved, setIsSaved] = useState(false);
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
-  const [Programes, setPrograme] = useState(null);
+  const [Programe, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
 
   useEffect(() => {
-    const fetchProgrames = async () => {
-      try {
-        const response = await fetch(`${APP_URL}/api/programe/${id}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+  const fetchProgrames = async () => {
+    setLoading(true);
 
-        if (data.programe) {
-          setPrograme(data.programe);
-        } else {
-          setError("No programe found.");
-        }
-      } catch (err) {
-        console.error("Fetch Error:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+    try {
+      const response = await fetch(`${APP_URL}/api/programe/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const data = await response.json();
 
+      if (data.programe) {
+        setPrograme(data.programe);
+      } else {
+        setError("No programe found.");
+      }
+    } catch (err) {
+      console.error("Fetch Error:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (id) {
     fetchProgrames();
-  }, []);
+  }
+}, [id]); 
 
 
 
@@ -109,6 +113,34 @@ export default function SessionDetails() {
     }
   };
 
+
+  const handlcancelEnroll = async (programId) => {
+    try {
+      const response = await fetch(`${APP_URL}/api/programe/enrolleddelete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          programe_id: parseInt(programId),
+          participant_id: user.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message || 'Enrollment cancelled successfully!');
+        setEnrolledPrograms(prev => prev.filter(id => id !== programId)); // Remove this program from enrolled list
+      } else {
+        alert(data.message || 'Failed to cancel enrollment.');
+      }
+    } catch (error) {
+      console.error('Cancellation Error:', error);
+      alert('Something went wrong. Try again.');
+    }
+  }
+
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-50">
@@ -132,7 +164,7 @@ export default function SessionDetails() {
         {/* Title Section */}
         <View className="items-center mb-6">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">{Programe.name}</Text>
-          {/* <Text className="text-sm text-gray-600 mb-1">{Programe.edition} Edition</Text> */}
+          <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text>
           <Text className="text-sm text-gray-600 mb-1">{Programe.date} • Day 1</Text>
           <Text className="text-sm text-gray-600">{Programe.start_date} - {Programe.end_time}</Text>
         </View>
@@ -182,9 +214,9 @@ export default function SessionDetails() {
 
 
         {enrolledPrograms.includes(Programe.id) ? (
-          <View className="bg-[#2952a3] py-4 rounded-lg mt-4">
-            <Text className="text-white text-center font-medium">Enrolled</Text>
-          </View>
+          <TouchableOpacity onPress={() => handlcancelEnroll(Programe.id)} className="bg-[#2952a3] py-4 rounded-lg mt-4">
+            <Text className="text-white text-center font-medium">Cancel your register</Text>
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={() => handleEnroll(Programe.id)} className="bg-[#2952a3] py-4 rounded-lg mt-4">
             <Text className="text-center text-white text-base font-medium">Register for Session</Text>
