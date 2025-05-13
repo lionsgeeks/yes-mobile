@@ -4,7 +4,7 @@ import { COLORS } from "../../constants/themes";
 export const Heart = ({ color = "dark", size, width, height, active }) => {
   return (
     <Svg
-      fill={COLORS[color]}
+      fill={color}
       width={width ?? size ?? 26}
       height={height ?? size ?? 26}
       xmlns="http://www.w3.org/2000/svg"

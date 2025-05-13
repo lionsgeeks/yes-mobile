@@ -1,7 +1,6 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React, { useEffect, useState } from "react";
-import Card from "../../components/Card/Card";
-import users from "@/assets/data/users";
+import Card from "../../../components/Card/Card";
 import { Link } from "expo-router";
 import { useAppContext } from "@/context";
 import { useAuthContext } from "@/context/auth";
@@ -46,40 +45,20 @@ export default function Match() {
 
   return (
     <>
-    <View className="h-screen bg-white pt-10">
-      <Navbar title="Connect" />
-      <Text style={ styles.title}>Selection For You</Text>
-      <View style={styles.pageContainer}>
-        {/* <Link href='/(tabs)/matches' style={styles.link}>See Matches</Link> */}
-        <Card
-          user={userList[currentIndex]}
-          onSkip={() => handleAction("skip")}
-          onConnect={() => handleAction("connect")}
-        />
+      <View className="h-screen bg-white pt-10">
+        <Navbar title="Connect" />
+        {/* <Text>Selection For You</Text> */}
+        <View className="items-center my-3">
+          <Card
+            user={userList[currentIndex]}
+            onSkip={() => handleAction("skip")}
+            onConnect={() => handleAction("connect")}
+          />
+        </View>
+
       </View>
-      
-    </View>
-   
+
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  pageContainer: {
-    // justifyContent: "center",
-    marginVertical: 15,
-    alignItems: "center",
-    // flex: 1,
-    // height: '80%',
-    // backgroundColor: 'red'
-  },
-  
-  title: {
-    marginHorizontal: 10,
-    fontSize: 30,
-    textAlign: 'center',
-    fontWeight: '700',
-    color: '#2e539d'
-
-  }
-});

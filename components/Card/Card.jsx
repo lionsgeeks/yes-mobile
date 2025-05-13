@@ -9,10 +9,12 @@ import {
 import React from "react";
 import { IconSymbol } from "../ui/IconSymbol";
 import { Link } from "expo-router";
+import { Icon } from "@/constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Card({ user, onSkip, onConnect }) {
-  // #0f2c6435
-  // bg-[#e0be25af]
+
+
   return (
     <>
       {user ? (
@@ -24,48 +26,51 @@ export default function Card({ user, onSkip, onConnect }) {
             style={styles.image}
             className="border-r-8  border-beta"
           >
-            <View className="bg-[#0f2c6435] w-[90%] mb-[10px] rounded-xl">
-              <View style={styles.cardInner}>
-                <Text style={styles.name}>{user.name}</Text>
-                <Text style={styles.bio}>{user.description}</Text>
+            <LinearGradient
+              colors={['transparent', 'transparent', '#24427D']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              className="h-full relative w-full" 
+            >
+
+              <Text className="absolute top-2 right-3 bg-beta text-white rounded-full px-4 py-1">{user.role}</Text>
+              <View className="absolute bottom-0 right-1 p-4">
+
+                <Text className="text-2xl font-semibold text-white">{user.name}</Text>
+                <View style={styles.interestContainer}>
+                  {user.interests.map((int, index) => (
+                    <Text key={index} className="bg-beta px-2 rounded-full py-1 text-white">
+                      {int[0].toUpperCase() + int.slice(1)}
+                    </Text>
+                  ))}
+                </View>
               </View>
-              <View style={styles.interestContainer}>
-                {user.interests.map((ing, index) => (
-                  <Text key={index} style={styles.interest}>
-                    {ing}
-                  </Text>
-                ))}
-              </View>
-            </View>
+            </LinearGradient>
           </ImageBackground>
 
           <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginTop: 20,
-            }}
+            className="flex-row items-center justify-around my-4"
           >
             <TouchableOpacity
-              style={[styles.Button, styles.skipButton]}
+              className="bg-beta p-4 w-[30%] border border-gray-300 rounded-lg flex-row"
               onPress={onSkip}
             >
-              <IconSymbol size={28} name="star" color={"white"} />
-              {/* <Text className="text-white  text-[18px]">Skip</Text> */}
+              <Icon.Cross color="white" size={28} />
+              <Text className="text-white text-xl font-bold ml-3">Skip</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.Button, styles.connectButton]}
+
+              className="bg-alpha p-4 w-[60%] border border-gray-300 rounded-lg flex-row items-center justify-center"
               onPress={onConnect}
             >
-              <IconSymbol size={28} name="star" color={"#fff"} />
-              <Text className="text-white text-[18px] font-bold">Connect</Text>
+              <Icon.Heart color="#fff" size={28} />
+              <Text className="text-white text-xl font-bold ml-3">Connect</Text>
             </TouchableOpacity>
           </View>
-          <View className="mx-4 py-3 rounded-xl mt-2 justify-center bg-[#2e539d] items-center ">
-            <Link href="/(tabs)/matches" style={styles.link}>
-              See Matches
-            </Link>
-          </View>
+
+          {/* <Link href="/(tabs)/matches" className="mx-4 py-3 text-lg rounded-xl mt-2 text-white bg-[#2e539d] text-center ">
+            See Your Matches
+          </Link> */}
         </View>
       ) : (
         <View
@@ -84,26 +89,15 @@ export default function Card({ user, onSkip, onConnect }) {
 const styles = StyleSheet.create({
   card: {
     width: "90%",
-    height: "80%",
+    height: "87%",
     borderRadius: 30,
     backgroundColor: "#fefefe",
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.36,
-    shadowRadius: 6.68,
-
-    elevation: 11,
   },
   image: {
     width: "100%",
     height: "100%",
     borderRadius: 10,
     overflow: "hidden",
-    // justifyContent: 'center',
     alignItems: "center",
 
     justifyContent: "flex-end",
@@ -113,13 +107,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 30,
-    // color: "white",
     fontWeight: "bold",
   },
   bio: {
     fontSize: 18,
     color: "#2C2929",
-    //  color: '#002d553f',
     lineHeight: 25,
   },
   interest: {
@@ -149,17 +141,12 @@ const styles = StyleSheet.create({
   skipButton: {
     paddingHorizontal: 10,
     paddingVertical: 10,
-    // width: 60,
-    // height: 60,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     borderRadius: '50%',
     backgroundColor: "red",
   },
   connectButton: {
     paddingHorizontal: 40,
     backgroundColor: "#b09417",
-    // borderColor: 'black'
   },
   shadow: {
     shadowColor: "#000",

@@ -8,7 +8,7 @@ import { useAuthContext } from "@/context/auth";
 
 export const SignOutButton = () => {
   const { language } = useAppContext();
-  const { setIsSignedIn, setToken} = useAuthContext();
+  const { setIsSignedIn, setToken } = useAuthContext();
 
   const handleSignOut = async () => {
     try {
@@ -16,7 +16,7 @@ export const SignOutButton = () => {
       setIsSignedIn(false);
       setToken(''); // idk just in case
       router.replace("/(tabs)/sign-in");
-    
+
     } catch (err) {
       console.error('sign out error', err);
     }
@@ -25,26 +25,19 @@ export const SignOutButton = () => {
   return (
     <Pressable
       onPress={handleSignOut}
-      className={`justify-between items-center my-1 ${language == "ar" ? "flex-row-reverse" : "flex-row"
-        }`}
+      className="w-[45%] h-[19%] flex flex-col items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-red-500"
     >
       <View
         className={` items-center gap-2 ${language == "ar" ? "flex-row-reverse" : "flex-row"
           }`}
       >
-        <View className="bg-[#FBFBFD] border border-[#F0F0F2] rounded-2xl p-2.5">
-          <IconSymbol size={28} name="key" color={"#ef4444"} />
-        </View>
+        {/* <View className="bg-[#FBFBFD] border border-[#F0F0F2] rounded-2xl p-2.5"> */}
+        <IconSymbol size={28} name="key" color={"#ef4444"} />
+        {/* </View> */}
 
         <Text className="text-red-500">Logout</Text>
       </View>
 
-      <Icon.Arrow
-        stroke={2}
-        size={22}
-        color={"dark"}
-        rotate={language == "ar" ? 0 : 180}
-      />
     </Pressable>
   );
 };
