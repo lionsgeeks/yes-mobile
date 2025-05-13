@@ -16,7 +16,7 @@ export default function Navbar({ title = "Screen" }) {
         <View className="flex-row items-center justify-between px-6 py-4  ">
             {/* Left: Home Button */}
             <Pressable
-                onPress={() => { router.push('/account') }}
+                onPress={() => { router.push('/menu') }}
             >
                 <Image
                     source={{ uri: imageURL }}

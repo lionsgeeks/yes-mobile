@@ -36,6 +36,16 @@ export default function HomeScreen() {
       href: "/speakers",
     },
     {
+      icon: "person-outline",
+      label: "Speakers",
+      href: "/speakers",
+    },
+    {
+      icon: "person-outline",
+      label: "Speakers",
+      href: "/speakers",
+    },
+    {
       icon: "calendar-outline",
       label: "Program",
       href: "/program",
@@ -201,15 +211,41 @@ export default function HomeScreen() {
         {/* quick actions */}
         <View className="flex-row flex-wrap justify-around py-5 bg-beta h-fit rounded-b-3xl">
           {items.map((item, index) => (
-            <TouchableOpacity onPress={() => router.push(item.href)} key={index} className="justify-center bg-alpha w-[45%] mb-5 h-[15vh] rounded items-center ">
+            <TouchableOpacity onPress={() => router.push(item.href)} key={index} className="justify-center bg-alpha w-[28%] mb-5 h-[12vh] rounded-xl items-center ">
               <View className="rounded flex justify-center items-center">
-                <Ionicons name={item.icon} color="#ffffff" size={40} />
+                <Ionicons name={item.icon} color="#ffffff" size={30} />
               </View>
-              <Text className="text-white/90 text-md font-bold">
+              <Text className="text-white/90 mt-3 text-md font-bold">
                 {item.label}
               </Text>
             </TouchableOpacity>
           ))}
+        </View>
+        
+
+        {/* orgnazires */}
+        <View className="px-6 py-6">
+          <Text className="text-xl font-bold text-alpha">Organizers</Text>
+          <View className="flex py-6 flex-row justify-between w-full ">
+            {organizres.map((organizre, index) => (
+              <View
+                key={index}
+                className="bg-white justify-center items-center rounded-lg p-3 m-2 "
+                style={{
+                  elevation: 3,
+                  width: "45%",
+                  // marginLeft: index % 2 ? 16 : 0,
+                  marginBottom: 16,
+                }}
+              >
+                <Image
+                  source={organizre.image}
+                  className="w-32 h-32 "
+                  style={{ resizeMode: "contain" }}
+                />
+              </View>
+            ))}
+          </View>
         </View>
         {/* <ShareEvent imagePath={imagePath}/> */}
         {/* speakers */}
@@ -254,80 +290,8 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         )}
-        {/* highlights */}
-        <View className="px-6">
-          <View className="flex-row items-center justify-between">
-            <Text className="text-xl font-bold text-alpha">
-              Today's Highlights
-            </Text>
-            <TouchableOpacity>
-              <Text
-                className="text-alpha"
-                style={{ textDecorationLine: "underline" }}
-              >
-                View all
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View className="py-4">
-            {sessions.map((session, index) => (
-              <TouchableOpacity
-                key={index}
-                className="bg-white rounded-lg p-3 m-2 mb-4 "
-              >
-                <View className="bg-beta w-2 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
-                <View className="flex flex-row items-center gap-4 mb-2">
-                  <View className="px-2 py-1">
-                    <View className="flex-row items-center ">
-                      <Text className="text-black mr-2">⏰</Text>
-                      <Text className="text-black">
-                        {session.time.start} - {session.time.end}
-                      </Text>
-                    </View>
-                    <Text className="text-md pt-3 font-bold ">
-                      {session.title}
-                    </Text>
-                  </View>
-                </View>
-                <View className="flex-row items-start">
-                  <Text className="text-alpha mr-2 mt-1">📍</Text>
-                  <View>
-                    <Text className="font-semibold text-gray-800">
-                      {session.location.name}
-                    </Text>
-                    <Text className="text-gray-600">
-                      {session.location.details}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        {/* orgnazires */}
-        <View className="px-6 py-6">
-          <Text className="text-xl font-bold text-alpha">Organizers</Text>
-          <View className="flex py-6 flex-row justify-between w-full ">
-            {organizres.map((organizre, index) => (
-              <View
-                key={index}
-                className="bg-white justify-center items-center rounded-lg p-3 m-2 "
-                style={{
-                  elevation: 3,
-                  width: "48%",
-                  // marginLeft: index % 2 ? 16 : 0,
-                  marginBottom: 16,
-                }}
-              >
-                <Image
-                  source={organizre.image}
-                  className="w-32 h-32 "
-                  style={{ resizeMode: "contain" }}
-                />
-              </View>
-            ))}
-          </View>
-        </View>
+  
+
         {/* partners */}
         {sponsors?.length > 0 && (
           <Pressable

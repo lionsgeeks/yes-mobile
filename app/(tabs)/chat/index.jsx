@@ -104,7 +104,7 @@ export default function ChatScreen() {
 
           {filteredConversations.map((convo) => {
             const isMine = convo.last_message.sender_id === user.id;
-            const isUnread = convo.last_message.read_at === null && !isMine;
+            const isUnread = convo.last_message.seen != true && !isMine;
 
             return (
               <TouchableOpacity
@@ -115,24 +115,24 @@ export default function ChatScreen() {
                     params: convo.user,
                   })
                 }
-                className="flex-row bg-white rounded-xl overflow-hidden mb-3 shadow-sm"
+                className={`flex-row rounded-xl overflow-hidden mb-3  ${isUnread ? "bg-beta " : "bg-white border border-gray-200"
+                  } shadow-sm`}
               >
-                {/* Left color bar */}
-                <View
-                  className="w-1.5"
-
-                />
-                <View className="bg-beta w-1 absolute left-0 rounded-l-lg top-0 bottom-0"></View>
+           
+           
+                  <View className="w-1 bg-beta" />
+              
 
                 {/* Chat content */}
                 <View className="flex-row items-center p-4 flex-1">
                   <Image
-                    source={{ uri: convo.user.image }}
-                    className="w-12 h-12 rounded-full mr-4 border border-beta"
+                    source={{ uri: api.IMAGE_URL + convo.user.image }}
+                    className="w-12 h-12 rounded-full mr-4 border border-gray-300"
                   />
                   <View className="flex-1">
                     <View className="flex-row justify-between items-center mb-1">
-                      <Text className="text-base font-semibold text-gray-900">
+                      <Text className={`text-base font-semibold ${isUnread ? "text-black" : "text-gray-900"
+                        }`}>
                         {convo.user.name}
                       </Text>
                       <Text className="text-xs text-gray-500">
@@ -165,10 +165,11 @@ export default function ChatScreen() {
                           });
                         })()}
                       </Text>
-
                     </View>
+
                     <Text
-                      className="text-sm text-gray-700"
+                      className={`text-sm ${isUnread ? "text-black font-semibold" : "text-gray-700"
+                        }`}
                       numberOfLines={1}
                     >
                       {isMine ? "You: " : ""}
@@ -176,13 +177,15 @@ export default function ChatScreen() {
                     </Text>
                   </View>
 
+                  {/* Unread indicator dot */}
                   {isUnread && (
-                    <View className="ml-2 w-2.5 h-2.5 rounded-full bg-blue-500" />
+                    <View className="ml-2 w-2.5 h-2.5 rounded-full bg-alpha" />
                   )}
                 </View>
               </TouchableOpacity>
             );
           })}
+
         </ScrollView>
       </View>
 

@@ -54,7 +54,7 @@ const AuthLoader = () => {
 
             {/* Random Fact */}
             <Text className="mt-2 text-gray-300 text-sm text-center">
-                Did you know  that :  {randomFact}
+                Did you know  that : {randomFact}
             </Text>
         </View>
     );

@@ -8,15 +8,15 @@ const authContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [socials, setSocials] = useState(null);
+  const [socials, setSocials] = useState(null); 
   const [token, setToken] = useState(null);
   const [imagePath, setImagePath] = useState(null);
 
   const fetchUserInfo = async () => {
     const token = await AsyncStorage.getItem("token");
-
+ 
     if (token) {
       // get user data from the server
       setToken(token);
@@ -30,6 +30,7 @@ const AuthProvider = ({ children }) => {
       // redirect to sign in screen
       setIsSignedIn(false);
       router.replace("/sign-in");
+      setLoading(false)
     }
   };
 
@@ -39,27 +40,27 @@ const AuthProvider = ({ children }) => {
 
 
 
-  useEffect(() => {
-    api
-      .get(`invitation/image?id=${user?.id}`)
-      .then((response) => {
-        console.log("image response", response.data.image_path);
-        setImagePath(response.data.image_path);
-      })
-      .catch((error) => {
-        console.log("image error", error);
-      });
-  }, [user]);
+  // useEffect(() => {
+  //   api
+  //     .get(`invitation/image?id=${user?.id}`)
+  //     .then((response) => {
+  //       console.log("image response", response.data.image_path);
+  //       setImagePath(response.data.image_path);
+  //     })
+  //     .catch((error) => {
+  //       console.log("image error", error);
+  //     });
+  // }, [user]);
   // useEffect(() => {
   //   api.post('participant/logged', {
   //    currentParticipant: user?.id
   //   }).catch(error => {        
   //    console.error('Failed to send user:',error);
   //  });
-   
-    
+
+
   //  }, [user])
-  
+
 
   const appValue = {
     isSignedIn,
@@ -76,7 +77,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <authContext.Provider value={appValue}>
-      { children}
+      {loading ? <AuthLoader /> : children}
     </authContext.Provider>);
 };
 
