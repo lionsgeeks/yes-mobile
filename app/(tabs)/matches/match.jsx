@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Card from "../../../components/Card/Card";
-import { Link } from "expo-router";
 import { useAppContext } from "@/context";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api";
