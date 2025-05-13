@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import {  useColorScheme } from "react-native";
 import { cleanupAbly, setupAbly } from "@/utils/ably";
 import { useAuthContext } from "./auth";
 import api from "@/api";
+import { useFocusEffect } from "expo-router";
 
 const appContext = createContext();
 
@@ -18,8 +19,13 @@ const AppProvider = ({ children }) => {
     const [sponsors, setSponsors] = useState([]);
     const [interests, setInterests] = useState([]);
     const [speakers, setSpeakers] = useState([]);
+    const [badge, setBadge] = useState([]);
+    const [Programe, setPrograme] = useState([]);
+    //* get participamts from the backend
+    const [participants, setParticipants] = useState([])
+    // console.log(user.id);
+    
     const [matches, setMatches] = useState([]);
-    const [participants, setParticipants] = useState([]);
     const [allParticipants, setAllParticipants] = useState([]);
 
 
@@ -34,6 +40,34 @@ const AppProvider = ({ children }) => {
             setLoading(false)
         }
     }
+    
+    useFocusEffect(
+        useCallback(() => {
+            fetchParticipants();
+            fetchMatches();
+            fetchBadge
+        }, [user?.id])
+    )
+    // useEffect(() => {
+    //     api.get('participants/?auth=' + user?.id)
+    //     .then(response => {
+    //         let participants = response.data.participants
+    //         // console.log(response.data);
+            
+    //         // console.log(participants.length);
+            
+    //         // participants = participants.filter(e => e.id !== user?.id)
+    //         console.log(response.data.participants);   
+            
+            
+    //         setParticipants(participants);
+        
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching participants:', error);
+    //     });
+    //   }, [user?.id]);
+    
 
     const fetchMatches = async () => {
         try {
@@ -67,7 +101,31 @@ const AppProvider = ({ children }) => {
             console.log('error getting sponsors', err);
         })
     }
+    
 
+    const fetchBadge = () => {
+        api.get(`qrcodes/${user?.id}`).then((res) => {
+            const receivedBadge = res.data.badge;
+            console.log(receivedBadge);
+            
+            if (receivedBadge) {
+                setBadge(receivedBadge);
+            }
+        }).catch((err) => {
+            console.log('error getting badge', err);
+        })
+    }
+
+    const fetchPrograme = () => {
+        api.get('programe/create').then((res) => {
+            const receivedPrograme = res.data.programes;
+            if (receivedPrograme) {
+                setPrograme(receivedPrograme);
+            }
+        }).catch((err) => {
+            console.log('error getting programe', err);
+        })
+    }
     const fetchSpeakers = () => {
         api.get('speakers').then((res) => {
             const receivedSpeakers = res.data.speakers;
@@ -100,6 +158,19 @@ const AppProvider = ({ children }) => {
         fetchParticipants();
         fetchMatches();
         fetchSponsors();
+        fetchInterests(); 
+        fetchSpeakers();  
+        fetchBadge();
+        fetchPrograme();
+    }, []) 
+
+      
+    useEffect(() => {
+
+        const initialize = async () => {
+            await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
+        };
+
         fetchSpeakers();    
         fetchInterests(); 
         
@@ -122,6 +193,8 @@ const AppProvider = ({ children }) => {
         fetchMatches,
         interests,
         speakers,
+        badge,
+        Programe,
         allParticipants,
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;

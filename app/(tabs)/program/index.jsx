@@ -41,44 +41,13 @@ const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
 // ];
 import { router } from "expo-router"
+import { useAppContext } from '@/context';
 
 
 export default function Program() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [Programe, setProgrames] = useState([]);
-  const [error, setError] = useState(null);
 
-
-  useEffect(() => {
-    const fetchProgrames = async () => {
-      try {
-        const response = await fetch(`${APP_URL}/api/programe/create`);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        if (data.programes) {
-          console.log(data.programes);
-          // console.log(data.data);
-
-          setProgrames(data.programes);
-        } else {
-          setError('No programe found.');
-        }
-
-      } catch (err) {
-        console.error('Fetch Error:', err);
-        setError(err.message);
-      }
-    };
-
-    fetchProgrames();
-  }, []);
-
-
-
+  const { Programe } = useAppContext();
 
 
   const filteredSessions = Programe.filter(session => {
@@ -88,9 +57,6 @@ export default function Program() {
       session.location.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
   });
-
-
-
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 pt-10">
