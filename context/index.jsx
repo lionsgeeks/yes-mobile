@@ -19,6 +19,7 @@ const AppProvider = ({ children }) => {
     const { user } = useAuthContext()
     const [sponsors, setSponsors] = useState([]);
     const [interests, setInterests] = useState([]);
+    const [speakers, setSpeakers] = useState([]);
 
     //* get participamts from the backend
     const [participants, setParticipants] = useState([])
@@ -88,6 +89,17 @@ const AppProvider = ({ children }) => {
         })
     }
 
+    const fetchSpeakers = () => {
+        api.get('speakers').then((res) => {
+            const receivedSpeakers = res.data.speakers;
+            if (receivedSpeakers) {
+                setSpeakers(receivedSpeakers);
+            }
+        }).catch((err) => {
+            console.log('error getting speakers', err);
+        })
+    }
+
     const fetchInterests = () => {
         api.get('interests').then((res) => {
             const receivedInterests = res.data.interests;
@@ -102,7 +114,8 @@ const AppProvider = ({ children }) => {
     useEffect(() => {
         // add the other fetches here ?
         fetchSponsors();
-        fetchInterests();     
+        fetchInterests(); 
+        fetchSpeakers();    
     }, []) 
 
       
@@ -131,7 +144,8 @@ const AppProvider = ({ children }) => {
         participants,
         matches,
         fetchMatches,
-        interests
+        interests,
+        speakers,
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;
 };
