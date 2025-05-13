@@ -18,7 +18,7 @@ export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, 
             setMessages((prev) => [...prev, data]);
         } else {
             onOtherMessage?.();
-            Alert.alert("jg") 
+            // Alert.alert("jg")  
         }
     });
 

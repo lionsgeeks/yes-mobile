@@ -20,6 +20,8 @@ export default function ChatDetail() {
     const ablyClient = useRef(null);
     const ablyChannel = useRef(null);
 
+    console.log(receiver);
+    
 
 
     const fetchMessages = async () => {
