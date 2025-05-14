@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
       setToken(token);
       api.post("getuser/token", { token }).then((response) => {
         setUser(response.data.user);
-        setSocials(response.data.socials);
+        setSocials(response.data.socials); 
         setIsSignedIn(true);
       });
     } else {
@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
   
   useEffect(() => {
     fetchUserInfo();
-    setLoading(false)
+    setLoading(false) 
   }, [token, isSignedIn]);
 
 

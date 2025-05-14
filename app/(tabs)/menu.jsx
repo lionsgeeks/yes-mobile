@@ -50,7 +50,7 @@ export default function MenuScreen() {
         { name: "Favorites", route: "matches/matches", icon: "heart" },
         { name: "Badge", route: "badge", icon: "badge" },
         { name: "About", route: "about", icon: "info" },
-        { name: "Terms and Privacy", route: "privacy", icon: "lock" },
+        { name: "Terms and Privacy", route: "terms", icon: "lock" },
         { name: "Settings", route: "settings", icon: "settings" },
     ];
 
