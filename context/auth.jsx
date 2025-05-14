@@ -24,18 +24,17 @@ const AuthProvider = ({ children }) => {
         setUser(response.data.user);
         setSocials(response.data.socials);
         setIsSignedIn(true);
-        setLoading(false)
       });
     } else {
       // redirect to sign in screen
       setIsSignedIn(false);
-      setLoading(false)
       router.replace("/sign-in");
     }
   };
-
+  
   useEffect(() => {
     fetchUserInfo();
+    setLoading(false)
   }, [token, isSignedIn]);
 
 
