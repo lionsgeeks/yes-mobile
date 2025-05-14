@@ -23,7 +23,7 @@ const categories = [
 
 export default function SpeakersScreen() {
   const { speakers, interests } = useAppContext();
-  console.log("🚨 interests", interests);
+  // console.log("🚨 interests", interests);
   const [activeCategory, setActiveCategory] = useState("All Speakers");
   const [selectedYear, setSelectedYear] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");

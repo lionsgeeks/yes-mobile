@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 // import 'react-native-reanimated';
 import "../index.css";
@@ -26,14 +26,15 @@ export default function RootLayout() {
     return null;
   }
   const errorHandler = (error: Error, stackTrace: string) => {
-    console.log("Error:", error);
+    console.error("Error package:", error);
     console.log("Stack Trace:", stackTrace);
   }
   const CustomFallback = (props: { error: Error, resetError: Function }) => (
     <View>
       <Text>Something happened!</Text>
       <Text>{props.error.toString()}</Text>
-      {/* <Pressable onPress={props.resetError}><Text>Try again</Text></Pressable> */}
+      <Pressable onPress={props.resetError}><Text>Try again</Text></Pressable> 
+      <Pressable onPress={router.navigate('/')}><Text>Back Home</Text></Pressable>
     </View>
   )
 
@@ -44,7 +45,7 @@ export default function RootLayout() {
 //   // you could navigate to a custom screen or show a modal
 // });
   return (
-    <ErrorBoundary FallbackComponent={CustomFallback} onError={errorHandler}>
+    <ErrorBoundary onError={errorHandler}>
       <AuthProvider>
         <AppProvider>
           {/* <ThemeProvider value={colorScheme !== 'dark' ? DarkTheme : DefaultTheme}> */}

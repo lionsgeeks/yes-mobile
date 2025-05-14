@@ -22,23 +22,12 @@ import api from "@/api";
 export default function HomeScreen() {
   const { user, imagePath } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
-  console.log("🚀 ~ file: index.jsx:7 ~ HomeScreen ~ speakers:", speakers);
   const navigation = useNavigation();
   const items = [
     {
       icon: "qr-code-sharp",
       label: "Badge",
       href: "/badge",
-    },
-    {
-      icon: "person-outline",
-      label: "Speakers",
-      href: "/speakers",
-    },
-    {
-      icon: "person-outline",
-      label: "Speakers",
-      href: "/speakers",
     },
     {
       icon: "person-outline",
@@ -53,76 +42,10 @@ export default function HomeScreen() {
     {
       icon: "globe-outline",
       label: "Networking",
-      href: "/match",
+      href: "matches/match",
     },
   ];
-  // const allSpeakers = [
-  //   {
-  //     id: 1,
-  //     name: "Emma Johnson",
-  //     title: "Climate Architect",
-  //     role: "Green Earth Initiative",
-  //     image: "https://randomuser.me/api/portraits/men/85.jpg",
-  //     description:
-  //       "Leading advocate for sustainable practices with over 10 years...",
-  //     tags: ["Climate Policy", "Sustainability", "Community Engagement"],
-  //     education: "MSc Environmental Science, University of Oxford",
-  //     languages: ["English", "French", "Spanish"],
-  //     sessions: [
-  //       { title: "Opening Ceremony", time: "09:00 – 10:30", room: "Room 1" },
-  //       {
-  //         title: "Climate Action Panel",
-  //         time: "11:00 – 12:00",
-  //         room: "Main Hall",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Lucas Rivera",
-  //     role: "Digital Future Lab",
-  //     title: "Tech Entrepreneur",
-  //     image: "https://randomuser.me/api/portraits/men/85.jpg",
-  //     tags: ["Technology", "Innovation"],
-  //     year: 2024,
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "Michael Chen",
-  //     role: "Global Learning Foundation",
-  //     title: "Education Director",
-  //     image: "https://randomuser.me/api/portraits/men/32.jpg",
-  //     tags: ["Education", "Development", "Youth"],
-  //     year: 2024,
-  //   },
-  //   {
-  //     id: "4",
-  //     name: "Fatima Al-Mansour",
-  //     role: "Health For All",
-  //     title: "Public Health Advocate",
-  //     image: "https://randomuser.me/api/portraits/women/52.jpg",
-  //     tags: ["Healthcare", "Wellness"],
-  //     year: 2025,
-  //   },
-  //   {
-  //     id: "5",
-  //     name: "Emma Johnson",
-  //     role: "Green Earth Initiative",
-  //     title: "Climate Activist",
-  //     image: "https://randomuser.me/api/portraits/women/45.jpg",
-  //     tags: ["Climate", "Policy", "Sustainability"],
-  //     year: 2025,
-  //   },
-  //   {
-  //     id: "6",
-  //     name: "Lucas Rivera",
-  //     role: "Digital Future Lab",
-  //     title: "Tech Entrepreneur",
-  //     image: "https://randomuser.me/api/portraits/men/85.jpg",
-  //     tags: ["Technology", "Innovation"],
-  //     year: 2024,
-  //   },
-  // ];
+
 
   const sessions = [
     {
@@ -211,8 +134,8 @@ export default function HomeScreen() {
         {/* quick actions */}
         <View className="flex-row flex-wrap justify-around py-5 bg-beta h-fit rounded-b-3xl">
           {items.map((item, index) => (
-            <TouchableOpacity onPress={() => router.push(item.href)} key={index} className="justify-center bg-alpha w-[28%] mb-5 h-[12vh] rounded-xl items-center ">
-              <View className="rounded flex justify-center items-center">
+            <TouchableOpacity onPress={() => router.push(item.href)} key={index} className="justify-center items-center ">
+              <View className="bg-alpha w-20 aspect-square rounded-full flex justify-center items-center">
                 <Ionicons name={item.icon} color="#ffffff" size={30} />
               </View>
               <Text className="text-white/90 mt-3 text-md font-bold">
@@ -221,6 +144,16 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </View>
+        {/* <View className="flex-row justify-around py-5 bg-beta rounded-b-3xl">
+        {items.map((item, index) => (
+          <View key={index} className="justify-center items-center">
+            <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
+              <Ionicons name={item.icon} color="#ffffff" size={26} />
+            </View>
+            <Text className="text-white/90 text-md font-bold">{item.label}</Text>
+          </View>
+        ))}
+      </View> */}
         
 
         {/* orgnazires */}

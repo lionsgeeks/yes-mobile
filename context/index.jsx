@@ -13,6 +13,9 @@ const AppProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     
     
+    const [matches, setMatches] = useState([]);
+    const [ngos, setNgos] = useState([]);
+
     const ablyClient = useRef(null);
     const ablyChannel = useRef(null);
     const { user } = useAuthContext()
@@ -25,7 +28,6 @@ const AppProvider = ({ children }) => {
     const [participants, setParticipants] = useState([])
     // console.log(user.id);
     
-    const [matches, setMatches] = useState([]);
     const [allParticipants, setAllParticipants] = useState([]);
 
 
@@ -147,6 +149,16 @@ const AppProvider = ({ children }) => {
             console.log('error getting interests', err)
         })
     }
+    const fetchNgos = () => {
+        api.get('ngos').then((res) => {
+            const receivedNgos = res.data.ngos;
+            if (receivedNgos) {
+                setNgos(receivedNgos)
+            }
+        }).catch((err) => {
+            console.log('error getting Ngos', err)
+        })
+    }
 
     const initialize = async () => {
         await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
@@ -162,6 +174,7 @@ const AppProvider = ({ children }) => {
         fetchSpeakers();  
         fetchBadge();
         fetchPrograme();
+        fetchNgos();    
     }, []) 
 
       
@@ -196,6 +209,7 @@ const AppProvider = ({ children }) => {
         badge,
         Programe,
         allParticipants,
+        ngos,
     };
     return <appContext.Provider value={appValue}>{children}</appContext.Provider>;
 };
