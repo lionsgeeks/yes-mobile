@@ -1,7 +1,7 @@
 import api from "@/api";
 import { IconSymbol } from "@/components/ui/IconSymbol"
 import { useAuthContext } from "@/context/auth"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
     View,
     Text,
@@ -21,7 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 
 export default function AccountScreen() {
-    const { user, token, setIsSignedIn, fetchUserInfo , socials } = useAuthContext();
+    const { user, token, setIsSignedIn, fetchUserInfo, socials } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image);
 
@@ -33,13 +33,31 @@ export default function AccountScreen() {
         city: user.city,
         country: user.country,
         bio: user.description,
-        interests: "this is still in progress",
         location: user.location,
         website: socials?.website,
         youtube: socials?.youtube,
         linkedin: socials?.linkedin,
         instagram: socials?.instagram,
-    })
+    });
+
+    useEffect(() => {
+        // the formdata kept the old logged user
+        // this is a fix for that
+        setFormData({
+            fullName: user.name,
+            email: user.email,
+            company: user.company,
+            city: user.city,
+            country: user.country,
+            bio: user.description,
+            location: user.location,
+            website: socials?.website,
+            youtube: socials?.youtube,
+            linkedin: socials?.linkedin,
+            instagram: socials?.instagram,
+        })
+        setProfileImage(api.IMAGE_URL + user.image)
+    }, [user])
 
     const updateField = (field, value) => {
         setFormData({
@@ -103,7 +121,6 @@ export default function AccountScreen() {
 
 
     const handleSave = () => {
-        console.log(formData.fullName, formData.email)
         if (!formData.fullName || !formData.email) {
             Alert.alert("Invalid Information", 'Please Fill In the Name AND Email')
         }
@@ -111,13 +128,15 @@ export default function AccountScreen() {
         setIsLoading(true)
 
         api.put('participant/' + user.id, token, formData).then((res) => {
-            console.log('this is the updating response', res.data);
-
             if (res.status == 200) {
-                fetchUserInfo()
+                fetchUserInfo();
+                Alert.alert('Information Updated', 'Your Account Information Has Been Updated Successfully!');
             }
+        }).catch((err) => {
+            console.log('error updating the account', err)
+        }).finally(() => {
+            setIsLoading(false);
         })
-        setIsLoading(false);
     }
 
     const deleteAccount = () => {

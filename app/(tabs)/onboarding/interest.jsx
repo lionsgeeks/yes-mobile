@@ -31,6 +31,7 @@ export default function InterestScreen() {
         // api call to connect the participant to the interests
         api.post('interest/participant/' + user.id, { selectedInterests: selectedInterests }).then((res) => {
             if (res.status == 200) {
+                setSelectedInterests([])
                 router.push('/')
             };
         }).catch((err) => {
@@ -56,7 +57,7 @@ export default function InterestScreen() {
                                 <TouchableOpacity
                                     key={index}
                                     onPress={() => { toggleInterest(interest.id) }}
-                                    className="w-[45%] h-[14.5%] flex flex-col items-center justify-center px-3 py-1 rounded-xl
+                                    className="w-[29%] h-[10%] flex flex-col items-center justify-center px-3 py-1 rounded-xl
                                 my-3 mx-2  "
                                     style={{
                                         backgroundColor: isSelected ? '#b0941780' : '#2e539d30',

@@ -10,13 +10,13 @@ const AuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [socials, setSocials] = useState(null); 
+  const [socials, setSocials] = useState(null);
   const [token, setToken] = useState(null);
   const [imagePath, setImagePath] = useState(null);
 
   const fetchUserInfo = async () => {
     const token = await AsyncStorage.getItem("token");
- 
+  
     if (token) {
       // get user data from the server
       setToken(token);
@@ -29,14 +29,14 @@ const AuthProvider = ({ children }) => {
     } else {
       // redirect to sign in screen
       setIsSignedIn(false);
-      router.replace("/sign-in");
       setLoading(false)
+      router.replace("/sign-in");
     }
   };
 
   useEffect(() => {
     fetchUserInfo();
-  }, [token]);
+  }, [token, isSignedIn]);
 
 
 

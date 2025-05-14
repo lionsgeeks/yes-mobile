@@ -44,7 +44,6 @@ export default function OnboardingScreen() {
         if (currentSlide < onboardingData.length - 1) {
             setCurrentSlide(currentSlide + 1)
         } else {
-            // TODO: redirect to interests 
             router.navigate("/onboarding/interest");
             setCurrentSlide(0);
         }

@@ -26,7 +26,6 @@ export default function SignInScreen() {
             const participant = response.data.participant;
             const token = response.data.token;
 
-            let hashHex;
             if (!token) {
                 console.log('Invalid token format');
                 return;
@@ -46,7 +45,6 @@ export default function SignInScreen() {
                 
                 await AsyncStorage.setItem('token', hashHex);
                 setToken(hashHex);
-
             }
 
 
@@ -55,17 +53,19 @@ export default function SignInScreen() {
             // clear the input fields
             setEmail("");
             setPassword("");
-
             setIsSignedIn(true);
 
             setUser(participant);
-            setToken(hashHex);
 
-            // redirect the user to the home screen
-            router.push("/onboarding");
+            if (participant?.interesets?.length > 0) {
+                router.push('/');
+            } else {
+                router.push("/onboarding");
+                
+            }
         }).catch((e) => {
-
-            alert("Invalid email or password. Please try again." + e);
+            console.log('error signing in', e.message)  
+            // alert("Invalid email or password. Please try again.");
         });
     }
 
