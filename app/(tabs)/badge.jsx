@@ -7,6 +7,7 @@ import { useAppContext } from '@/context';
 
 export default function Badge() {
     const { badge } = useAppContext();
+console.log(badge);
 
 
 

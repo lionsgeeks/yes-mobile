@@ -43,11 +43,26 @@ const AppProvider = ({ children }) => {
         }
     }
 
+     const fetchBadge = () => {
+        api.get(`qrcodes/show/${user?.id}`).then((res) => {
+            const receivedBadge = res?.data.data[0];
+            // console.log(`qrcodes/show/${user?.id}`);
+            
+            
+            if (receivedBadge) {
+                console.log(receivedBadge);
+                setBadge(receivedBadge);
+            }
+        }).catch((err) => {
+            console.log('error getting badge', err);
+        })
+    }
+
     useFocusEffect(
         useCallback(() => {
             fetchParticipants();
             fetchMatches();
-            fetchBadge
+            fetchBadge();
         }, [user?.id])
     )
     // useEffect(() => {
@@ -105,18 +120,7 @@ const AppProvider = ({ children }) => {
     }
 
 
-    const fetchBadge = () => {
-        api.get(`qrcodes/${user?.id}`).then((res) => {
-            const receivedBadge = res?.data.badge;
-            console.log(receivedBadge);
-
-            if (receivedBadge) {
-                setBadge(receivedBadge);
-            }
-        }).catch((err) => {
-            console.log('error getting badge', err);
-        })
-    }
+   
 
     const fetchPrograme = () => {
         api.get('programe/create').then((res) => {
