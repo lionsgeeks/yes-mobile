@@ -2,6 +2,7 @@ import axios from "axios";
 
 
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
+// const APP_URL = "https://app.youthempowermentsummit.africa";
 
 const IMAGE_URL = `${APP_URL}/storage/`
 const VIDEO_URL = `${APP_URL}/storage/`

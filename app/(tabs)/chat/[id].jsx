@@ -78,7 +78,8 @@ export default function ChatDetail() {
 
     const deleteMessage = async (id) => {
         try {
-            await api.delete(`message/${id}`);
+            await api.remove(`message/${id}`).then((res)=> {console.log(res.data);
+            });
             setMessages((prev) => prev.filter((msg) => msg.id !== id));
         } catch (error) {
             console.error("Failed to delete:", error);
@@ -150,7 +151,7 @@ export default function ChatDetail() {
                         }}
                     >
                         <Text className={`text-base ${isMe ? "text-white" : "text-black"}`}>
-                            {item.text}
+                            {item.text} 
                         </Text>
 
                         <View className="flex-row items-center justify-end mt-1 space-x-1">

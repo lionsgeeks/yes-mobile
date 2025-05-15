@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import {  useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { cleanupAbly, setupAbly } from "@/utils/ably";
 import { useAuthContext } from "./auth";
 import api from "@/api";
@@ -11,8 +11,8 @@ const AppProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
     const [language, setLanguage] = useState("en");
     const [loading, setLoading] = useState(false);
-    
-    
+
+
     const [matches, setMatches] = useState([]);
     const [ngos, setNgos] = useState([]);
 
@@ -27,7 +27,7 @@ const AppProvider = ({ children }) => {
     //* get participamts from the backend
     const [participants, setParticipants] = useState([])
     // console.log(user.id);
-    
+
     const [allParticipants, setAllParticipants] = useState([]);
 
 
@@ -35,14 +35,14 @@ const AppProvider = ({ children }) => {
         try {
             setLoading(true)
             const response = await api.get('participants/?auth=' + user?.id)
-            setParticipants(response.data.participants)
+            setParticipants(response?.data.participants)
         } catch (error) {
             console.error("❌ Failed to fetch participants:", error);
         } finally {
             setLoading(false)
         }
     }
-    
+
     useFocusEffect(
         useCallback(() => {
             fetchParticipants();
@@ -55,27 +55,27 @@ const AppProvider = ({ children }) => {
     //     .then(response => {
     //         let participants = response.data.participants
     //         // console.log(response.data);
-            
+
     //         // console.log(participants.length);
-            
+
     //         // participants = participants.filter(e => e.id !== user?.id)
     //         console.log(response.data.participants);   
-            
-            
+
+
     //         setParticipants(participants);
-        
+
     //     })
     //     .catch(error => {
     //       console.error('Error fetching participants:', error);
     //     });
     //   }, [user?.id]);
-    
+
 
     const fetchMatches = async () => {
         try {
             setLoading(true)
             const response = await api.get('participants/matches/?auth=' + user?.id)
-            setMatches(response.data.matches)
+            setMatches(response?.data.matches)
 
         } catch (error) {
             console.error("❌ Failed to fetch matches:", error);
@@ -86,7 +86,7 @@ const AppProvider = ({ children }) => {
 
     const fetchAllParticipants = () => {
         api.get('participants/all').then((res) => {
-            const allParts = res.data.participants;
+            const allParts = res?.data.participants;
             if (allParts) {
                 setAllParticipants(allParts);
             }
@@ -95,7 +95,7 @@ const AppProvider = ({ children }) => {
 
     const fetchSponsors = () => {
         api.get('sponsors').then((res) => {
-            const receivedSponsors = res.data.sponsors;
+            const receivedSponsors = res?.data.sponsors;
             if (receivedSponsors) {
                 setSponsors(receivedSponsors);
             }
@@ -103,13 +103,13 @@ const AppProvider = ({ children }) => {
             console.log('error getting sponsors', err);
         })
     }
-    
+
 
     const fetchBadge = () => {
         api.get(`qrcodes/${user?.id}`).then((res) => {
-            const receivedBadge = res.data.badge;
+            const receivedBadge = res?.data.badge;
             console.log(receivedBadge);
-            
+
             if (receivedBadge) {
                 setBadge(receivedBadge);
             }
@@ -120,7 +120,7 @@ const AppProvider = ({ children }) => {
 
     const fetchPrograme = () => {
         api.get('programe/create').then((res) => {
-            const receivedPrograme = res.data.programes;
+            const receivedPrograme = res?.data.programes;
             if (receivedPrograme) {
                 setPrograme(receivedPrograme);
             }
@@ -130,7 +130,7 @@ const AppProvider = ({ children }) => {
     }
     const fetchSpeakers = () => {
         api.get('speakers').then((res) => {
-            const receivedSpeakers = res.data.speakers;
+            const receivedSpeakers = res?.data.speakers;
             if (receivedSpeakers) {
                 setSpeakers(receivedSpeakers);
             }
@@ -141,7 +141,7 @@ const AppProvider = ({ children }) => {
 
     const fetchInterests = () => {
         api.get('interests').then((res) => {
-            const receivedInterests = res.data.interests;
+            const receivedInterests = res?.data.interests;
             if (receivedInterests) {
                 setInterests(receivedInterests)
             }
@@ -151,7 +151,7 @@ const AppProvider = ({ children }) => {
     }
     const fetchNgos = () => {
         api.get('ngos').then((res) => {
-            const receivedNgos = res.data.ngos;
+            const receivedNgos = res?.data.ngos;
             if (receivedNgos) {
                 setNgos(receivedNgos)
             }
@@ -160,9 +160,6 @@ const AppProvider = ({ children }) => {
         })
     }
 
-    const initialize = async () => {
-        await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
-    };
 
     useEffect(() => {
         // add the other fetches here ?
@@ -170,28 +167,28 @@ const AppProvider = ({ children }) => {
         fetchParticipants();
         fetchMatches();
         fetchSponsors();
-        fetchInterests(); 
-        fetchSpeakers();  
+        fetchInterests();
+        fetchSpeakers();
         fetchBadge();
         fetchPrograme();
-        fetchNgos();    
-    }, []) 
+        fetchNgos();
+    }, [])
 
-      
+
     useEffect(() => {
 
         const initialize = async () => {
             await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
         };
 
-        fetchSpeakers();    
-        fetchInterests(); 
-        
+        fetchSpeakers();
+        fetchInterests();
+
         initialize();
         return () => {
             cleanupAbly(ablyClient, ablyChannel)
         };
-    }, [user?.id]) 
+    }, [user?.id])
 
 
 
