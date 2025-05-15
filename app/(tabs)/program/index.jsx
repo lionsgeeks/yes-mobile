@@ -42,12 +42,14 @@ const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 // ];
 import { router } from "expo-router"
 import { useAppContext } from '@/context';
+import { useNavigation } from "expo-router";
 
 
 export default function Program() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const { Programe } = useAppContext();
+  const navigation = useNavigation();
 
 
   const filteredSessions = Programe.filter(session => {
@@ -83,7 +85,9 @@ export default function Program() {
         {/* Sessions */}
         <View className="px-6">
           {filteredSessions.map(session => (
-            <TouchableOpacity onPress={() => router.navigate(`/program/${session.id}`)} key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
+            <TouchableOpacity onPress={() =>
+              navigation.navigate("program/[id]", { Programe: session })
+            } key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center">
                   <Text className="mr-2 text-gray-600">🕒</Text>

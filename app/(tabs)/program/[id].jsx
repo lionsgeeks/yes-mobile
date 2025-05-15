@@ -10,6 +10,7 @@ import {
 import Navbar from "@/components/navigation/navbar";
 import { useLocalSearchParams } from 'expo-router'; ''
 import { useAuthContext } from '@/context/auth';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function SessionDetails() {
   // const Programes = {
@@ -41,41 +42,44 @@ export default function SessionDetails() {
   //   capacity: 50,
   // }
   const { user } = useAuthContext();
-
+    const { params } = useRoute();
+    const { Programe } = params;
+        const navigation = useNavigation();
+    
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
-  const [Programe, setPrograme] = useState(null);
+  // const [Programe, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
 
-  useEffect(() => {
-  const fetchProgrames = async () => {
-    setLoading(true);
+//   useEffect(() => {
+//   const fetchProgrames = async () => {
+//     setLoading(true);
 
-    try {
-      const response = await fetch(`${APP_URL}/api/programe/${id}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
+//     try {
+//       const response = await fetch(`${APP_URL}/api/programe/${id}`);
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+//       const data = await response.json();
 
-      if (data.programe) {
-        setPrograme(data.programe);
-      } else {
-        setError("No programe found.");
-      }
-    } catch (err) {
-      console.error("Fetch Error:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+//       if (data.programe) {
+//         setPrograme(data.programe);
+//       } else {
+//         setError("No programe found.");
+//       }
+//     } catch (err) {
+//       console.error("Fetch Error:", err);
+//       setError(err.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  if (id) {
-    fetchProgrames();
-  }
-}, [id]); 
+//   if (id) {
+//     fetchProgrames();
+//   }
+// }, [id]); 
 
 
 
@@ -140,21 +144,21 @@ export default function SessionDetails() {
     }
   }
 
-  if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-50">
-        <Text className="text-lg text-gray-600">Loading...</Text>
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View className="flex-1 items-center justify-center bg-gray-50">
+  //       <Text className="text-lg text-gray-600">Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-50 px-4">
-        <Text className="text-lg text-red-500">{error}</Text>
-      </View>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <View className="flex-1 items-center justify-center bg-gray-50 px-4">
+  //       <Text className="text-lg text-red-500">{error}</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View className="flex-1 bg-gray-50 pt-10">
