@@ -176,7 +176,7 @@ export default function TermsScreen() {
                     fr="Des questions ? Contactez-nous à : "
                     ar="هل لديك أسئلة؟ تواصل معنا عبر: "
                 />
-                <Text className="text-alpha font-semibold">yes@africa.com</Text>
+                <Text className="text-alpha font-semibold">contact@youthempowermentsummit.africa</Text>
             </Text>
 
             <View className='mt-12'></View>

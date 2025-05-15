@@ -7,19 +7,26 @@ import { Alert } from "react-native";
 
 export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, onOtherMessage) => {
     ablyClient.current = new Ably.Realtime(process.env.EXPO_PUBLIC_ABLY_KEY);
-    const channelName = `private-chat:${user.id}`;
-    ablyChannel.current = ablyClient.current.channels.get(channelName);
+    const privateChannel = `private-chat:${user.id}`;
+    ablyChannel.current = ablyClient.current.channels.get(privateChannel);
+
+    const publicChannel = `public_participants`;
+    ablyChannel.current = ablyClient.current.channels.get(publicChannel);
 
     ablyChannel.current.subscribe("new-message", (message) => {
         const data = message.data;
 
-        
+
         if (parseInt(data.sender) === parseInt(receiver.id)) {
             setMessages((prev) => [...prev, data]);
         } else {
             onOtherMessage?.();
             // Alert.alert("jg")  
         }
+    });
+    ablyChannel.current.subscribe("participant", (participant) => {
+        const data = participant.data;
+        console.log(data);
     });
 
     ablyClient.current.connection.on("connected", () => {

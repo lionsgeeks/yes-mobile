@@ -1,13 +1,16 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useColorScheme } from "react-native";
+import { Alert, Linking, Platform, useColorScheme } from "react-native";
 import { cleanupAbly, setupAbly } from "@/utils/ably";
 import { useAuthContext } from "./auth";
 import api from "@/api";
 import { useFocusEffect } from "expo-router";
+import Constants from 'expo-constants';
 
 const appContext = createContext();
 
 const AppProvider = ({ children }) => {
+
     const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
     const [language, setLanguage] = useState("en");
     const [loading, setLoading] = useState(false);
@@ -15,20 +18,18 @@ const AppProvider = ({ children }) => {
 
     const [matches, setMatches] = useState([]);
     const [ngos, setNgos] = useState([]);
-
+    
     const ablyClient = useRef(null);
     const ablyChannel = useRef(null);
     const { user } = useAuthContext()
-    const [sponsors, setSponsors] = useState([]);
-    const [interests, setInterests] = useState([]);
-    const [speakers, setSpeakers] = useState([]);
-    const [badge, setBadge] = useState([]);
-    const [Programe, setPrograme] = useState([]);
-    //* get participamts from the backend
-    const [participants, setParticipants] = useState([])
-    // console.log(user.id);
 
     const [allParticipants, setAllParticipants] = useState([]);
+    const [participants, setParticipants] = useState([])
+    const [speakers, setSpeakers] = useState([]);
+    const [sponsors, setSponsors] = useState([]);
+    const [interests, setInterests] = useState([]);
+    const [badge, setBadge] = useState([]);
+    const [Programe, setPrograme] = useState([]);
 
 
     const fetchParticipants = async () => {
@@ -43,21 +44,6 @@ const AppProvider = ({ children }) => {
         }
     }
 
-     const fetchBadge = () => {
-        api.get(`qrcodes/show/${user?.id}`).then((res) => {
-            const receivedBadge = res?.data.data[0];
-            // console.log(`qrcodes/show/${user?.id}`);
-            
-            
-            if (receivedBadge) {
-                console.log(receivedBadge);
-                setBadge(receivedBadge);
-            }
-        }).catch((err) => {
-            console.log('error getting badge', err);
-        })
-    }
-
     useFocusEffect(
         useCallback(() => {
             fetchParticipants();
@@ -65,26 +51,6 @@ const AppProvider = ({ children }) => {
             fetchBadge();
         }, [user?.id])
     )
-    // useEffect(() => {
-    //     api.get('participants/?auth=' + user?.id)
-    //     .then(response => {
-    //         let participants = response.data.participants
-    //         // console.log(response.data);
-
-    //         // console.log(participants.length);
-
-    //         // participants = participants.filter(e => e.id !== user?.id)
-    //         console.log(response.data.participants);   
-
-
-    //         setParticipants(participants);
-
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching participants:', error);
-    //     });
-    //   }, [user?.id]);
-
 
     const fetchMatches = async () => {
         try {
@@ -103,8 +69,15 @@ const AppProvider = ({ children }) => {
         api.get('participants/all').then((res) => {
             const allParts = res?.data.participants;
             if (allParts) {
-                setAllParticipants(allParts);
+                const otherParts = allParts?.filter((part) => part.id != user?.id);
+                const allSpeakers = otherParts?.filter((part) => part.role == 'speaker');
+                const allNgos = otherParts?.filter((part) => part.role == 'ngo');
+                setSpeakers(allSpeakers);
+                setNgos(allNgos);
+                setAllParticipants(otherParts);
             }
+        }).catch((err) => {
+            console.log('err getting participants', err)
         })
     }
 
@@ -120,7 +93,18 @@ const AppProvider = ({ children }) => {
     }
 
 
-   
+    const fetchBadge = () => {
+        api.get(`qrcodes/${user?.id}`).then((res) => {
+            const receivedBadge = res.data.badge;
+            console.log(receivedBadge);
+
+            if (receivedBadge) {
+                setBadge(receivedBadge);
+            }
+        }).catch((err) => {
+            console.log('error getting badge', err);
+        })
+    }
 
     const fetchPrograme = () => {
         api.get('programe/create').then((res) => {
@@ -130,16 +114,6 @@ const AppProvider = ({ children }) => {
             }
         }).catch((err) => {
             console.log('error getting programe', err);
-        })
-    }
-    const fetchSpeakers = () => {
-        api.get('speakers').then((res) => {
-            const receivedSpeakers = res?.data.speakers;
-            if (receivedSpeakers) {
-                setSpeakers(receivedSpeakers);
-            }
-        }).catch((err) => {
-            console.log('error getting speakers', err);
         })
     }
 
@@ -153,30 +127,48 @@ const AppProvider = ({ children }) => {
             console.log('error getting interests', err)
         })
     }
-    const fetchNgos = () => {
-        api.get('ngos').then((res) => {
-            const receivedNgos = res?.data.ngos;
-            if (receivedNgos) {
-                setNgos(receivedNgos)
+
+    const fetchGeneral = () => {
+        api.get('general').then((res) => {
+            // TODO* ask Mehdi if we should add the app links to general table instead of hard code just in case
+            if (res.data.general.version != Constants.expoConfig.version) {
+                Alert.alert(
+                    'Update Required',
+                    'A new version of the app is available. Please update to continue.',
+                    [
+                        {
+                            text: 'Update Now',
+                            onPress: () => {
+                                const storeUrl = Platform.select({
+                                    ios: 'itms-apps://apps.apple.com/app/idYOUR_APP_ID', // Replace with your iOS app ID
+                                    android: 'market://details?id=YOUR_PACKAGE_NAME',    // Replace with your Android package name
+                                });
+
+                                if (storeUrl) {
+                                    Linking.openURL(storeUrl);
+                                }
+                            },
+                        },
+                    ],
+                    {
+                        cancelable: false, 
+                    }
+                );
             }
-        }).catch((err) => {
-            console.log('error getting Ngos', err)
         })
     }
 
-
     useEffect(() => {
         // add the other fetches here ?
+        fetchGeneral();
         fetchAllParticipants();
         fetchParticipants();
         fetchMatches();
         fetchSponsors();
         fetchInterests();
-        fetchSpeakers();
         fetchBadge();
         fetchPrograme();
-        fetchNgos();
-    }, [])
+    }, [user])
 
 
     useEffect(() => {
@@ -184,9 +176,6 @@ const AppProvider = ({ children }) => {
         const initialize = async () => {
             await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
         };
-
-        fetchSpeakers();
-        fetchInterests();
 
         initialize();
         return () => {
