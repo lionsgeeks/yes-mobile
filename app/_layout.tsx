@@ -4,17 +4,12 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-// import 'react-native-reanimated';
 import "../index.css";
-import { LogBox } from "react-native";
-
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { AppProvider } from "@/context";
 import { AuthProvider } from "@/context/auth";
-import ErrorBoundary from "react-native-error-boundary";
-import { Button, Pressable, Text, View } from "react-native";
+import { AppProvider } from "@/context";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -24,28 +19,10 @@ export default function RootLayout() {
   if (!loaded) {
     // Async font loading only occurs in development.
     return null;
-  }
-  const errorHandler = (error: Error, stackTrace: string) => {
-    console.error("Error package:", error);
-    console.log("Stack Trace:", stackTrace);
-  }
-  const CustomFallback = (props: { error: Error, resetError: Function }) => (
-    <View>
-      <Text>Something happened!</Text>
-      <Text>{props.error.toString()}</Text>
-      <Pressable onPress={props.resetError}><Text>Try again</Text></Pressable> 
-      <Pressable onPress={router.navigate('/')}><Text>Back Home</Text></Pressable>
-    </View>
-  )
+  }  
 
-// LogBox.ignoreAllLogs(); // Optional: hide redbox for testing
 
-// ErrorUtils.setGlobalHandler((error, isFatal) => {
-//   console.log("Global Error:", error);
-//   // you could navigate to a custom screen or show a modal
-// });
   return (
-    <ErrorBoundary onError={errorHandler}>
       <AuthProvider>
         <AppProvider>
           {/* <ThemeProvider value={colorScheme !== 'dark' ? DarkTheme : DefaultTheme}> */}
@@ -57,6 +34,5 @@ export default function RootLayout() {
           {/* </ThemeProvider> */}
         </AppProvider>
       </AuthProvider>
-    </ErrorBoundary>
   );
 }
