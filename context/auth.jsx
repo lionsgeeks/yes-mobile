@@ -72,6 +72,8 @@ const AuthProvider = ({ children }) => {
     setToken,
     fetchUserInfo,
     imagePath,
+    loading,
+    setLoading,
   };
 
   return (

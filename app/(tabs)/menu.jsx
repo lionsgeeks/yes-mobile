@@ -17,6 +17,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import yeslogo from "@/assets/images/yeslogo.png";
 import api from "@/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
 
 const MenuItem = ({ name, icon, route }) => {
   const { language } = useAppContext();
@@ -51,23 +52,24 @@ const MenuItem = ({ name, icon, route }) => {
 };
 
 export default function MenuScreen() {
-    const navigation = useNavigation();
-  const { setIsLoading } = useAuthContext();
+//   const navigation = useNavigation();
+//   const { isLoading, setLoading } = useAuthContext();
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('transitionStart', () => {
-      setIsLoading(true);
-    });
-    const unsubscribeEnd = navigation.addListener('transitionEnd', () => {
-      setIsLoading(false);
-    });
-    return () => {
-      unsubscribe();
-      unsubscribeEnd();
-    };
-  }, [navigation]);
-  const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } = useAuthContext();
-console.log('this shit cost a lot ',user);
+//   useEffect(() => {
+//     const unsubscribe = navigation.addListener("transitionStart", () => {
+//       setLoading(true);
+//     });
+//     const unsubscribeEnd = navigation.addListener("transitionEnd", () => {
+//       setLoading(false);
+//     });
+//     return () => {
+//       unsubscribe();
+//       unsubscribeEnd();
+//     };
+//   }, [navigation]);
+  const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } =
+    useAuthContext();
+  console.log("this shit cost a lot ", user);
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },
     { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
@@ -85,7 +87,7 @@ console.log('this shit cost a lot ',user);
         if (res.status == 200) {
           await AsyncStorage.removeItem("token");
           setIsSignedIn(false);
-          setToken('');
+          setToken("");
           setUser(null);
           router.replace("/(tabs)/sign-in");
         }
@@ -127,9 +129,11 @@ console.log('this shit cost a lot ',user);
       <View className="flex-row flex-wrap">
         {gridTabs.map(
           (tab, index) =>
-            (user ||  !user && (tab.name === "Sponsors" ||
-              tab.name === "About" ||
-              tab.name === "Terms and Privacy")) && (
+            (user ||
+              (!user &&
+                (tab.name === "Sponsors" ||
+                  tab.name === "About" ||
+                  tab.name === "Terms and Privacy"))) && (
               <TouchableOpacity
                 onPress={() => router.push(`/${tab.route}`)}
                 key={index}
