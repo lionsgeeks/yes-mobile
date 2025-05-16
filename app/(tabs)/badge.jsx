@@ -8,6 +8,7 @@ import { useAppContext } from '@/context';
 export default function Badge() {
     const { badge } = useAppContext();
 console.log(badge);
+// console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
 
 
 
@@ -31,7 +32,7 @@ console.log(badge);
                         <View className="w-26 h-26 border-4 border-beta rounded-full items-center justify-center mb-4 overflow-hidden">
                             {badge.participant_image && (
                                 <Image
-                                    source={{ uri: badge.participant_image }}
+                                    source={{ uri: `http://192.168.100.100:8000/storage/${badge.participant_image}` }}
                                     style={{ width: 100, height: 100, borderRadius: 50 }}
                                     resizeMode="cover"
                                 />

@@ -51,8 +51,11 @@ export default function Program() {
   const { Programe } = useAppContext();
   const navigation = useNavigation();
 
+// console.log(Program);
 
   const filteredSessions = Programe.filter(session => {
+    console.log(session.participants[0]);
+    
     const matchesSearch =
       searchQuery === '' ||
       session.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -88,6 +91,10 @@ export default function Program() {
             <TouchableOpacity onPress={() =>
               navigation.navigate("program/[id]", { Programe: session })
             } key={session.id} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
+                <View className="flex-row items-center mb-3">
+                  <Text className="mr-2 text-gray-600">🗓️</Text>
+                  <Text className="text-gray-600">{session.date}</Text>
+                </View>
               <View className="flex-row items-center justify-between mb-3">
                 <View className="flex-row items-center">
                   <Text className="mr-2 text-gray-600">🕒</Text>
@@ -109,21 +116,21 @@ export default function Program() {
 
 
 
-              {/* {session.speakers.length > 0 && (
+              {session.participants.length > 0 && (
                 <View className='flex-row items-center mb-3 gap-x-2'>
                   <View className="flex-row items-center mb-2">
                     <Text className="mr-2 text-gray-600">🧑‍💼</Text>
                     <Text className="text-gray-600 font-medium">Speakers:</Text>
                   </View>
                   <View className="flex-row flex-wrap">
-                    {session.speakers.map(speaker => (
+                    {session.participants.map(speaker => (
                       <View key={speaker.id} className="bg-gray-100 rounded-full px-3 py-1.5 mr-2 mb-2">
                         <Text className="text-gray-700 text-sm">{speaker.name}</Text>
                       </View>
                     ))}
                   </View>
                 </View>
-              )} */}
+              )}
 
 
 

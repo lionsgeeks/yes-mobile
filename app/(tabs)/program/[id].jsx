@@ -192,10 +192,10 @@ export default function SessionDetails() {
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
           <Text className="text-lg font-semibold text-[#2952a3] mb-3">Speakers</Text>
           <View className="space-y-4">
-            {Programe.speakers?.map(speaker => (
+            {Programe.participants?.map(speaker => (
               <View key={speaker.id} className="flex-row items-center space-x-4">
                 <Image
-                  source={{ uri: speaker.image }}
+                  source={{ uri: `http://192.168.100.100:8000/storage/${speaker.image}` }}
                   className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
                 />
                 <View className="flex-1 p-2">
