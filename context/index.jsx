@@ -245,17 +245,17 @@ const AppProvider = ({ children }) => {
   }, [networkState]);
 
   const errorHandler = async (error, stackTrace) => {
-    console.log("Error occurred: 🚒🚒🚑🚑");
     const screen = stackTrace?.split("at ")[1]?.split(" ")[0];
     const screenName = screen?.split("(")[0];
+    console.log("Error occurred: 🚒🚒🚑🚑");
     const errorData = {
-      name: error.message,
-      participant_id: user.id,
-      time: Date.now(),
+      name: error.message ?? "Unknown Error",
+      participant_id: user?.id ?? 0,
+      time: Date.now() ?? 0,
       operator_system: osName + " " + osVersion,
-      screen_name: screenName,
+      screen_name: screenName ?? "Unknown Screen",
     };
-    console.log("Screen name:", errorData);
+    console.log("Screen name:",errorData);
     if ((await networkState).isInternetReachable) {
       console.log("Network is reachable");
       api.post("reports", errorData).then((response) => {
@@ -265,7 +265,7 @@ const AppProvider = ({ children }) => {
       await AsyncStorage.setItem("errorData", JSON.stringify(errorData));
       console.log("Network is not reachable");
     }
-    console.error("Error package:", error.message);
+    // console.error("Error package:", error.message);
     // console.log("Stack Trace:", stackTrace);
   };
   return (

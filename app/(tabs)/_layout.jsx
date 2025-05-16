@@ -11,6 +11,7 @@ import { useAuthContext } from '@/context/auth';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { isAuthLoading } = useAuthContext();
   // const { isSignedIn } = useAuthContext();
 
   // if (isSignedIn) {
@@ -20,7 +21,7 @@ export default function TabLayout() {
   // }
 
   const tabScreen = [
-    { route: "index", name: "Home", icon: "house", showTab: true },
+    { route: "index", name: "Home", icon: "house", showTab: isAuthLoading ? false : true },
     { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-month", showTab: true },

@@ -13,31 +13,34 @@ const AuthProvider = ({ children }) => {
   const [socials, setSocials] = useState(null);
   const [token, setToken] = useState(null);
   const [imagePath, setImagePath] = useState(null);
-
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const fetchUserInfo = async () => {
+    setIsAuthLoading(true);
     const token = await AsyncStorage.getItem("token");
-  
+
     if (token) {
       // get user data from the server
       setToken(token);
       api.post("getuser/token", { token }).then((response) => {
-        setUser(response.data.user);
-        setSocials(response.data.socials); 
-        setIsSignedIn(true);
+        if (response) {
+          setUser(response.data.user);
+          setSocials(response.data.socials);
+          setIsAuthLoading(false);
+          setIsSignedIn(true);
+        }
       });
     } else {
       // redirect to sign in screen
       setIsSignedIn(false);
+      setIsAuthLoading(false);
       router.replace("/sign-in");
     }
   };
-  
+
   useEffect(() => {
     fetchUserInfo();
-    setLoading(false) 
+    setLoading(false);
   }, [token, isSignedIn]);
-
-
 
   // useEffect(() => {
   //   api
@@ -53,13 +56,11 @@ const AuthProvider = ({ children }) => {
   // useEffect(() => {
   //   api.post('participant/logged', {
   //    currentParticipant: user?.id
-  //   }).catch(error => {        
+  //   }).catch(error => {
   //    console.error('Failed to send user:',error);
   //  });
 
-
   //  }, [user])
-
 
   const appValue = {
     isSignedIn,
@@ -72,14 +73,15 @@ const AuthProvider = ({ children }) => {
     setToken,
     fetchUserInfo,
     imagePath,
-    loading,
-    setLoading,
+    isAuthLoading,
+    setIsAuthLoading,
   };
 
   return (
     <authContext.Provider value={appValue}>
       {loading ? <AuthLoader /> : children}
-    </authContext.Provider>);
+    </authContext.Provider>
+  );
 };
 
 const useAuthContext = () => useContext(authContext);

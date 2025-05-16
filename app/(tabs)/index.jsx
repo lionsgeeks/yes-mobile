@@ -19,8 +19,9 @@ import ShareEvent from "@/components/ShareEvent";
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
+import AuthLoader from "@/components/loading";
 export default function HomeScreen() {
-  const { user, imagePath } = useAuthContext();
+  const { user, imagePath, isAuthLoading } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
   const navigation = useNavigation();
   const items = [
@@ -46,33 +47,32 @@ export default function HomeScreen() {
     },
   ];
 
-
-  const sessions = [
-    {
-      title: "SOURCES OF FUNDING: BRINGING YOUR PROJECT TO LIFE",
-      time: {
-        start: "09:00",
-        end: "10:30",
-        duration: "1.5 hours",
-      },
-      location: {
-        name: "Main Hall",
-        details: "First floor, accessible entrance available",
-      },
-    },
-    {
-      title: "BUILDING AN EFFECTIVE FORECAST BUDGET",
-      time: {
-        start: "09:00",
-        end: "10:30",
-        duration: "1.5 hours",
-      },
-      location: {
-        name: "Main Hall",
-        details: "First floor, accessible entrance available",
-      },
-    },
-  ];
+  // const sessions = [
+  //   {
+  //     title: "SOURCES OF FUNDING: BRINGING YOUR PROJECT TO LIFE",
+  //     time: {
+  //       start: "09:00",
+  //       end: "10:30",
+  //       duration: "1.5 hours",
+  //     },
+  //     location: {
+  //       name: "Main Hall",
+  //       details: "First floor, accessible entrance available",
+  //     },
+  //   },
+  //   {
+  //     title: "BUILDING AN EFFECTIVE FORECAST BUDGET",
+  //     time: {
+  //       start: "09:00",
+  //       end: "10:30",
+  //       duration: "1.5 hours",
+  //     },
+  //     location: {
+  //       name: "Main Hall",
+  //       details: "First floor, accessible entrance available",
+  //     },
+  //   },
+  // ];
   const organizres = [
     {
       name: "Jadara",
@@ -92,8 +92,9 @@ export default function HomeScreen() {
     outputRange: ["transparent", "white"],
     extrapolate: "clamp",
   });
-
-  return (
+  return isAuthLoading ? (
+    <AuthLoader />
+  ) : (
     <View>
       <Animated.View
         style={{
@@ -134,7 +135,11 @@ export default function HomeScreen() {
         {/* quick actions */}
         <View className="flex-row flex-wrap justify-around py-5 bg-beta h-fit rounded-b-3xl">
           {items.map((item, index) => (
-            <TouchableOpacity onPress={() => router.push(item.href)} key={index} className="justify-center items-center ">
+            <TouchableOpacity
+              onPress={() => router.push(item.href)}
+              key={index}
+              className="justify-center items-center "
+            >
               <View className="bg-alpha w-20 aspect-square rounded-full flex justify-center items-center">
                 <Ionicons name={item.icon} color="#ffffff" size={30} />
               </View>
@@ -145,16 +150,15 @@ export default function HomeScreen() {
           ))}
         </View>
         {/* <View className="flex-row justify-around py-5 bg-beta rounded-b-3xl">
-        {items.map((item, index) => (
-          <View key={index} className="justify-center items-center">
-            <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
-              <Ionicons name={item.icon} color="#ffffff" size={26} />
-            </View>
-            <Text className="text-white/90 text-md font-bold">{item.label}</Text>
-          </View>
-        ))}
-      </View> */}
-        
+            {items.map((item, index) => (
+              <View key={index} className="justify-center items-center">
+                <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
+                  <Ionicons name={item.icon} color="#ffffff" size={26} />
+                </View>
+                <Text className="text-white/90 text-md font-bold">{item.label}</Text>
+              </View>
+            ))}
+          </View> */}
 
         {/* orgnazires */}
         <View className="px-6 py-6">
@@ -223,7 +227,6 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
         )}
-  
 
         {/* partners */}
         {sponsors?.length > 0 && (
