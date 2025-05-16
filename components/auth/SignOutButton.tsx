@@ -8,13 +8,14 @@ import { useAuthContext } from "@/context/auth";
 
 export const SignOutButton = () => {
   const { language } = useAppContext();
-  const { setIsSignedIn, setToken } = useAuthContext();
+  const { setIsSignedIn, setToken, setUser } = useAuthContext();
 
   const handleSignOut = async () => {
     try {
-      await AsyncStorage.setItem("token", "");
+      await AsyncStorage.removeItem("token");
       setIsSignedIn(false);
       setToken(''); // idk just in case
+      setUser(null);
       router.replace("/(tabs)/sign-in");
 
     } catch (err) {

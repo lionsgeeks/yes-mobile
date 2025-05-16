@@ -21,7 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 
 export default function AccountScreen() {
-    const { user, token, setIsSignedIn, fetchUserInfo, socials } = useAuthContext();
+    const { user, token, setIsSignedIn, fetchUserInfo, socials, setToken, setUser } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image);
 
@@ -144,8 +144,10 @@ export default function AccountScreen() {
             api.remove('participant/' + user.id, token).then(async (res) => {
 
                 if (res.status == 200) {
-                    await AsyncStorage.setItem("token", "");
+                    await AsyncStorage.removeItem("token");
                     setIsSignedIn(false);
+                    setToken('');
+                    setUser(null);
                     router.replace("/(tabs)/sign-in");
 
                 }
