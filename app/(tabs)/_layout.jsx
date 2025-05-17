@@ -40,7 +40,7 @@ export default function TabLayout() {
     { route: "loading", name: "Loading", icon: "settings", showTab: false },
     { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
-    { route: "onboarding/interest", name: "Interest", icon: "settings", showTab: true },
+    { route: "onboarding/interest", name: "Interest", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },

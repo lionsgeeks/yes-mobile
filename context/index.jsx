@@ -53,9 +53,11 @@ const AppProvider = ({ children }) => {
   };
   const fetchMatches = async () => {
     try {
-      setLoading(true);
-      const response = await api.get("participants/matches/?auth=" + user?.id);
-      setMatches(response.data.matches);
+      if (user?.id) {
+        setLoading(true);
+        const response = await api.get("participants/matches/?auth=" + user?.id);
+        setMatches(response.data.matches);
+      }
     } catch (error) {
       console.error("❌ Failed to fetch matches:", error);
     } finally {
@@ -98,20 +100,20 @@ const AppProvider = ({ children }) => {
       });
   };
 
-    const fetchBadge = () => {
-        api.get(`qrcodes/show/${user?.id}`).then((res) => {
-            const receivedBadge = res?.data.data[0];
-            // console.log(`qrcodes/show/${user?.id}`);
-            
-            
-            if (receivedBadge) {
-                console.log(receivedBadge);
-                setBadge(receivedBadge);
-            }
-        }).catch((err) => {
-            console.log('error getting badge', err);
-        })
-    }
+  const fetchBadge = () => {
+    api.get(`qrcodes/show/${user?.id}`).then((res) => {
+      const receivedBadge = res?.data.data[0];
+      // console.log(`qrcodes/show/${user?.id}`);
+
+
+      if (receivedBadge) {
+        console.log(receivedBadge);
+        setBadge(receivedBadge);
+      }
+    }).catch((err) => {
+      console.log('error getting badge', err);
+    })
+  }
 
   const fetchPrograme = () => {
     api
@@ -255,7 +257,7 @@ const AppProvider = ({ children }) => {
       operator_system: osName + " " + osVersion,
       screen_name: screenName ?? "Unknown Screen",
     };
-    console.log("Screen name:",errorData);
+    console.log("Screen name:", errorData);
     if ((await networkState).isInternetReachable) {
       console.log("Network is reachable");
       api.post("reports", errorData).then((response) => {

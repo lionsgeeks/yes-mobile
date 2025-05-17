@@ -6,45 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useAppContext } from '@/context';
 import api from '@/api';
 
-const allSponsors = [{
-  id: 1,
-  name: "Lionsgeek",
-  type: "Association",
-  description: "Leading technology company providing software, hardware, and cloud services.",
-  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFkbeAL5Awr6mwkecJV2mP5MVdedqFq7Oaqg&s",
-  website: "https://microsoft.com"
-},
-{
-  id: "2",
-  name: "2m",
-  type: "Media",
-  description: "Leading technology company providing software, hardware, and cloud services.",
-  image: "https://upload.wikimedia.org/wikipedia/fr/thumb/a/ac/2M_Logo.svg/1280px-2M_Logo.svg.png",
-  website: "https://microsoft.com"
-},
-{
-  id: "3",
-  name: "Jadara",
-  type: "Association",
-  description: "Leading technology company providing software, hardware, and cloud services.",
-  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQur9cHxmm6RW6cOtQeRF2FXbJS0M8fo897BA&s",
-  website: "https://microsoft.com"
-},
-{
-  id: "4",
-  name: "Yes Africa",
-  type: "Finance",
-  description: "Leading technology company providing software, hardware, and cloud services.",
-  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVp9SrShiyf0Zxu6O5C7CWT3t4AMZTiT5U7w&s",
-  website: "https://microsoft.com"
-}, {
-  id: "5",
-  name: "Microsoft",
-  type: "Technology",
-  description: "Leading technology company providing software, hardware, and cloud services.",
-  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Microsoft_icon.svg/1200px-Microsoft_icon.svg.png",
-  website: "https://microsoft.com"
-}];
+
 
 const Sponsors = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -92,7 +54,7 @@ const Sponsors = () => {
           </View>
         )}
       </View>
-      <ScrollView className="px-4 mb-4 mt-6">
+      <ScrollView className="px-4 mb-20 mt-6">
         <View className="flex-row flex-wrap justify-between gap-4">
           {filteredSponsors.map((item) => (
             <View key={item.id} className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">

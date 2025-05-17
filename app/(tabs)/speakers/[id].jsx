@@ -3,6 +3,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Navbar from '@/components/navigation/navbar';
 import { router } from 'expo-router';
+import api from '@/api';
 
 export default function SpeakerDetail() {
     const { params } = useRoute();
@@ -18,7 +19,7 @@ export default function SpeakerDetail() {
             {/* Profile Section */}
             <View className="items-center px-4 mt-8">
                 <Image
-                    source={{ uri: speaker.image }}
+                    source={{ uri: api.IMAGE_URL + speaker.image }}
                     className="w-32 h-32 rounded-full border-4 border-[#b09417] mb-4"
                 />
                 <Text className="text-2xl font-bold text-[#2e539d]">{speaker.name}</Text>
@@ -93,7 +94,7 @@ export default function SpeakerDetail() {
             </View>
 
             {/* Contact Button */}
-            <View className="px-6 mb-10 mt-4">
+            {/* <View className="px-6 mb-10 mt-4">
                 <Pressable
                     onPress={() => router.push({
                         pathname: `chat/${speaker.id}`,
@@ -105,7 +106,7 @@ export default function SpeakerDetail() {
                 >
                     <Text className="text-white font-semibold text-base">Send a Message</Text>
                 </Pressable>
-            </View>
+            </View> */}
         </ScrollView>
     );
 }

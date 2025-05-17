@@ -3,12 +3,13 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
+import api from '@/api';
 
 
 export default function Badge() {
     const { badge } = useAppContext();
-console.log(badge);
-// console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
+    console.log(badge);
+    // console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
 
 
 
@@ -32,7 +33,7 @@ console.log(badge);
                         <View className="w-26 h-26 border-4 border-beta rounded-full items-center justify-center mb-4 overflow-hidden">
                             {badge.participant_image && (
                                 <Image
-                                    source={{ uri: `http://192.168.100.100:8000/storage/${badge.participant_image}` }}
+                                    source={{ uri: `${api.IMAGE_URL}${badge.participant_image}` }}
                                     style={{ width: 100, height: 100, borderRadius: 50 }}
                                     resizeMode="cover"
                                 />
@@ -57,7 +58,7 @@ console.log(badge);
                     <View className="px-6 py-5 items-center rounded-b-2xl space-y-4">
                         <SvgUri
                             // uri="http://192.168.100.100:8000/storage/qrcodes/qrcode_1746453779.svg"
-                            uri={badge.file_url}
+                            uri={api.IMAGE_URL + badge.file_url.slice(25)}
                             width={150}
                             height={150}
                         />

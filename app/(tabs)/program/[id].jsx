@@ -11,6 +11,7 @@ import Navbar from "@/components/navigation/navbar";
 import { useLocalSearchParams } from 'expo-router'; ''
 import { useAuthContext } from '@/context/auth';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import api from '@/api';
 
 export default function SessionDetails() {
   // const Programes = {
@@ -195,7 +196,7 @@ export default function SessionDetails() {
             {Programe.participants?.map(speaker => (
               <View key={speaker.id} className="flex-row items-center space-x-4">
                 <Image
-                  source={{ uri: `http://192.168.100.100:8000/storage/${speaker.image}` }}
+                  source={{ uri: api.IMAGE_URL + speaker?.image }}
                   className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
                 />
                 <View className="flex-1 p-2">

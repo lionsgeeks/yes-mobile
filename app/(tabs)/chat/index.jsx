@@ -118,8 +118,7 @@ export default function ChatScreen() {
                 className={`flex-row rounded-xl overflow-hidden mb-3  ${isUnread ? "bg-beta " : "bg-white border border-gray-200"
                   } shadow-sm`}
               >
-           
-           
+
                   <View className="w-1 bg-beta" />
               
 

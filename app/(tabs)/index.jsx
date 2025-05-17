@@ -238,7 +238,7 @@ export default function HomeScreen() {
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
             <View className="flex flex-row py-6 flex-wrap w-full ">
-              {sponsors.map((partner, index) => (
+              {sponsors.reverse().map((partner, index) => (
                 <View
                   key={index}
                   className="bg-white rounded-lg p-3 "
