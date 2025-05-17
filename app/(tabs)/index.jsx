@@ -161,7 +161,7 @@ export default function HomeScreen() {
           </View> */}
 
         {/* orgnazires */}
-        <View className="px-6 py-6">
+        <View className="px-6 pt-6">
           <Text className="text-xl font-bold text-alpha">Organizers</Text>
           <View className="flex py-6 flex-row justify-between w-full ">
             {organizres.map((organizre, index) => (
@@ -187,14 +187,14 @@ export default function HomeScreen() {
         {/* <ShareEvent imagePath={imagePath}/> */}
         {/* speakers */}
         {speakers?.length > 0 && (
-          <View className="px-6 py-6">
+          <View className="px-6 pb-6">
             <Text className="text-xl font-bold text-alpha">
               Featured Speakers
             </Text>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              className="pt-6 "
+              className="py-6 "
               contentContainerStyle={{ paddingRight: 80 }}
             >
               {speakers?.map((item, index) => (
