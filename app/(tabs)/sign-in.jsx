@@ -66,7 +66,7 @@ export default function SignInScreen() {
         }).catch((e) => {
             console.log('error signing in', e.message)  
             // alert("Invalid email or password. Please try again.");
-        });
+        }); 
     }
 
 
@@ -76,7 +76,7 @@ export default function SignInScreen() {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             className="h-full w-full px-6 justify-center items-center"
-            {...panHandlers}
+            // {...panHandlers}
         >
             <Image
                 source={yeslogo}

@@ -22,12 +22,11 @@ const AuthProvider = ({ children }) => {
       // get user data from the server
       setToken(token);
       api.post("getuser/token", { token }).then((response) => {
-        if (response) {
-          setUser(response.data.user);
-          setSocials(response.data.socials);
-          setIsAuthLoading(false);
-          setIsSignedIn(true);
-        }
+        setUser(response?.data?.user);
+        setSocials(response?.data?.socials);
+        setIsSignedIn(true);
+        setIsAuthLoading(false);
+        // console.log("response 🚑");
       });
     } else {
       // redirect to sign in screen

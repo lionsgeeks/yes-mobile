@@ -1,11 +1,11 @@
 import { View, Text, Pressable, Image } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { IconSymbol } from "../ui/IconSymbol";
 import { router } from "expo-router";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api"
 
-export default function Navbar({ title = "Screen" }) {
+export default function Navbar({ title = "Screen", setIsCameraReady }) {
 
     const { user } = useAuthContext();
 
@@ -31,9 +31,16 @@ export default function Navbar({ title = "Screen" }) {
             <View className="flex-row items-center gap-x-4">
 
                 {
-                    title != "chat" &&
+                   ( title != "chat" && title != "Program Details") &&
                     <Pressable onPress={() => router.push("/chat")}>
                         <IconSymbol name="message" size={22} color="#000" />
+                    </Pressable>
+                }
+                //TODO: Add admin role  to condition;
+                {
+                    title === "Program Details" &&
+                    <Pressable onPress={() => {setIsCameraReady(true)}}>
+                        <Ionicons name="qr-code" size={22} color="#000" />
                     </Pressable>
                 }
 
