@@ -10,11 +10,38 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
 import ably, { cleanupAbly, setupAbly } from "@/utils/ably";
 import Navbar from "@/components/navigation/navbar";
+import useNotif from "@/hooks/useNotif";
+
+
+
+
+async function sendPushNotification(expoPushToken) {
+  const message = {
+    to: expoPushToken,
+    sound: 'default',
+    title: 'Original Title',
+    body: 'And here is the body!',
+    data: { someData: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
+}
+
 
 export default function ChatScreen() {
+  const {expoPushToken} = useNotif();
   const [conversations, setConversations] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
@@ -62,6 +89,13 @@ export default function ChatScreen() {
         <Navbar title="chat" />
       </View>
       <View className="flex-1 px-6 ">
+
+        <Button
+          title="Press to Send Notification"
+          onPress={async () => {
+            await sendPushNotification(expoPushToken);
+          }}
+        />
 
         {/* Header */}
         <Text className="text-3xl font-extrabold text-alpha mb-4">Empower Chat</Text>
@@ -119,8 +153,8 @@ export default function ChatScreen() {
                   } shadow-sm`}
               >
 
-                  <View className="w-1 bg-beta" />
-              
+                <View className="w-1 bg-beta" />
+
 
                 {/* Chat content */}
                 <View className="flex-row items-center p-4 flex-1">

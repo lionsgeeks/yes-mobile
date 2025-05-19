@@ -24,7 +24,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.thisisgeek6.yesmobile"
+      "package": "com.youthempowerment.yesmobil",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +44,14 @@
         }
       ],
       [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#0b4296",
+          "defaultChannel": "default"
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
@@ -55,7 +64,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "7937b32a-fa81-48d3-9281-02e718fdf279"
+        "projectId": "586e6e4f-4595-4933-9c61-b67b0d71596a"
       }
     }
   }

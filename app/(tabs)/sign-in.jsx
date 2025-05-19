@@ -9,8 +9,13 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import yeslogo from "../../assets/images/yeslogo.png"
 import handleBack from "@/utils/handleBack";
 import { LinearGradient } from 'expo-linear-gradient';
+import useNotif from "@/hooks/useNotif";
+import { Alert } from "react-native";
 
 export default function SignInScreen() {
+    // Tempo Code:
+    const {expoPushToken} = useNotif();
+
     const { setIsSignedIn, setUser, setToken, isSignedIn } = useAuthContext();
 
     const [email, setEmail] = useState("");
@@ -73,7 +78,7 @@ export default function SignInScreen() {
             }
         }).catch((e) => {
             console.log('error signing in', e.message)
-            // alert("Invalid email or password. Please try again.");
+            Alert.alert("Invalid email or password. Please try again.", e.message);
         });
     }
 
@@ -163,6 +168,7 @@ export default function SignInScreen() {
                     </TouchableOpacity>
                 </ScrollView>
             </KeyboardAvoidingView>
+                <Text className="text-white">{expoPushToken}</Text>
         </LinearGradient>
 
 

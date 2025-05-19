@@ -20,7 +20,13 @@ import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
 import AuthLoader from "@/components/loading";
+import useNotif from "@/hooks/useNotif";
+
+
+
+
 export default function HomeScreen() {
+  const {expoToken} = useNotif();
   const { user, imagePath, isAuthLoading } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
   const navigation = useNavigation();

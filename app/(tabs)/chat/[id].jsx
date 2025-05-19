@@ -25,7 +25,7 @@ import { setupAbly, cleanupAbly } from "@/utils/ably";
 
 export default function ChatDetail() {
     const { darkMode } = useAppContext();
-    const { user } = useAuthContext();
+    const { user, token } = useAuthContext();
     const receiver = useLocalSearchParams();
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState("");
