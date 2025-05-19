@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
-  Image
-} from "react-native"
+  Image,
+  Pressable,
+} from "react-native";
 import Navbar from "@/components/navigation/navbar";
-import { useLocalSearchParams } from 'expo-router'; ''
-import { useAuthContext } from '@/context/auth';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import api from '@/api';
+import { useCameraPermissions, CameraView } from "expo-camera";
+import { useLocalSearchParams } from "expo-router";
+("");
+import { useAuthContext } from "@/context/auth";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import api from "@/api";
 
 export default function SessionDetails() {
   // const Programes = {
@@ -43,53 +46,52 @@ export default function SessionDetails() {
   //   capacity: 50,
   // }
   const { user } = useAuthContext();
-    const { params } = useRoute();
-    const { Programe } = params;
-        const navigation = useNavigation();
-    
+  const { params } = useRoute();
+  const { Programe } = params;
+  const navigation = useNavigation();
+
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
   // const [Programe, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
+  const [isCameraReady, setIsCameraReady] = useState(false);
 
-//   useEffect(() => {
-//   const fetchProgrames = async () => {
-//     setLoading(true);
+  //   useEffect(() => {
+  //   const fetchProgrames = async () => {
+  //     setLoading(true);
 
-//     try {
-//       const response = await fetch(`${APP_URL}/api/programe/${id}`);
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
-//       const data = await response.json();
+  //     try {
+  //       const response = await fetch(`${APP_URL}/api/programe/${id}`);
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
 
-//       if (data.programe) {
-//         setPrograme(data.programe);
-//       } else {
-//         setError("No programe found.");
-//       }
-//     } catch (err) {
-//       console.error("Fetch Error:", err);
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  //       if (data.programe) {
+  //         setPrograme(data.programe);
+  //       } else {
+  //         setError("No programe found.");
+  //       }
+  //     } catch (err) {
+  //       console.error("Fetch Error:", err);
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-//   if (id) {
-//     fetchProgrames();
-//   }
-// }, [id]); 
-
-
+  //   if (id) {
+  //     fetchProgrames();
+  //   }
+  // }, [id]);
 
   const handleEnroll = async (programId) => {
     try {
       const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           programe_id: parseInt(programId),
@@ -101,29 +103,28 @@ export default function SessionDetails() {
 
       if (response.status === 409) {
         alert(data.message); // Already enrolled
-        setEnrolledPrograms(prev => [...prev, programId]);
+        setEnrolledPrograms((prev) => [...prev, programId]);
         return;
       }
 
       if (response.ok) {
-        alert(data.message || 'Enrolled successfully!');
-        setEnrolledPrograms(prev => [...prev, programId]); // Mark this program as enrolled
+        alert(data.message || "Enrolled successfully!");
+        setEnrolledPrograms((prev) => [...prev, programId]); // Mark this program as enrolled
       } else {
-        alert(data.message || 'Failed to enroll.');
+        alert(data.message || "Failed to enroll.");
       }
     } catch (error) {
-      console.error('Enrollment Error:', error);
-      alert('Something went wrong. Try again.');
+      console.error("Enrollment Error:", error);
+      alert("Something went wrong. Try again.");
     }
   };
-
 
   const handlcancelEnroll = async (programId) => {
     try {
       const response = await fetch(`${APP_URL}/api/programe/enrolleddelete`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           programe_id: parseInt(programId),
@@ -134,16 +135,16 @@ export default function SessionDetails() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message || 'Enrollment cancelled successfully!');
-        setEnrolledPrograms(prev => prev.filter(id => id !== programId)); // Remove this program from enrolled list
+        alert(data.message || "Enrollment cancelled successfully!");
+        setEnrolledPrograms((prev) => prev.filter((id) => id !== programId)); // Remove this program from enrolled list
       } else {
-        alert(data.message || 'Failed to cancel enrollment.');
+        alert(data.message || "Failed to cancel enrollment.");
       }
     } catch (error) {
-      console.error('Cancellation Error:', error);
-      alert('Something went wrong. Try again.');
+      console.error("Cancellation Error:", error);
+      alert("Something went wrong. Try again.");
     }
-  }
+  };
 
   // if (loading) {
   //   return (
@@ -161,72 +162,118 @@ export default function SessionDetails() {
   //   );
   // }
 
-  return (
+  return !isCameraReady ? (
     <View className="flex-1 bg-gray-50 pt-10">
-      <Navbar title="Program" />
+      <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
       <ScrollView className="px-4">
         {/* Title Section */}
-        <View className="items-center mb-6">
-          <Text className="text-2xl font-bold text-[#2952a3] mb-2">{Programe.name}</Text>
+        <View className="items- p-5 mb-6 bg-white">
+          <Text className="text-2xl font-bold text-[#2952a3] mb-2">
+            {Programe.name}
+          </Text>
           <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text>
-          <Text className="text-sm text-gray-600 mb-1">{Programe.date} • Day 1</Text>
-          <Text className="text-sm text-gray-600">{Programe.start_date} - {Programe.end_time}</Text>
+          <Text className="text-sm text-gray-600 mb-1">
+            {Programe.date} • Day 1
+          </Text>
+          <Text className="text-sm text-gray-600">
+            {Programe.start_date} - {Programe.end_time}
+          </Text>
         </View>
 
         {/* About this Session */}
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">About this Session</Text>
+          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
+            About this Session
+          </Text>
           <Text className="text-gray-600">{Programe.description}</Text>
         </View>
 
         {/* Location */}
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">Location</Text>
+          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
+            Location
+          </Text>
           <View className="flex-row items-start">
             <View className="flex-1">
-              <Text className="font-medium text-gray-900">{Programe.location}</Text>
+              <Text className="font-medium text-gray-900">
+                {Programe.location}
+              </Text>
             </View>
           </View>
         </View>
 
         {/* Speakers */}
         <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">Speakers</Text>
+          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
+            Speakers
+          </Text>
           <View className="space-y-4">
-            {Programe.participants?.map(speaker => (
-              <View key={speaker.id} className="flex-row items-center space-x-4">
+            {Programe.participants?.map((speaker) => (
+              <View
+                key={speaker.id}
+                className="flex-row items-center space-x-4"
+              >
                 <Image
                   source={{ uri: api.IMAGE_URL + speaker?.image }}
                   className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
                 />
                 <View className="flex-1 p-2">
-                  <Text className="font-medium text-[#2952a3]">{speaker.name}</Text>
+                  <Text className="font-medium text-[#2952a3]">
+                    {speaker.name}
+                  </Text>
                   <Text className="text-sm text-gray-600">{speaker.role}</Text>
-                  <Text className="text-xs text-gray-500">{speaker.organization}</Text>
+                  <Text className="text-xs text-gray-500">
+                    {speaker.organization}
+                  </Text>
                 </View>
               </View>
             ))}
           </View>
         </View>
 
-
-
         {/* Register Button */}
 
-
-
-
-
         {enrolledPrograms.includes(Programe.id) ? (
-          <TouchableOpacity onPress={() => handlcancelEnroll(Programe.id)} className="bg-[#2952a3] py-4 rounded-lg mt-4">
-            <Text className="text-white text-center font-medium">Cancel your register</Text>
+          <TouchableOpacity
+            onPress={() => handlcancelEnroll(Programe.id)}
+            className="bg-[#2952a3] py-4 rounded-lg mt-4"
+          >
+            <Text className="text-white text-center font-medium">
+              Cancel your register
+            </Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={() => handleEnroll(Programe.id)} className="bg-[#2952a3] py-4 rounded-lg mt-4">
-            <Text className="text-center text-white text-base font-medium">Register for Session</Text>
+          <TouchableOpacity
+            onPress={() => handleEnroll(Programe.id)}
+            className="bg-[#2952a3] py-4 rounded-lg mt-4"
+          >
+            <Text className="text-center text-white text-base font-medium">
+              Register for Session
+            </Text>
           </TouchableOpacity>
         )}
       </ScrollView>
+    </View>
+  ) : (
+    <View className=" items-center justify-center h-screen bg-purple-600">
+      <Text>Scan</Text>
+      <Pressable
+        onPress={() => setIsCameraReady(false)}
+        className="bg-white px-4 py-2 rounded-lg"
+      >
+        <Text className="text-[#2952a3] font-semibold">Close</Text>{" "}
+      </Pressable>
+        <View className="w-96 h-96 border border-white rounded-lg">
+          <CameraView
+            facing="back"
+            onBarcodeScanned={(text) => {
+              // checkParticipant(text.data);
+              console.log("Scanned data:", text.data);
+            }}
+          >
+            <View className="w-full h-full "></View>
+          </CameraView>
+        </View>
     </View>
   );
 }

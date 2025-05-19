@@ -92,6 +92,7 @@ export default function HomeScreen() {
     outputRange: ["transparent", "white"],
     extrapolate: "clamp",
   });
+  // console.log("home screen", isAuthLoading);
   return isAuthLoading ? (
     <AuthLoader />
   ) : (

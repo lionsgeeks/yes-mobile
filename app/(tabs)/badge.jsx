@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
 import api from '@/api';
+import { Button } from '@react-navigation/elements';
 
 
 export default function Badge() {
@@ -58,16 +59,24 @@ export default function Badge() {
                     <View className="px-6 py-5 items-center rounded-b-2xl space-y-4">
                         <SvgUri
                             // uri="http://192.168.100.100:8000/storage/qrcodes/qrcode_1746453779.svg"
-                            uri={api.IMAGE_URL + badge.file_url.slice(25)}
-                            width={150}
-                            height={150}
+                            uri={api.IMAGE_URL + badge.file_url}
+                            width={200}
+                            height={200}
                         />
                         <Text className="text-gray-600 text-base font-semibold pt-8">Scan for verification</Text>
                         <View className="w-full border-t border-gray-300" />
-                        <Text className="text-gray-800 text-base pt-5 font-semibold">Badge ID:{badge.badge_id}</Text>
+                        {/* <Text className="text-gray-800 text-base pt-5 font-semibold">Badge ID:{badge.badge_id}</Text> */}
                         <Text className="text-gray-500 text-sm text-center">
                             This badge must be worn at all times during the event.
                         </Text>
+                        <View className='flex-row justify-center  w-full mt-4 gap-x-4'>
+                           <TouchableOpacity>
+                                <Text className="text-beta text-m font-semibold">Download Badge</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text className="text-beta text-m font-semibold">Share Badge</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </ScrollView>

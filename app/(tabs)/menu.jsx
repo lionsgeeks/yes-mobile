@@ -52,24 +52,8 @@ const MenuItem = ({ name, icon, route }) => {
 };
 
 export default function MenuScreen() {
-//   const navigation = useNavigation();
-//   const { isLoading, setLoading } = useAuthContext();
-
-//   useEffect(() => {
-//     const unsubscribe = navigation.addListener("transitionStart", () => {
-//       setLoading(true);
-//     });
-//     const unsubscribeEnd = navigation.addListener("transitionEnd", () => {
-//       setLoading(false);
-//     });
-//     return () => {
-//       unsubscribe();
-//       unsubscribeEnd();
-//     };
-//   }, [navigation]);
   const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } =
     useAuthContext();
-  console.log("this shit cost a lot ", user);
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },
     { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
