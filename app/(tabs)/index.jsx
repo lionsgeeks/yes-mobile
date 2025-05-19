@@ -228,7 +228,7 @@ export default function HomeScreen() {
                 >
                   <Image
                     source={{ uri: api.IMAGE_URL + partner.image }}
-                    style={{ width: 80, height: 60, resizeMode: "contain" }}
+                    style={{ width: 90, height: 60, resizeMode: "contain" }}
                   />
                 </View>
               ))}
