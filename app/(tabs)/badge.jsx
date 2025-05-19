@@ -58,13 +58,13 @@ export default function Badge() {
                     <View className="px-6 py-5 items-center rounded-b-2xl space-y-4">
                         <SvgUri
                             // uri="http://192.168.100.100:8000/storage/qrcodes/qrcode_1746453779.svg"
-                            uri={api.IMAGE_URL + badge.file_url.slice(25)}
-                            width={150}
-                            height={150}
+                            uri={api.IMAGE_URL + badge.file_url}
+                            width={200}
+                            height={200}
                         />
                         <Text className="text-gray-600 text-base font-semibold pt-8">Scan for verification</Text>
                         <View className="w-full border-t border-gray-300" />
-                        <Text className="text-gray-800 text-base pt-5 font-semibold">Badge ID:{badge.badge_id}</Text>
+                        {/* <Text className="text-gray-800 text-base pt-5 font-semibold">Badge ID:{badge.badge_id}</Text> */}
                         <Text className="text-gray-500 text-sm text-center">
                             This badge must be worn at all times during the event.
                         </Text>
