@@ -47,32 +47,8 @@ export default function HomeScreen() {
     },
   ];
 
-  // const sessions = [
-  //   {
-  //     title: "SOURCES OF FUNDING: BRINGING YOUR PROJECT TO LIFE",
-  //     time: {
-  //       start: "09:00",
-  //       end: "10:30",
-  //       duration: "1.5 hours",
-  //     },
-  //     location: {
-  //       name: "Main Hall",
-  //       details: "First floor, accessible entrance available",
-  //     },
-  //   },
-  //   {
-  //     title: "BUILDING AN EFFECTIVE FORECAST BUDGET",
-  //     time: {
-  //       start: "09:00",
-  //       end: "10:30",
-  //       duration: "1.5 hours",
-  //     },
-  //     location: {
-  //       name: "Main Hall",
-  //       details: "First floor, accessible entrance available",
-  //     },
-  //   },
-  // ];
+
+  
   const organizres = [
     {
       name: "Jadara",
