@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
 import api from '@/api';
+import { Button } from '@react-navigation/elements';
 
 
 export default function Badge() {
@@ -68,6 +69,14 @@ export default function Badge() {
                         <Text className="text-gray-500 text-sm text-center">
                             This badge must be worn at all times during the event.
                         </Text>
+                        <View className='flex-row justify-center  w-full mt-4 gap-x-4'>
+                           <TouchableOpacity>
+                                <Text className="text-beta text-m font-semibold">Download Badge</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text className="text-beta text-m font-semibold">Share Badge</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
