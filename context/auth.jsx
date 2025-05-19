@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
         setSocials(response?.data?.socials);
         setIsSignedIn(true);
         setIsAuthLoading(false);
-        // console.log("response 🚑");
+        // console.log("response 🚑", user);
       });
     } else {
       // redirect to sign in screen

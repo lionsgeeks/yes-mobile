@@ -7,85 +7,33 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import Navbar from "@/components/navigation/navbar";
 import { useCameraPermissions, CameraView } from "expo-camera";
-import { useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
 ("");
 import { useAuthContext } from "@/context/auth";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "@/api";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SessionDetails() {
-  // const Programes = {
-  //   id: 1,
-  //   name: "Opening Ceremony",
-  //   date: "May 15, 2023",
-  //   start_date: "09:00 AM",
-  //   end_time: "10:30 AM",
-  //   description: "Welcome address and keynote speeches from event organizers.",
-  //   location: "Main Hall",
-  //   edition: "2023",
-  //   speakers: [
-  //     {
-  //       id: 1,
-  //       name: "Emma Johnson",
-  //       role: "Climate Activist",
-  //       organization: "Green Earth Initiative",
-  //       image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=100"
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "David Patel",
-  //       role: "Tech for Good Lead",
-  //       organization: "Digital Bridges",
-  //       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100"
-  //     }
-  //   ],
-  //   tags: ["Keynote", "Opening", "Welcome"],
-  //   capacity: 50,
-  // }
   const { user } = useAuthContext();
   const { params } = useRoute();
   const { Programe } = params;
   const navigation = useNavigation();
-
+  console.log("🚨🚨🚨🚨🚨🚨", Programe);
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
   // const [Programe, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
   const [isCameraReady, setIsCameraReady] = useState(false);
-
-  //   useEffect(() => {
-  //   const fetchProgrames = async () => {
-  //     setLoading(true);
-
-  //     try {
-  //       const response = await fetch(`${APP_URL}/api/programe/${id}`);
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       const data = await response.json();
-
-  //       if (data.programe) {
-  //         setPrograme(data.programe);
-  //       } else {
-  //         setError("No programe found.");
-  //       }
-  //     } catch (err) {
-  //       console.error("Fetch Error:", err);
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   if (id) {
-  //     fetchProgrames();
-  //   }
-  // }, [id]);
-
+  const [hasChecked, setHasChecked] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(null);
+  const [isScanned, setIsScanned] = useState(null);
+  const [loadingCamera, setLoadingCamera] = useState(false);
   const handleEnroll = async (programId) => {
     try {
       const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
@@ -161,7 +109,41 @@ export default function SessionDetails() {
   //     </View>
   //   );
   // }
-
+  const checkParticipant = async (badgeId) => {
+    // console.log(typeof badgeId);
+    if (hasChecked) {
+      return;
+    }
+    setIsScanned(true);
+    try {
+      setLoadingCamera(true);
+      const response = await api.post("participants/enrolled", {
+        badge_id: badgeId,
+        programe_id: Programe.id,
+      });
+      console.log("🚨🚨🚨 response : ", response);
+      if (response?.status === 200) {
+        // console.log("🚨🚨🚨🚨🚨🚨", response?.data.isRegistered);
+        setIsEnrolled(response?.data.isRegistered);
+      } else {
+        alert("Error: " + response?.data?.message);
+      }
+    } catch (error) {
+      console.log("🚨Error checking participant:", error);
+    } finally {
+      setLoadingCamera(false);
+    }
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      return () => {
+        setIsCameraReady(false);
+        setIsScanned(false);
+        setHasChecked(false);
+      };
+    }, [])
+  );
   return !isCameraReady ? (
     <View className="flex-1 bg-gray-50 pt-10">
       <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
@@ -171,12 +153,12 @@ export default function SessionDetails() {
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">
             {Programe.name}
           </Text>
-          <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text>
+          {/* <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text> */}
           <Text className="text-sm text-gray-600 mb-1">
             {Programe.date} • Day 1
           </Text>
           <Text className="text-sm text-gray-600">
-            {Programe.start_date} - {Programe.end_time}
+            {Programe.start_date} - {Programe.end_date}
           </Text>
         </View>
 
@@ -255,25 +237,61 @@ export default function SessionDetails() {
       </ScrollView>
     </View>
   ) : (
-    <View className=" items-center justify-center h-screen bg-purple-600">
-      <Text>Scan</Text>
+    <View className=" items-center justify-center h-screen ">
+      {/* <Text>Scan</Text>
       <Pressable
-        onPress={() => setIsCameraReady(false)}
+        onPress={() => {
+          setHasChecked(false);
+          setIsCameraReady(false);
+        }}
         className="bg-white px-4 py-2 rounded-lg"
       >
-        <Text className="text-[#2952a3] font-semibold">Close</Text>{" "}
-      </Pressable>
-        <View className="w-96 h-96 border border-white rounded-lg">
-          <CameraView
-            facing="back"
-            onBarcodeScanned={(text) => {
-              // checkParticipant(text.data);
-              console.log("Scanned data:", text.data);
-            }}
-          >
-            <View className="w-full h-full "></View>
-          </CameraView>
-        </View>
+        <Text className="text-[#2952a3] font-semibold">Close</Text>
+      </Pressable> */}
+      <View className="w-96 h-96 border border-white rounded-lg">
+        <CameraView
+          facing="back"
+          onBarcodeScanned={(text) => {
+            // console.log("Scanned data:", text.data);
+            setHasChecked(true);
+            checkParticipant(text.data);
+          }}
+        >
+          <View className="w-full h-full "></View>
+        </CameraView>
+        {isScanned && (
+          <View className="absolute inset-0 p-5 bg-white justify-center items-center">
+            {loadingCamera ? (
+              <ActivityIndicator size="large" color="#b09417" />
+            ) : isEnrolled === true ? (
+              <View className="items-center justify-center">
+                <Ionicons name="checkmark-done" size={50} color={"#22c55e"} />
+                <Text className="text-center text-lg font-semibold text-green-500">
+                  You are enrolled in this session!
+                </Text>
+              </View>
+            ) : isEnrolled === false ? (
+              <View className="items-center justify-center">
+                <Ionicons name="remove-circle" size={50} color={"#ef4444"} />
+                <Text className="text-center text-lg font-semibold text-red-500">
+                  You are not enrolled in this session.
+                </Text>
+              </View>
+            ) : null}
+            <Pressable
+              onPress={() => {
+                setIsCameraReady(false);
+                setIsScanned(false);
+                setHasChecked(false);
+                setIsEnrolled(null); // Reset for next scan
+              }}
+              className="bg-alpha w-fit px-4 py-3 rounded-lg mt-4"
+            >
+              <Text className="text-white font-bold text-center">Close</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
     </View>
   );
 }

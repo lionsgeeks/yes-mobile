@@ -116,7 +116,7 @@ const AppProvider = ({ children }) => {
 
 
       if (receivedBadge) {
-        console.log(receivedBadge);
+        // console.log(receivedBadge);
         setBadge(receivedBadge);
       }
     }).catch((err) => {

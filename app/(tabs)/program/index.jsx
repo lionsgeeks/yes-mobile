@@ -54,7 +54,7 @@ export default function Program() {
 // console.log(Program);
 
   const filteredSessions = Programe.filter(session => {
-    console.log(session.participants[0]);
+    // console.log(session.participants[0]);
     
     const matchesSearch =
       searchQuery === '' ||

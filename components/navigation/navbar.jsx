@@ -4,13 +4,30 @@ import { IconSymbol } from "../ui/IconSymbol";
 import { router } from "expo-router";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api"
+import { useCameraPermissions } from "expo-camera";
 
 export default function Navbar({ title = "Screen", setIsCameraReady }) {
 
     const { user } = useAuthContext();
 
     const imageURL = api.IMAGE_URL + user?.image;
-
+      const [permission, requestPermission] = useCameraPermissions();
+    const toggleCamera = async () => {
+    if (permission.granted) {
+      setScanner(true);
+    } else if (permission.denied) {
+      alert(
+        "You have denied camera access. Please go to your device settings to enable it."
+      );
+    } else {
+      const result = await requestPermission();
+      if (result.granted) {
+        setScanner(true);
+      } else {
+        alert("Camera permission is required to use the scanner.");
+      }
+    }
+  };
 
     return (
         <View className="flex-row items-center justify-between px-6 py-4  ">
@@ -37,8 +54,8 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
                     </Pressable>
                 }
                 {
-                    (title === "Program Details" && user.role == "admin") || (title === "Badge" ) &&
-                    <Pressable onPress={() => { setIsCameraReady(true) }}>
+                    title === "Program Details" && user.role === 'admin' &&
+                    <Pressable onPress={() => { toggleCamera;setIsCameraReady(true)}}>
                         <Ionicons name="qr-code" size={22} color="#000" />
                     </Pressable>
                 }
