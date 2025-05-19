@@ -17,7 +17,7 @@ export default function Badge() {
 
     return (
         <View className="flex-1 bg-white pt-10 ">
-            <Navbar title="Program" />
+            <Navbar title="Badge" />
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 className="px-4"

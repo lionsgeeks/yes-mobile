@@ -11,7 +11,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
 
     const imageURL = api.IMAGE_URL + user?.image;
 
-    
+
     return (
         <View className="flex-row items-center justify-between px-6 py-4  ">
             {/* Left: Home Button */}
@@ -31,15 +31,14 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
             <View className="flex-row items-center gap-x-4">
 
                 {
-                   ( title != "chat" && title != "Program Details") &&
+                    (title != "chat" && title != "Program Details" && title != "Badge") &&
                     <Pressable onPress={() => router.push("/chat")}>
                         <IconSymbol name="message" size={22} color="#000" />
                     </Pressable>
                 }
-                //TODO: Add admin role  to condition;
                 {
-                    title === "Program Details" &&
-                    <Pressable onPress={() => {setIsCameraReady(true)}}>
+                    (title === "Program Details" && user.role == "admin") || (title === "Badge" ) &&
+                    <Pressable onPress={() => { setIsCameraReady(true) }}>
                         <Ionicons name="qr-code" size={22} color="#000" />
                     </Pressable>
                 }

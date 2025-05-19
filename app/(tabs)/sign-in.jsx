@@ -1,8 +1,8 @@
 import api from "@/api";
 import { useAuthContext } from "@/context/auth";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View ,Platform } from "react-native";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -11,7 +11,7 @@ import handleBack from "@/utils/handleBack";
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function SignInScreen() {
-    const { setIsSignedIn, setUser, setToken } = useAuthContext();
+    const { setIsSignedIn, setUser, setToken, isSignedIn } = useAuthContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,6 +19,15 @@ export default function SignInScreen() {
 
     const panHandlers = handleBack("/sign-in")
 
+    useFocusEffect(
+        useCallback(() => {
+
+            if (isSignedIn) {
+                router.replace("/")
+            }
+
+        }, [isSignedIn])
+    );
     const onSignIn = () => {
 
         api.post("sanctum/token", { email, password }).then(async (response) => {
@@ -65,7 +74,7 @@ export default function SignInScreen() {
         }).catch((e) => {
             console.log('error signing in', e.message)
             // alert("Invalid email or password. Please try again.");
-        }); 
+        });
     }
 
 
