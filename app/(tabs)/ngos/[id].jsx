@@ -40,7 +40,7 @@ const NgoDetails = () => {
         </View>
         <View className="">
           <View className="flex flex-row items-center gap-2 mb-2 mt-2">
-            {ngo?.social?.instagram && (
+            {ngo?.social?.linkedin && (
               <Ionicons
                 onPress={() => Linking.openURL(ngo?.social?.linkedin)}
                 name="logo-linkedin"

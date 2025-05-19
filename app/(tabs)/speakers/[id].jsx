@@ -25,6 +25,42 @@ export default function SpeakerDetail() {
                 <Text className="text-2xl font-bold text-[#2e539d]">{speaker.name}</Text>
                 <Text className="text-base text-gray-600">{speaker.title}</Text>
                 <Text className="text-sm text-gray-400 mb-3">{speaker.role}</Text>
+                <View className="">
+                    <View className="flex flex-row items-center gap-2 mb-2 mt-2">
+                        {speaker?.social?.linkedin && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(speaker?.social?.linkedin)}
+                                name="logo-linkedin"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {speaker?.social?.instagram && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(speaker?.social?.instagram)}
+                                name="logo-instagram"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {speaker?.social?.website && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(speaker?.social?.website)}
+                                name="globe-outline"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {speaker?.social?.youtube && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(speaker?.social?.youtube)}
+                                name="logo-youtube"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                    </View>
+                </View>
             </View>
 
             {/* Info Sections */}

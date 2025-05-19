@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView, Pressable, Alert } from 'react-native';
+import { View, Text, Image, ScrollView, Pressable, Alert, Linking } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Navbar from '@/components/navigation/navbar';
@@ -25,8 +25,43 @@ export default function visitorDetail() {
                 <Text className="text-2xl font-bold text-[#2e539d]">{visitor.name}</Text>
                 <Text className="text-base text-gray-600">{visitor.title}</Text>
                 <Text className="text-sm text-gray-400 mb-3">{visitor.role}</Text>
+                <View className="">
+                    <View className="flex flex-row items-center gap-2 mb-2 mt-2">
+                        {visitor?.social?.linkedin && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(visitor?.social?.linkedin)}
+                                name="logo-linkedin"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {visitor?.social?.instagram && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(visitor?.social?.instagram)}
+                                name="logo-instagram"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {visitor?.social?.website && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(visitor?.social?.website)}
+                                name="globe-outline"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                        {visitor?.social?.youtube && (
+                            <Ionicons
+                                onPress={() => Linking.openURL(visitor?.social?.youtube)}
+                                name="logo-youtube"
+                                size={26}
+                                color="#0a65c0"
+                            />
+                        )}
+                    </View>
+                </View>
             </View>
-
             {/* Info Sections */}
             <View className="px-4 py-6 space-y-4">
                 {/* About */}
