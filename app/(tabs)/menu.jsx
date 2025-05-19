@@ -18,6 +18,7 @@ import yeslogo from "@/assets/images/yeslogo.png";
 import api from "@/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 const MenuItem = ({ name, icon, route }) => {
   const { language } = useAppContext();
@@ -56,12 +57,12 @@ export default function MenuScreen() {
     useAuthContext();
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },
-    { name: "Sponsors", route: "sponsors/sponsors", icon: "money" },
-    { name: "Connect", route: "matches/match", icon: "link" },
+    { name: "Sponsors", route: "sponsors/sponsors", icon: "cash-outline" },
+    { name: "Connect", route: "matches/match", icon: "link-outline" },
     { name: "Favorites", route: "matches/matches", icon: "heart" },
-    { name: "Badge", route: "badge", icon: "badge" },
-    { name: "About", route: "about", icon: "info" },
-    { name: "Terms and Privacy", route: "terms", icon: "lock" },
+    { name: "Badge", route: "badge", icon: "qr-code-sharp" },
+    { name: "About", route: "about", icon: "information-circle-outline" },
+    { name: "Terms and Privacy", route: "terms", icon: "lock-closed" },
     // { name: "Settings", route: "settings", icon: "settings" },
   ];
 
@@ -129,7 +130,7 @@ export default function MenuScreen() {
                 {tab.name == "Favorites" ? (
                   <Icon.Heart size={28} color="#2e539d" />
                 ) : (
-                  <IconSymbol size={28} name={tab.icon} color={"#2e539d"} />
+                  <Ionicons size={28} name={tab.icon} color={"#2e539d"} />
                 )}
 
                 <Text className="text-alpha">{tab.name}</Text>

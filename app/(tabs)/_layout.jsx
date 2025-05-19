@@ -8,6 +8,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useAuthContext } from '@/context/auth';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,11 +22,11 @@ export default function TabLayout() {
   // }
 
   const tabScreen = [
-    { route: "index", name: "Home", icon: "house", showTab: isAuthLoading ? false : true },
+    { route: "index", name: "Home", icon: "home", showTab: isAuthLoading ? false : true },
     { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
-    { route: "program/index", name: "program", icon: "calendar-month", showTab: true },
-    { route: "bailleur/bailleur", name: "Funders", icon: "handshake", showTab: true },
+    { route: "program/index", name: "program", icon: "calendar-outline", showTab: true },
+    { route: "bailleur/bailleur", name: "Funders", icon: "people", showTab: true },
 
   ]
 
@@ -79,7 +80,7 @@ export default function TabLayout() {
             headerShown: false,
             title: screen.name,
             tabBarIcon: ({ focused }) => (
-              <IconSymbol
+              <Ionicons
                 size={28}
                 name={screen.icon}
                 color={focused ? '#b09417' : '#2e539d'}
