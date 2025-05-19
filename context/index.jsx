@@ -30,6 +30,7 @@ const AppProvider = ({ children }) => {
   const [sponsors, setSponsors] = useState([]);
   const [interests, setInterests] = useState([]);
   const [speakers, setSpeakers] = useState([]);
+  const [visitors, setvisitors] = useState([]);
   const [badge, setBadge] = useState([]);
   const [Programe, setPrograme] = useState([]);
   const networkState = Network.getNetworkStateAsync();
@@ -75,10 +76,18 @@ const AppProvider = ({ children }) => {
           const allSpeakers = otherParts?.filter(
             (part) => part.role == "speaker"
           );
+          const  allVisitors = otherParts?.filter(
+            (part) => part.role == "visitor"
+          );
           const allNgos = otherParts?.filter((part) => part.role == "ngo");
-          setSpeakers(allSpeakers);
+          setSpeakers(allSpeakers)
+          setvisitors(allVisitors);
           setNgos(allNgos);
           setAllParticipants(otherParts);
+            console.log("🚨 interests", interests);
+            console.log("🚨 allVistors", visitors);
+            
+
         }
       })
       .catch((err) => {
@@ -209,6 +218,7 @@ const AppProvider = ({ children }) => {
     fetchMatches,
     interests,
     speakers,
+    visitors,
     badge,
     Programe,
     allParticipants,

@@ -23,10 +23,11 @@ export default function TabLayout() {
 
   const tabScreen = [
     { route: "index", name: "Home", icon: "home", showTab: isAuthLoading ? false : true },
-    { route: "speakers/index", name: "Speakers", icon: "person", showTab: true },
+    { route: "speakers/index", name: "Speakers", icon: "mic", showTab: true },
+    { route: "visitors/index", name: "visitors", icon: "person", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-outline", showTab: true },
-    { route: "bailleur/bailleur", name: "Funders", icon: "people", showTab: true },
+    { route: "bailleur/bailleur", name: "Funders", icon: "ribbon", showTab: true },
 
   ]
 
@@ -40,6 +41,7 @@ export default function TabLayout() {
     { route: "sign-in", name: "Sign In", icon: "settings", showTab: false },
     { route: "loading", name: "Loading", icon: "settings", showTab: false },
     { route: "speakers/[id]", name: "ChatDetail", icon: "message", showTab: true },
+    { route: "visitors/[id]", name: "ChatDetail", icon: "message", showTab: true },
     { route: "onboarding/index", name: "Onboarding", icon: "settings", showTab: false },
     { route: "onboarding/interest", name: "Interest", icon: "settings", showTab: false },
     { route: "account/index", name: "Account", icon: "settings", showTab: true },

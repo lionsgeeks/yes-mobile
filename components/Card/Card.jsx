@@ -11,9 +11,12 @@ import { IconSymbol } from "../ui/IconSymbol";
 import { Link } from "expo-router";
 import { Icon } from "@/constants";
 import { LinearGradient } from "expo-linear-gradient";
+import api from "@/api";
 
 export default function Card({ user, onSkip, onConnect }) {
 
+  console.log(user.image);
+  
 
   return (
     <>
@@ -21,7 +24,7 @@ export default function Card({ user, onSkip, onConnect }) {
         <View style={styles.card} className="">
           <ImageBackground
             source={{
-              uri: user.image,
+              uri: api.IMAGE_URL + user.image,
             }}
             style={styles.image}
             className="border-r-8  border-beta"
@@ -52,7 +55,7 @@ export default function Card({ user, onSkip, onConnect }) {
             className="flex-row items-center justify-around my-4"
           >
             <TouchableOpacity
-              className="bg-beta p-4 w-[35%] border border-gray-300 rounded-lg flex-row"
+              className="bg-beta px-4 py-2 w-[35%] border border-gray-300 rounded-lg flex-row"
               onPress={onSkip}
             >
               <Icon.Cross color="white" size={28} />
@@ -60,7 +63,7 @@ export default function Card({ user, onSkip, onConnect }) {
             </TouchableOpacity>
             <TouchableOpacity
 
-              className="bg-alpha p-4 w-[65%] border border-gray-300 rounded-lg flex-row items-center justify-center"
+              className="bg-alpha px-4 py-2 w-[60%] border border-gray-300 rounded-lg flex-row items-center justify-center"
               onPress={onConnect}
             >
               <Icon.Heart color="#fff" size={28} />

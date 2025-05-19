@@ -26,19 +26,19 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const items = [
     {
-      icon: "qr-code-sharp",
+      icon: "id-card-outline",
       label: "Badge",
       href: "/badge",
-    },
-    {
-      icon: "person-outline",
-      label: "Speakers",
-      href: "/speakers",
     },
     {
       icon: "calendar-outline",
       label: "Program",
       href: "/program",
+    },
+    {
+      icon: "scan",
+      label: "Scan",
+      href: "/speakers",
     },
     {
       icon: "globe-outline",
