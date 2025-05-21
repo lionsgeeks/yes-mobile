@@ -146,7 +146,7 @@ export default function visitorsScreen() {
                   {item.title}
                 </Text>
                 <Text className="text-center text-xs text-gray-400 mb-2">
-                  {item.role}
+                  {item?.role}
                 </Text>
                 {/* <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
                                     {item.tags.slice(0, 2).map((tag) => (

@@ -35,8 +35,10 @@ export default function SessionDetails() {
   const [isScanned, setIsScanned] = useState(null);
   const [loadingCamera, setLoadingCamera] = useState(false);
   const handleEnroll = async (programId) => {
+    console.log("Enrolling in program:", programId);
+    
     try {
-      const response = await fetch(`${APP_URL}/api/programe/enrolled`, {
+      const response = await fetch(`${APP_URL}/api/enrolled`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,19 +65,19 @@ export default function SessionDetails() {
       }
     } catch (error) {
       console.error("Enrollment Error:", error);
-      alert("Something went wrong. Try again.");
+      alert(parseInt(user.id));
     }
   };
 
   const handlcancelEnroll = async (programId) => {
     try {
-      const response = await fetch(`${APP_URL}/api/programe/enrolleddelete`, {
+      const response = await fetch(`${APP_URL}/api/enrolleddelete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          programe_id: parseInt(programId),
+          programe_id: (programId),
           participant_id: user.id,
         }),
       });
@@ -201,11 +203,11 @@ export default function SessionDetails() {
                 />
                 <View className="flex-1 p-2">
                   <Text className="font-medium text-[#2952a3]">
-                    {speaker.name}
+                    {speaker?.name}
                   </Text>
-                  <Text className="text-sm text-gray-600">{speaker.role}</Text>
+                  <Text className="text-sm text-gray-600">{speaker?.role}</Text>
                   <Text className="text-xs text-gray-500">
-                    {speaker.organization}
+                    {speaker?.organization}
                   </Text>
                 </View>
               </View>

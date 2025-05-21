@@ -55,7 +55,7 @@ export default function MatchesCard() {
               {item.name}
             </Text>
             <Text className="text-center text-xs text-gray-400 mb-2">
-              {item.role[0].toUpperCase() + item.role.slice(1)}
+              {item?.role[0].toUpperCase() + item?.role.slice(1)}
             </Text>
             <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
               {item.interests.slice(0, 2).map((int) => (

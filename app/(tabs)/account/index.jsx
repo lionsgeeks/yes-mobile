@@ -178,7 +178,7 @@ export default function AccountScreen() {
                     placeholderTextColor="#999"
                     multiline={isMultiline}
                     numberOfLines={isMultiline ? 4 : 1}
-                    className=" w-full"
+                    className=" w-full py-4"
                 />
             </View>
         </View>
@@ -189,7 +189,7 @@ export default function AccountScreen() {
     return (
         <View>
             <View className="bg-white justify-around">
-                <View className="items-center py-10 mt-5">
+                <View className="items-center py-8 mt-5">
                     <TouchableOpacity
                         onPress={() => { pickImage() }}
                         className="mb-4">
@@ -210,7 +210,7 @@ export default function AccountScreen() {
                 </View>
 
 
-                <ScrollView className="h-[70vh] mb-12">
+                <ScrollView className="h-[70vh] mb-14">
                     <View className="p-5">
 
                         <Text className="text-2xl font-bold mb-4 text-beta">Account Information: </Text>

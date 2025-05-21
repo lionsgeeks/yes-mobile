@@ -74,12 +74,12 @@ const AppProvider = ({ children }) => {
         if (allParts) {
           const otherParts = allParts?.filter((part) => part.id != user?.id);
           const allSpeakers = otherParts?.filter(
-            (part) => part.role == "speaker"
+            (part) => part?.role == "speaker"
           );
           const  allVisitors = otherParts?.filter(
-            (part) => part.role == "visitor"
+            (part) => part?.role == "visitor"
           );
-          const allNgos = otherParts?.filter((part) => part.role == "ngo");
+          const allNgos = otherParts?.filter((part) => part?.role == "ngo");
           setSpeakers(allSpeakers)
           setvisitors(allVisitors);
           setNgos(allNgos);

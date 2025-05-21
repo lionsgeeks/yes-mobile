@@ -36,7 +36,7 @@ export default function Card({ user, onSkip, onConnect }) {
               className="h-full relative w-full" 
             >
 
-              <Text className="absolute top-2 right-3 bg-beta text-white rounded-full px-4 py-1">{user.role}</Text>
+              <Text className="absolute top-2 right-3 bg-beta text-white rounded-full px-4 py-1">{user?.role}</Text>
               <View className="absolute bottom-0 right-100 p-4">
 
                 <Text className="text-2xl font-semibold text-white">{user.name}</Text>

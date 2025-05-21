@@ -74,7 +74,7 @@ export default function ChatScreen() {
 
   const filteredConversations = conversations.filter((convo) => {
     const matchRole =
-      filter === "All" || convo.user.role.toLowerCase() === filter.toLowerCase();
+      filter === "All" || convo.user?.role.toLowerCase() === filter.toLowerCase();
     const matchSearch = convo.user.name
       .toLowerCase()
       .includes(search.toLowerCase());

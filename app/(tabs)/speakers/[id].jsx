@@ -24,7 +24,7 @@ export default function SpeakerDetail() {
                 />
                 <Text className="text-2xl font-bold text-[#2e539d]">{speaker.name}</Text>
                 <Text className="text-base text-gray-600">{speaker.title}</Text>
-                <Text className="text-sm text-gray-400 mb-3">{speaker.role}</Text>
+                <Text className="text-sm text-gray-400 mb-3">{speaker?.role}</Text>
                 <View className="">
                     <View className="flex flex-row items-center gap-2 mb-2 mt-2">
                         {speaker?.social?.linkedin && (

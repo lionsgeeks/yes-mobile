@@ -187,7 +187,7 @@ export default function ChatDetail() {
                     className="w-24 h-24 rounded-full mb-4 border-2 border-alpha"
                 />
                 <Text className="text-2xl font-bold text-alpha capitalize">{receiver.name}</Text>
-                <Text className="text-gray-500 mt-2">{receiver.role}</Text>
+                <Text className="text-gray-500 mt-2">{receiver?.role}</Text>
             </View>
 
             <View className="flex-1 py-1 px-4 mt-6">

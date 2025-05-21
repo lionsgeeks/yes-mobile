@@ -20,7 +20,7 @@ const Bailleur = () => {
 
     const { allParticipants, sponsors } = useAppContext();
 
-    const allFunders = allParticipants?.filter((part) => part.role == 'funder');
+    const allFunders = allParticipants?.filter((part) => part?.role == 'funder');
 
     useEffect(() => {
         const timer = setTimeout(() => {

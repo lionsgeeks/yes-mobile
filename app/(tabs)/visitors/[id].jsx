@@ -24,7 +24,7 @@ export default function visitorDetail() {
                 />
                 <Text className="text-2xl font-bold text-[#2e539d]">{visitor.name}</Text>
                 <Text className="text-base text-gray-600">{visitor.title}</Text>
-                <Text className="text-sm text-gray-400 mb-3">{visitor.role}</Text>
+                <Text className="text-sm text-gray-400 mb-3">{visitor?.role}</Text>
                 <View className="">
                     <View className="flex flex-row items-center gap-2 mb-2 mt-2">
                         {visitor?.social?.linkedin && (

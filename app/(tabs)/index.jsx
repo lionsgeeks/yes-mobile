@@ -42,8 +42,8 @@ export default function HomeScreen() {
       href: "/program",
     },
     {
-      icon: "scan",
-      label: "Scan",
+      icon: "mic",
+      label: "Speakers",
       href: "/speakers",
     },
     {
@@ -203,7 +203,7 @@ export default function HomeScreen() {
                     {item.title}
                   </Text>
                   <Text className="text-center text-xs text-gray-400 mb-2">
-                    {item.role}
+                    {item?.role}
                   </Text>
                 </Pressable>
               ))}
