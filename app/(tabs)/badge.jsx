@@ -5,11 +5,14 @@ import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
 import api from '@/api';
 import { Button } from '@react-navigation/elements';
+import ShareEvent from "@/components/ShareEvent";
+import { useAuthContext } from '@/context/auth';
 
 
 export default function Badge() {
     const { badge } = useAppContext();
     console.log(badge);
+    const { imagePath } = useAuthContext();
     // console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
 
 
@@ -76,6 +79,7 @@ export default function Badge() {
                             <TouchableOpacity>
                                 <Text className="text-beta text-m font-semibold">Share Badge</Text>
                             </TouchableOpacity>
+                            {/* <ShareEvent imagePath={imagePath}/> */}
                         </View>
                     </View>
                 </View>

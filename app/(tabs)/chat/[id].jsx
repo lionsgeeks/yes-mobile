@@ -207,7 +207,7 @@ export default function ChatDetail() {
                 )}
             </View>
 
-            <View className="flex-row items-center px-4 py-3 border-t border-gray-200 bg-white">
+            <View className="flex-row items-center px-4 py-6 border-t border-gray-200 bg-white">
                 <TextInput
                     value={inputMessage}
                     onChangeText={setInputMessage}

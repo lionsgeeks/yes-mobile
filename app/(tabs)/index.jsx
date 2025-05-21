@@ -15,7 +15,7 @@ import hero from "../../assets/images/yes_patterns.png";
 import jadara from "../../assets/images/partners/Jadaralogo.png";
 import pan from "../../assets/images/partners/pan.jpeg";
 import { router, useNavigation } from "expo-router";
-import ShareEvent from "@/components/ShareEvent";
+
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
@@ -167,7 +167,7 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
-        {/* <ShareEvent imagePath={imagePath}/> */}
+        
         {/* speakers */}
         {speakers?.length > 0 && (
           <View className="px-6 pb-6">

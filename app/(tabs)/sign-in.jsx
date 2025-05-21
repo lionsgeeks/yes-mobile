@@ -2,82 +2,92 @@ import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View, Platform, ActivityIndicator } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Crypto from 'expo-crypto';
+import * as Crypto from "expo-crypto";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import yeslogo from "../../assets/images/yeslogo.png"
+import yeslogo from "../../assets/images/yeslogo.png";
 import handleBack from "@/utils/handleBack";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { Alert } from "react-native";
 
 export default function SignInScreen() {
-    const { setIsSignedIn, setUser, setToken, isSignedIn } = useAuthContext();
+  const { setIsSignedIn, setUser, setToken, isSignedIn } = useAuthContext();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [hidePassword, setHidePassword] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [hidePassword, setHidePassword] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const panHandlers = handleBack("/sign-in")
+  const panHandlers = handleBack("/sign-in");
 
-    useFocusEffect(
-        useCallback(() => {
+  useFocusEffect(
+    useCallback(() => {
+      if (isSignedIn) {
+        router.replace("/");
+      }
+    }, [isSignedIn])
+  );
+  const onSignIn = () => {
+    setIsLoading(true);
+    api
+      .post("sanctum/token", { email, password })
+      .then(async (response) => {
+        const participant = response.data.participant;
+        const token = response.data.token;
 
-            if (isSignedIn) {
-                router.replace("/")
-            }
+        if (!token) {
+          console.log("Invalid token format");
+          return;
+        }
 
-        }, [isSignedIn])
-    );
-    const onSignIn = () => {
-        setIsLoading(true);
-        api.post("sanctum/token", { email, password }).then(async (response) => {
-            const participant = response.data.participant;
-            const token = response.data.token;
+        if (!token.includes("|")) {
+          await AsyncStorage.setItem("token", token);
+          setToken(token);
+        } else {
+          const [, rawToken] = token.split("|");
 
-            if (!token) {
-                console.log('Invalid token format');
-                return;
-            }
+          const hashHex = await Crypto.digestStringAsync(
+            Crypto.CryptoDigestAlgorithm.SHA256,
+            rawToken
+          );
 
-            if (!token.includes('|')) {
-                await AsyncStorage.setItem('token', token);
-                setToken(token);
+          await AsyncStorage.setItem("token", hashHex);
+          setToken(hashHex);
+        }
 
-            } else {
-                const [, rawToken] = token.split('|');
+        // clear the input fields
+        setEmail("");
+        setPassword("");
+        setIsSignedIn(true);
 
-                const hashHex = await Crypto.digestStringAsync(
-                    Crypto.CryptoDigestAlgorithm.SHA256,
-                    rawToken
-                );
+        setUser(participant);
 
-                await AsyncStorage.setItem('token', hashHex);
-                setToken(hashHex);
-            }
-
-
-
-            // clear the input fields 
-            setEmail("");
-            setPassword("");
-            setIsSignedIn(true);
-            setIsLoading(false);
-
-            setUser(participant);
-
-            if (participant.interesets && participant?.interesets?.length > 0) {
-                router.push('/');
-            } else {
-                router.push("/onboarding");
-            }
-        }).catch((e) => {
-            console.log('error signing in', e.message)
-            Alert.alert("Invalid email or password. Please try again.", e.message);
-        });
-    }
-
+        if (participant.interesets && participant?.interesets?.length > 0) {
+          router.push("/");
+        } else {
+          router.push("/onboarding");
+        }
+      })
+      .catch((e) => {
+        console.log("error signing in", e.message);
+        Alert.alert("Invalid email or password. Please try again.", e.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
     return (
 
@@ -186,20 +196,20 @@ export default function SignInScreen() {
                         }}
                     />
 
-                    <View className="w-full">
-                        <Text className=" text-white">Email: </Text>
-                        <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
-                            <MaterialIcons name="email" size={20} color="white" />
-                            <TextInput
-                                style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
-                                placeholder="you@example.com"
-                                placeholderTextColor="#ccc"
-                                autoCapitalize="none"
-                                value={email}
-                                onChangeText={setEmail}
-                            />
-                        </View>
-                    </View>
+          <View className="w-full">
+            <Text className=" text-white">Email: </Text>
+            <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+              <MaterialIcons name="email" size={20} color="white" />
+              <TextInput
+                style={{ flex: 1, marginLeft: 10, color: "white", padding: 10 }}
+                placeholder="you@example.com"
+                placeholderTextColor="#ccc"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+              />
+            </View>
+          </View>
 
                     <View className="my-4 w-full">
                         <Text className=" text-white">Password:</Text>
@@ -239,4 +249,5 @@ export default function SignInScreen() {
         </LinearGradient>
     );
 
+         
 }

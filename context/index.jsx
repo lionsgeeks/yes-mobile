@@ -108,6 +108,7 @@ const AppProvider = ({ children }) => {
         console.log("error getting sponsors", err);
       });
   };
+  
 
   const fetchBadge = () => {
     api.get(`qrcodes/show/${user?.id}`).then((res) => {

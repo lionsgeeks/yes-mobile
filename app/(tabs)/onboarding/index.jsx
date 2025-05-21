@@ -73,7 +73,7 @@ export default function OnboardingScreen() {
                     <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description}</Text>
                 </View>
 
-                <View className="p-6">
+                <View className="px-6 pb-20">
                     <View className="flex flex-row items-center justify-between">
                         <TouchableOpacity
                             onPress={prevSlide}

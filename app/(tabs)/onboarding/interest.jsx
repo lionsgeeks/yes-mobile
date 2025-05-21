@@ -76,7 +76,7 @@ export default function InterestScreen() {
 
                     <TouchableOpacity
                         onPress={() => { handleContinue() }}
-                        className="items-center justify-center"
+                        className="items-center justify-center mb-10"
                     >
                         <Text
                             className="rounded-xl p-3 w-[94%] text-center text-white bg-alpha"
