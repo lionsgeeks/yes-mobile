@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import Navbar from "@/components/navigation/navbar";
 import { useCameraPermissions, CameraView } from "expo-camera";
@@ -52,20 +53,20 @@ export default function SessionDetails() {
       const data = await response.json();
 
       if (response.status === 409) {
-        alert(data.message); // Already enrolled
+        Alert.alert(data.message, 'user already enrolled'); // Already enrolled
         setEnrolledPrograms((prev) => [...prev, programId]);
         return;
       }
 
       if (response.ok) {
-        alert(data.message || "Enrolled successfully!");
+        Alert.alert(data.message || "Enrolled successfully!", 'You have been succesfully enrolled');
         setEnrolledPrograms((prev) => [...prev, programId]); // Mark this program as enrolled
       } else {
-        alert(data.message || "Failed to enroll.");
+        Alert.alert(data.message || "Failed to enroll.", 'Something went wrong');
       }
     } catch (error) {
       console.error("Enrollment Error:", error);
-      alert("something went wrong. Try again.");
+      Alert.alert("something went wrong. Try again.", error);
     }
   };
 
@@ -85,14 +86,14 @@ export default function SessionDetails() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message || "Enrollment cancelled successfully!");
+        Alert.alert(data.message || "Enrollment cancelled successfully!", 'Your Cancellation was succesfull');
         setEnrolledPrograms((prev) => prev.filter((id) => id !== programId)); // Remove this program from enrolled list
       } else {
-        alert(data.message || "Failed to cancel enrollment.");
+        Alert.alert(data.message || "Failed to cancel enrollment.", 'Something went wrong');
       }
     } catch (error) {
       console.error("Cancellation Error:", error);
-      alert("Something went wrong. Try again.");
+      Alert.alert("Something went wrong. Try again.", error);
     }
   };
 
@@ -128,7 +129,7 @@ export default function SessionDetails() {
         // console.log("🚨🚨🚨🚨🚨🚨", response?.data.isRegistered);
         setIsEnrolled(response?.data.isRegistered);
       } else {
-        alert("Error: " + response?.data?.message);
+        Alert.alert("Error: " + response?.data?.message);
       }
     } catch (error) {
       console.log("🚨Error checking participant:", error);
