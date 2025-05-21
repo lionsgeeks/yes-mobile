@@ -54,15 +54,11 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
                     </Pressable>
                 }
                 {
-<<<<<<< Updated upstream
-                    title === "Program Details" && user.role === 'admin' &&
+                    (title === "Program Details" && user?.role == "admin")  &&
                     <Pressable onPress={() => { toggleCamera;setIsCameraReady(true)}}>
-=======
-                    (title === "Program Details" && user?.role == "admin") || (title === "Badge" ) &&
-                    <Pressable onPress={() => { setIsCameraReady(true) }}>
->>>>>>> Stashed changes
                         <Ionicons name="qr-code" size={22} color="#000" />
                     </Pressable>
+                    
                 }
 
                 <Pressable >

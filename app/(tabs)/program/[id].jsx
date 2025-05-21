@@ -65,7 +65,7 @@ export default function SessionDetails() {
       }
     } catch (error) {
       console.error("Enrollment Error:", error);
-      alert(parseInt(user.id));
+      alert("something went wrong. Try again.");
     }
   };
 

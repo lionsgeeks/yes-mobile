@@ -63,7 +63,7 @@ export default function SignInScreen() {
             setEmail("");
             setPassword("");
             setIsSignedIn(true);
-            setIsLoading(false); 
+            setIsLoading(false);
 
             setUser(participant);
 
@@ -95,11 +95,80 @@ export default function SignInScreen() {
                 alignItems: 'center',
             }}
         >
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={{ flex: 1, width: '100%' }}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-            >
+            {Platform.OS === "ios" ? (
+                <KeyboardAvoidingView
+                    behavior="padding"
+                    style={{ flex: 1, width: '100%' }}
+                    keyboardVerticalOffset={0}
+                >
+                    <ScrollView
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingBottom: 30
+                        }}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <Image
+                            source={yeslogo}
+                            style={{
+                                width: 320,
+                                resizeMode: 'contain',
+                            }}
+                        />
+
+                        <View className="w-full">
+                            <Text className=" text-white">Email: </Text>
+                            <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                                <MaterialIcons name="email" size={20} color="white" />
+                                <TextInput
+                                    style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
+                                    placeholder="you@example.com"
+                                    placeholderTextColor="#ccc"
+                                    autoCapitalize="none"
+                                    value={email}
+                                    onChangeText={setEmail}
+                                />
+                            </View>
+                        </View>
+
+                        <View className="my-4 w-full">
+                            <Text className=" text-white">Password:</Text>
+                            <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                                <MaterialIcons name="lock" size={20} color="white" />
+                                <TextInput
+                                    placeholder="Password"
+                                    placeholderTextColor="#ccc"
+                                    secureTextEntry={hidePassword}
+                                    autoCapitalize="none"
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
+                                />
+                                <Pressable onPress={() => setHidePassword(!hidePassword)}>
+                                    {hidePassword ?
+                                        <Ionicons name="eye-off" size={20} color="white" />
+                                        :
+                                        <Ionicons name="eye" size={20} color="white" />
+                                    }
+                                </Pressable>
+                            </View>
+                            <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text>
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={onSignIn}
+                            disabled={isLoading}
+                            className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
+                        >
+                            {isLoading && <ActivityIndicator />}
+                            <Text className="text-alpha text-center font-bold">
+                                Sign In</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            ) : (
                 <ScrollView
                     contentContainerStyle={{
                         flexGrow: 1,
@@ -107,7 +176,7 @@ export default function SignInScreen() {
                         alignItems: 'center',
                         paddingBottom: 30
                     }}
-                    keyboardShouldPersistTaps="handled"
+
                 >
                     <Image
                         source={yeslogo}
@@ -161,12 +230,12 @@ export default function SignInScreen() {
                         disabled={isLoading}
                         className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
                     >
-                        {isLoading && <ActivityIndicator />} 
+                        {isLoading && <ActivityIndicator />}
                         <Text className="text-alpha text-center font-bold">
                             Sign In</Text>
                     </TouchableOpacity>
                 </ScrollView>
-            </KeyboardAvoidingView>
+            )}
         </LinearGradient>
     );
 
