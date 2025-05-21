@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform, Alert } from 'react-native';
+import { useState, useEffect} from 'react';
+import { Platform} from 'react-native';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { useAuthContext } from '@/context/auth';
@@ -52,7 +52,7 @@ async function registerForPushNotificationsAsync() {
                 projectId,
             })
         ).data;
-        console.log('registering push notification', pushTokenString);
+        // console.log('registering push notification', pushTokenString);
 
         return pushTokenString;
     } catch (e: unknown) {
@@ -71,13 +71,13 @@ export default function useNotif() {
         registerForPushNotificationsAsync()
             .then((token) => {
                 setExpoPushToken(token ?? '')
-                console.log('hey', token);
-                console.log('hoo', user?.id);
+                // console.log('hey', token);
+                // console.log('hoo', user?.id);
                 if (token && user?.id) {
                     api.post('participant/pushToken/' + user.id, {pushToken: token}).then((res) => {
                         if (res?.status == 200) {
                             // Alert.alert('Information Updated', 'Your Account Information Has Been Updated Successfully!');
-                            console.log(res.data);
+                            // console.log(res.data);
 
                         }
                     }).catch((err) => {

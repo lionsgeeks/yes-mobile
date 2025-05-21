@@ -2,25 +2,22 @@ import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from "react-native";
+import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View, Platform, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from 'expo-crypto';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import yeslogo from "../../assets/images/yeslogo.png"
 import handleBack from "@/utils/handleBack";
 import { LinearGradient } from 'expo-linear-gradient';
-import useNotif from "@/hooks/useNotif";
 import { Alert } from "react-native";
 
 export default function SignInScreen() {
-    // Tempo Code:
-    const {expoPushToken} = useNotif();
-
     const { setIsSignedIn, setUser, setToken, isSignedIn } = useAuthContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const panHandlers = handleBack("/sign-in")
 
@@ -34,7 +31,7 @@ export default function SignInScreen() {
         }, [isSignedIn])
     );
     const onSignIn = () => {
-
+        setIsLoading(true);
         api.post("sanctum/token", { email, password }).then(async (response) => {
             const participant = response.data.participant;
             const token = response.data.token;
@@ -62,19 +59,18 @@ export default function SignInScreen() {
 
 
 
-
-            // clear the input fields
+            // clear the input fields 
             setEmail("");
             setPassword("");
             setIsSignedIn(true);
+            setIsLoading(false); 
 
             setUser(participant);
 
-            if (participant?.interesets?.length > 0) {
+            if (participant.interesets && participant?.interesets?.length > 0) {
                 router.push('/');
             } else {
                 router.push("/onboarding");
-
             }
         }).catch((e) => {
             console.log('error signing in', e.message)
@@ -162,16 +158,16 @@ export default function SignInScreen() {
 
                     <TouchableOpacity
                         onPress={onSignIn}
-                        className="bg-white rounded-md p-3 mt-4 w-full text-center"
+                        disabled={isLoading}
+                        className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
                     >
-                        <Text className="text-alpha text-center font-bold">Sign In</Text>
+                        {isLoading && <ActivityIndicator />} 
+                        <Text className="text-alpha text-center font-bold">
+                            Sign In</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </KeyboardAvoidingView>
-                <Text className="text-white">{expoPushToken}</Text>
         </LinearGradient>
-
-
     );
 
 }

@@ -13,10 +13,10 @@ export const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
       await AsyncStorage.removeItem("token");
+      router.replace("/(tabs)/sign-in");
       setIsSignedIn(false);
       setToken(''); // idk just in case
       setUser(null);
-      router.replace("/(tabs)/sign-in");
 
     } catch (err) {
       console.error('sign out error', err);

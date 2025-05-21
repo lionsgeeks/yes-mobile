@@ -90,12 +90,12 @@ export default function ChatScreen() {
       </View>
       <View className="flex-1 px-6 ">
 
-        <Button
+        {/* <Button
           title="Press to Send Notification"
           onPress={async () => {
             await sendPushNotification(expoPushToken);
           }}
-        />
+        /> */} 
 
         {/* Header */}
         <Text className="text-3xl font-extrabold text-alpha mb-4">Empower Chat</Text>

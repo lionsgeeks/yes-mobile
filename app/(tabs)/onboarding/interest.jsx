@@ -3,7 +3,7 @@ import { useAppContext } from "@/context";
 import { useAuthContext } from "@/context/auth";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 export default function InterestScreen() {
     const [selectedInterests, setSelectedInterests] = useState([]);

@@ -84,8 +84,8 @@ const AppProvider = ({ children }) => {
           setvisitors(allVisitors);
           setNgos(allNgos);
           setAllParticipants(otherParts);
-            console.log("🚨 interests", interests);
-            console.log("🚨 allVistors", visitors);
+            // console.log("🚨 interests", interests);
+            // console.log("🚨 allVistors", visitors);
             
 
         }
