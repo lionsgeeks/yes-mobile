@@ -7,6 +7,7 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import { useWindowDimensions, Animated } from "react-native";
@@ -26,10 +27,14 @@ import useNotif from "@/hooks/useNotif";
 
 
 export default function HomeScreen() {
+
+
+  // router.replace("/sign-in")
   const {expoToken} = useNotif();
   const { user, imagePath, isAuthLoading } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
   const navigation = useNavigation();
+  console.log(user?.id)
   const items = [
     {
       icon: "id-card-outline",

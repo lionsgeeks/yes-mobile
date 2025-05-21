@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 import {
   View,
   Text,
@@ -39,7 +38,7 @@ export default function SessionDetails() {
     console.log("Enrolling in program:", programId);
     
     try {
-      const response = await fetch(`${APP_URL}/api/enrolled`, {
+      const response = await fetch(`${api.APP_URL}/api/enrolled`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,13 +65,13 @@ export default function SessionDetails() {
       }
     } catch (error) {
       console.error("Enrollment Error:", error);
-      Alert.alert("something went wrong. Try again.", error);
+      Alert.alert("something went wrong. Try again.");
     }
   };
 
   const handlcancelEnroll = async (programId) => {
     try {
-      const response = await fetch(`${APP_URL}/api/enrolleddelete`, {
+      const response = await fetch(`${api.APP_URL}/api/enrolleddelete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +92,7 @@ export default function SessionDetails() {
       }
     } catch (error) {
       console.error("Cancellation Error:", error);
-      Alert.alert("Something went wrong. Try again.", error);
+      Alert.alert("Something went wrong. Try again.");
     }
   };
 

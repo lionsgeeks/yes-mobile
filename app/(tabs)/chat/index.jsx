@@ -20,6 +20,8 @@ import useNotif from "@/hooks/useNotif";
 
 
 async function sendPushNotification(expoPushToken) {
+  console.log(expoPushToken);
+
   const message = {
     to: expoPushToken,
     sound: 'default',
@@ -41,7 +43,7 @@ async function sendPushNotification(expoPushToken) {
 
 
 export default function ChatScreen() {
-  const {expoPushToken} = useNotif();
+  const { expoPushToken } = useNotif();
   const [conversations, setConversations] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
@@ -95,7 +97,7 @@ export default function ChatScreen() {
           onPress={async () => {
             await sendPushNotification(expoPushToken);
           }}
-        /> */} 
+        /> */}
 
         {/* Header */}
         <Text className="text-3xl font-extrabold text-alpha mb-4">Empower Chat</Text>
