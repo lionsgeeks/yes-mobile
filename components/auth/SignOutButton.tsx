@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useAppContext } from "@/context";
@@ -24,7 +24,7 @@ export const SignOutButton = () => {
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={handleSignOut}
       className="w-[45%] h-[19%] flex flex-col items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-red-500"
     >
@@ -39,6 +39,6 @@ export const SignOutButton = () => {
         <Text className="text-red-500">Logout</Text>
       </View>
 
-    </Pressable>
+    </TouchableOpacity>
   );
 };
