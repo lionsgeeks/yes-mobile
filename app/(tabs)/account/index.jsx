@@ -23,7 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo, socials, setToken, setUser } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
-    const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user.image);
+    const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user?.image);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -56,8 +56,8 @@ export default function AccountScreen() {
             linkedin: socials?.linkedin,
             instagram: socials?.instagram,
         })
-        setProfileImage(api.IMAGE_URL + user.image)
-    }, [user])
+        setProfileImage(api.IMAGE_URL + user?.image)
+    }, [user]);
 
     const updateField = (field, value) => {
         setFormData({
@@ -76,13 +76,13 @@ export default function AccountScreen() {
             type: "image/jpeg",
         });
 
-        const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
+        
         try {
             console.log("Form is sending now");
-            const response = await axios.post(APP_URL + "/api/participant/image/" + user.id, formData, {
+            const response = await axios.post(api.APP_URL + "/api/participant/image/" + user?.id, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "multipart/form-data", 
                 },
             });
 
@@ -91,7 +91,7 @@ export default function AccountScreen() {
             }
 
         } catch (error) {
-            console.error("Error uploading photo:", error.response?.data || error.message);
+            console.error("Error uploading photo:", error.response?.data || error.message.message);
         }
     };
 
