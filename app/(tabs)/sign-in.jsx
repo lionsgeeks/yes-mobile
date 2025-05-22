@@ -82,7 +82,7 @@ export default function SignInScreen() {
       })
       .catch((e) => {
         console.log("error signing in", e.message);
-        Alert.alert("Invalid email or password. Please try again.", e.message);
+        Alert.alert("Something Went Wrong. Please try again.", "Please make sure your email and password are correct");
       })
       .finally(() => {
         setIsLoading(false);
@@ -164,7 +164,7 @@ export default function SignInScreen() {
                                     }
                                 </Pressable>
                             </View>
-                            <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text>
+                            {/* <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text> */}
                         </View>
 
                         <TouchableOpacity

@@ -3,26 +3,12 @@ import Navbar from "@/components/navigation/navbar";
 import TruncateText from "@/components/TruncateText";
 import { Location } from "@/constants/icons";
 import { useAppContext } from "@/context";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 export default function NgosScreen() {
   const { ngos } = useAppContext();
-  // console.log(ngos);
-  // const ngos = [
-  //   {
-  //     id: 1,
-  //     name: "NGO 1",
-  //     email: "ngo1@gmail.com",
-  //     country: "Nigerira",
-  //     city: "Abuja",
-  //     location: "ain sebaa",
-  //     description:
-  //       "NGO 1 is dedicated to empowering underserved communities in Abuja through education, health services, and sustainable environmental initiatives. We aim to create long-term impact by focusing on youth education, access to clean water, and public health awareness.",
-  //     interests: ["education", "health", "environment"],
-  //   },
-  //   }
-  //
+
 
   return (
     <View className="mb-2 pt-10 ">
@@ -50,19 +36,25 @@ export default function NgosScreen() {
                 </View>
                 <View>
                   <Text className="text-lg font-bold">{ngo.name}</Text>
-                  <View className="flex flex-row items-center gap-2 mb-2">
-                    <Location color={"#000"} size={15} />
-                    <Text className="text-gray-500">
-                      {ngo.city}, {ngo.country}
-                    </Text>
-                  </View>
+                  {
+                    (ngo?.city || ngo?.country) && (
+                      <View className="flex flex-row items-center gap-2 mb-2">
+                        <Location color={"#000"} size={15} />
+                        <Text className="text-gray-500">
+                          {ngo.city}, {ngo.country}
+                        </Text>
+                      </View>
+                    )
+                  }
                 </View>
               </View>
-              <Text className="text-gray-700">
-                <TruncateText length={70} text={ngo.description} />
-              </Text>
+              {ngo?.description && (
+                <Text className="text-gray-700">
+                  <TruncateText length={70} text={ngo.description} />
+                </Text>
+              )}
               <Text className="text-gray-500">Email: {ngo.email}</Text>
-              <View className="flex flex-row items-center gap-2 mb-2">
+              <View className="flex flex-row flex-wrap items-center gap-3 mb-2">
                 {ngo.interesets?.map(
                   (interest, index) =>
                     index < 4 && (
@@ -77,7 +69,6 @@ export default function NgosScreen() {
                     )
                 )}
               </View>
-              {/* <Text className="text-gray-500">Phone: {ngo.phone}</Text> */}
             </Pressable>
           ))}
         </View>

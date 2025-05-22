@@ -1,4 +1,3 @@
-import { useAppContext } from "@/context";
 import {
   Alert,
   Image,
@@ -9,52 +8,18 @@ import {
   View,
 } from "react-native";
 import { Icon } from "@/constants";
-import TransText from "@/components/TransText";
-import { Link, router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { useAuthContext } from "@/context/auth";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import yeslogo from "@/assets/images/yeslogo.png";
 import api from "@/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-
-const MenuItem = ({ name, icon, route }) => {
-  const { language } = useAppContext();
-  return (
-    <Pressable
-      onPress={() => router.push(`/${route}`)}
-      className={`justify-between items-center my-1 ${
-        language == "ar" ? "flex-row-reverse" : "flex-row"
-      }`}
-    >
-      <View
-        className={` items-center gap-2 ${
-          language == "ar" ? "flex-row-reverse" : "flex-row"
-        }`}
-      >
-        <View className="bg-[#FBFBFD] border border-[#F0F0F2] rounded-2xl p-2.5">
-          <IconSymbol size={28} name={icon} color={"#2e539d"} />
-        </View>
-
-        {/* <TransText className="ml-2">{tab.name}</TransText> */}
-        <Text>{name}</Text>
-      </View>
-
-      <Icon.Arrow
-        stroke={2}
-        size={22}
-        color={"#000"}
-        rotate={language == "ar" ? 0 : 180}
-      />
-    </Pressable>
-  );
-};
 
 export default function MenuScreen() {
   const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } =
     useAuthContext();
+
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },
     { name: "Sponsors", route: "sponsors/sponsors", icon: "cash-outline" },
@@ -63,7 +28,7 @@ export default function MenuScreen() {
     { name: "Badge", route: "badge", icon: "qr-code-sharp" },
     { name: "About", route: "about", icon: "information-circle-outline" },
     { name: "Terms and Privacy", route: "terms", icon: "lock-closed" },
-    // { name: "Settings", route: "settings", icon: "settings" },
+    { name: "Settings", route: "settings", icon: "settings" },
   ];
 
   const deleteAccount = () => {
@@ -122,9 +87,8 @@ export default function MenuScreen() {
               <TouchableOpacity
                 onPress={() => router.push(`/${tab.route}`)}
                 key={index}
-                className={`w-[45%] ${
-                  !user && "h-[45%]"
-                }  items-center justify-center px-3 py-1 rounded-xl
+                className={`w-[45%] py-4 ${!user && "h-[45%]"
+                  }  items-center justify-center px-3 py-1 rounded-xl
                             my-3 mx-2 border border-alpha`}
               >
                 {tab.name == "Favorites" ? (
@@ -140,11 +104,8 @@ export default function MenuScreen() {
         {isSignedIn ? (
           <>
             <TouchableOpacity
-              onPress={() => {
-                handleDelete();
-              }}
-              className="w-[45%] h-[19%] flex-col items-center justify-center px-3 py-1 rounded-xl
-                                my-3 mx-2 border border-red-500 gap-2"
+              onPress={() => { handleDelete(); }}
+              className="w-[45%] h-[19%] flex-col items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-red-500 gap-2"
             >
               <Icon.User active={true} color="#ef4444" size={20} />
               <Text className="text-red-500 text-lg font-semibold">
@@ -158,10 +119,7 @@ export default function MenuScreen() {
             onPress={() => {
               router.push("/sign-in");
             }}
-            className={`w-[45%] ${
-              !user && "h-[45%]"
-            }  items-center justify-center px-3 py-1 rounded-xl
-                                my-3 mx-2 border border-green-600`}
+            className={`w-[45%] ${!user && "h-[45%]"}  items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-green-600`}
           >
             <Text className="text-green-900">Sign In</Text>
           </Pressable>

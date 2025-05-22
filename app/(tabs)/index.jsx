@@ -7,7 +7,6 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import { useState } from "react";
 import { useWindowDimensions, Animated } from "react-native";
@@ -28,13 +27,12 @@ import useNotif from "@/hooks/useNotif";
 
 export default function HomeScreen() {
 
-
-  // router.replace("/sign-in")
+  // i'm calling useNotif to get the permission - Please Don't Delete
   const { expoPushToken } = useNotif();
   const { user, imagePath, isAuthLoading } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
   const navigation = useNavigation();
-  // console.log(user?.id)
+
   const items = [
     {
       icon: "id-card-outline",
@@ -79,7 +77,7 @@ export default function HomeScreen() {
     outputRange: ["transparent", "white"],
     extrapolate: "clamp",
   });
-  // console.log("home screen", isAuthLoading);
+
   return isAuthLoading ? (
     <AuthLoader />
   ) : (
@@ -106,7 +104,6 @@ export default function HomeScreen() {
         <View className="items-center justify-center flex-col w-full overflow-hidden h-[30vh] bg-[#ddcfaa] realtive">
           <Image
             source={hero}
-            // className=" h-full w-full absolute"
             style={{
               width: "100%",
               height: "100%",
@@ -137,16 +134,6 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </View>
-        {/* <View className="flex-row justify-around py-5 bg-beta rounded-b-3xl">
-            {items.map((item, index) => (
-              <View key={index} className="justify-center items-center">
-                <View className="bg-alpha w-16 aspect-square rounded-full flex justify-center items-center">
-                  <Ionicons name={item.icon} color="#ffffff" size={26} />
-                </View>
-                <Text className="text-white/90 text-md font-bold">{item.label}</Text>
-              </View>
-            ))}
-          </View> */}
 
         {/* orgnazires */}
         <View className="px-6 pt-6">
@@ -159,7 +146,6 @@ export default function HomeScreen() {
                 style={{
                   elevation: 3,
                   width: "45%",
-                  // marginLeft: index % 2 ? 16 : 0,
                   marginBottom: 16,
                 }}
               >
@@ -225,7 +211,7 @@ export default function HomeScreen() {
             className="px-6"
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
-            <View className="flex flex-row py-6 flex-wrap w-full ">
+            <View className="flex flex-row py-6 flex-wrap w-full justify-around ">
               {sponsors.reverse().map((partner, index) => (
                 <View
                   key={index}
@@ -233,7 +219,6 @@ export default function HomeScreen() {
                   style={{
                     elevation: 3,
                     width: "30%",
-                    marginLeft: index % 3 ? 16 : 0,
                     marginBottom: 16,
                   }}
                 >

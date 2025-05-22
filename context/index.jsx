@@ -35,6 +35,7 @@ const AppProvider = ({ children }) => {
   const [Programe, setPrograme] = useState([]);
   const networkState = Network.getNetworkStateAsync();
   const [notifications, setNotifications] = useState([]);
+  const [general, setGeneral] = useState();
 
   //* get participamts from the backend
   const [participants, setParticipants] = useState([]);
@@ -158,6 +159,7 @@ const AppProvider = ({ children }) => {
 
   const fetchGeneral = () => {
     api.get("general").then((res) => {
+      setGeneral(res.data?.general);
       if (res.data.general.version != Constants.expoConfig.version) {
         Alert.alert(
           "Update Required",
@@ -197,7 +199,6 @@ const AppProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // add the other fetches here ?
     fetchGeneral();
     fetchAllParticipants();
     fetchParticipants();
@@ -237,19 +238,9 @@ const AppProvider = ({ children }) => {
     allParticipants,
     ngos,
     notifications,
+    general,
   };
-  // const CustomFallback = (props: { error: Error; resetError: Function }) => (
-  //   <View>
-  //     <Text>Something happened!</Text>
-  //     <Text>{props.error.toString()}</Text>
-  //     <Pressable onPress={props.resetError}>
-  //       <Text>Try again</Text>
-  //     </Pressable>
-  //     <Pressable onPress={router.navigate("/")}>
-  //       <Text>Back Home</Text>
-  //     </Pressable>
-  //   </View>
-  // );
+
   const sendStorageRepport = async () => {
     if ((await networkState).isInternetReachable) {
       const errorData = await AsyncStorage.getItem("errorData");

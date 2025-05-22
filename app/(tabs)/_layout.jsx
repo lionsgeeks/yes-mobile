@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import {  Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -13,13 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { isAuthLoading } = useAuthContext();
-  // const { isSignedIn } = useAuthContext();
 
-  // if (isSignedIn) {
-  //   return <View className="h-screen items-center justify-center">
-  //     <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].tint} />
-  //   </View>;
-  // }
 
   const tabScreen = [
     { route: "index", name: "Home", icon: "home", showTab: isAuthLoading ? false : true },
@@ -52,6 +46,7 @@ export default function TabLayout() {
     { route: "terms/index", name: "Terms", icon: "lock", showTab: true },
     { route: "visitors/index", name: "visitors", icon: "person", showTab: true },
     { route: "notifications/index", name:"Notifications", icon: "person", showTab: true },
+    { route: "about/index", name:"About", icon: "person", showTab: true },
 
   ]
 
