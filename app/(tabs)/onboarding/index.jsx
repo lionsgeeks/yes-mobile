@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Image, Text, TouchableOpacity, View } from "react-native"
-import image1 from "@/assets/images/yes_patterns.png";
 
 import africa1 from "@/assets/images/onboarding/africa1.jpg";
 import africa2 from "@/assets/images/onboarding/africa2.jpg";
@@ -15,27 +14,36 @@ const onboardingData = [
         title: "Welcome to Y.E.S Africa",
         description:
             "Youth Empowerment Summit Africa is dedicated to inspiring and equipping young Africans with the skills and knowledge needed to drive positive change across the continent.",
+        description2:
+            "Through collaborative initiatives and transformative programs, we aim to ignite passion and purpose among Africa’s youth, empowering them to become leaders in their communities.",
         image: africa1,
     },
     {
         title: "Our Mission",
         description:
             "We bring together young leaders, entrepreneurs, and changemakers from across Africa to connect, learn, and collaborate on solutions to the continent's most pressing challenges.",
+        description2:
+            "By fostering a culture of innovation and unity, we help young people turn ideas into impactful actions that address real-world problems and uplift African societies.",
         image: africa2,
     },
     {
         title: "What to Expect",
         description:
             "Engaging workshops, inspiring keynote speakers, networking opportunities, and hands-on projects that will help you develop your skills and expand your professional network.",
+        description2:
+            "Whether you’re looking to sharpen your entrepreneurial mindset or grow your influence as a leader, Y.E.S Africa offers immersive experiences tailored to your growth.",
         image: africa3,
     },
     {
         title: "Join the Movement",
         description:
             "Be part of a growing community of young Africans who are passionate about creating a better future for Africa through innovation, leadership, and sustainable development.",
+        description2:
+            "Your journey with Y.E.S Africa is just the beginning—connect with like-minded peers, access long-term mentorship, and contribute to a pan-African legacy of empowerment.",
         image: africa4,
     },
-]
+];
+
 
 export default function OnboardingScreen() {
     const [currentSlide, setCurrentSlide] = useState(0)
@@ -70,7 +78,7 @@ export default function OnboardingScreen() {
                     <Text className="text-3xl font-bold text-alpha mb-2">{onboardingData[currentSlide].title}</Text>
 
                     <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description}</Text>
-                    <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description}</Text>
+                    <Text className="text-gray-700 mb-6">{onboardingData[currentSlide].description2}</Text>
                 </View>
 
                 <View className="px-6 pb-20">

@@ -1,37 +1,10 @@
-import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import { Image, Pressable, Text, View } from "react-native";
 import { useAppContext } from "@/context";
+import api from "@/api";
 
 export default function MatchesCard() {
   const { matches } = useAppContext()
-  console.log(matches);
 
-  const dummySpeakers = [
-    {
-      id: 1,
-      name: 'Jane Doe',
-      title: 'Frontend Developer',
-      role: 'Speaker',
-      image: 'https://via.placeholder.com/150',
-      tags: ['React', 'JavaScript'],
-    },
-    {
-      id: 2,
-      name: 'John Smith',
-      title: 'UX Designer',
-      role: 'Speaker',
-      image: 'https://via.placeholder.com/150',
-      tags: ['Design', 'Figma'],
-    },
-    {
-      id: 3,
-      name: 'Sara Lee',
-      title: 'Product Manager',
-      role: 'Speaker',
-      image: 'https://via.placeholder.com/150',
-      tags: ['Agile', 'Leadership'],
-    },
-  ];
 
   return (
     <View className="flex-row flex-wrap justify-between mx-4 mt-2">
@@ -42,12 +15,10 @@ export default function MatchesCard() {
             className="bg-white rounded-2xl shadow-xl shadow-alpha  overflow-hidden mb-5 px-4 pt-5 pb-3 w-[48%]"
             style={{ elevation: 3 }}
             android_ripple={{ color: "#ccc" }}
-          // onPress={() => navigation.navigate('speakers/[id]', { speaker: item })}
-
           >
             <View className="items-center mb-3">
               <Image
-                source={{ uri: item.image }}
+                source={{ uri: api.IMAGE_URL + item.image }}
                 className="w-20 h-20 rounded-full border border-gray-300"
               />
             </View>
@@ -77,14 +48,3 @@ export default function MatchesCard() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    width: "100px",
-    height: "500px",
-  },
-  imageContainer: {
-    flex: 1,
-    height: "100%",
-  },
-});

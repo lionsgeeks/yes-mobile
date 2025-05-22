@@ -163,7 +163,7 @@ const AppProvider = ({ children }) => {
       if (res.data.general.version != Constants.expoConfig.version) {
         Alert.alert(
           "Update Required",
-          "A new version of the app is available. Please update to continue.",
+          `A new version of the app is available. Please update to continue. Current version ${res.data.general.version} and your version ${Constants.expoConfig.version}`,
           [
             {
               text: "Update Now",

@@ -77,12 +77,12 @@ export default function AccountScreen() {
         });
 
 
-        
+
         try {
             console.log("Form is sending now");
             const response = await axios.post(api.APP_URL + "/api/participant/image/" + user?.id, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data", 
+                    "Content-Type": "multipart/form-data",
                 },
             });
 
@@ -123,7 +123,18 @@ export default function AccountScreen() {
     const handleSave = () => {
         if (!formData.fullName || !formData.email) {
             Alert.alert("Invalid Information", 'Please Fill In the Name AND Email')
+            return;
         }
+
+        // if they exists and they dont have the give string then alert the user
+        if ((formData.youtube && !formData.youtube?.includes('youtube')) ||
+            (formData.linkedin && !formData.linkedin?.includes('linkedin')) ||
+            (formData.instagram && !formData.instagram?.includes('instagram'))
+        ) {
+            Alert.alert("Invalid Links", "Links should be of the correct format shown in the preview")
+            return;
+        }
+
 
         setIsLoading(true)
 
@@ -177,6 +188,7 @@ export default function AccountScreen() {
                     placeholder={placeholder}
                     placeholderTextColor="#999"
                     multiline={isMultiline}
+                    autoCapitalize="none"
                     numberOfLines={isMultiline ? 4 : 1}
                     className=" w-full py-4"
                 />
@@ -235,10 +247,10 @@ export default function AccountScreen() {
 
 
                         <Text className="text-2xl font-bold my-4 text-beta">Social Information: </Text>
-                        {renderInputField("linkedIn", formData.linkedin, "linkedin", "linkedin.com/in/johndoe", "logo-linkedin")}
-                        {renderInputField("instagram", formData.instagram, "instagram", "@johndoe", "logo-instagram")}
-                        {renderInputField("website", formData.website, "website", "https://example.com", "globe")}
-                        {renderInputField("youtube", formData.youtube, "youtube", "@johndoe", "logo-youtube")}
+                        {renderInputField("linkedIn", formData.linkedin, "linkedin", "https://www.linkedin.com/u/username", "logo-linkedin")}
+                        {renderInputField("instagram", formData.instagram, "instagram", "https://www.instagram.com/username", "logo-instagram")}
+                        {renderInputField("website", formData.website, "website", "https://www.example.com etc..", "globe")}
+                        {renderInputField("youtube", formData.youtube, "youtube", "https://www.youtube.com/@username", "logo-youtube")}
                     </View>
 
                     <View className="p-5">
