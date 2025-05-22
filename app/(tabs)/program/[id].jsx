@@ -8,6 +8,8 @@ import {
   Pressable,
   ActivityIndicator,
   Alert,
+  Modal,
+  Platform,
 } from "react-native";
 import Navbar from "@/components/navigation/navbar";
 import { useCameraPermissions, CameraView } from "expo-camera";
@@ -17,16 +19,21 @@ import { useAuthContext } from "@/context/auth";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "@/api";
 import { Ionicons } from "@expo/vector-icons";
+import { useAppContext } from "@/context";
 
 export default function SessionDetails() {
   const { user } = useAuthContext();
+  const { Programe } = useAppContext();
   const { params } = useRoute();
-  const { Programe } = params;
+  const { session } = params;
+  console.log("🚨🚨🚨🚨🚨🚨 session", session);
   const navigation = useNavigation();
-  console.log("🚨🚨🚨🚨🚨🚨", Programe);
+  console.log("🚨🚨🚨🚨🚨🚨", session);
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
-  // const [Programe, setPrograme] = useState(null);
+  const [modalVisible, setModalVisible] = useState(true);
+
+  // const [session, setPrograme] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // new loading state
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -34,9 +41,10 @@ export default function SessionDetails() {
   const [isEnrolled, setIsEnrolled] = useState(null);
   const [isScanned, setIsScanned] = useState(null);
   const [loadingCamera, setLoadingCamera] = useState(false);
+  const [badgeId, setBadgeId] = useState(null);
   const handleEnroll = async (programId) => {
     console.log("Enrolling in program:", programId);
-    
+
     try {
       const response = await fetch(`${api.APP_URL}/api/enrolled`, {
         method: "POST",
@@ -77,7 +85,7 @@ export default function SessionDetails() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          programe_id: (programId),
+          programe_id: programId,
           participant_id: user.id,
         }),
       });
@@ -113,6 +121,7 @@ export default function SessionDetails() {
   // }
   const checkParticipant = async (badgeId) => {
     // console.log(typeof badgeId);
+    setBadgeId(badgeId);
     if (hasChecked) {
       return;
     }
@@ -121,7 +130,7 @@ export default function SessionDetails() {
       setLoadingCamera(true);
       const response = await api.post("participants/enrolled", {
         badge_id: badgeId,
-        programe_id: Programe.id,
+        programe_id: session.id,
       });
       console.log("🚨🚨🚨 response : ", response);
       if (response?.status === 200) {
@@ -143,6 +152,7 @@ export default function SessionDetails() {
         setIsCameraReady(false);
         setIsScanned(false);
         setHasChecked(false);
+        setModalVisible(true);
       };
     }, [])
   );
@@ -151,16 +161,24 @@ export default function SessionDetails() {
       <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
       <ScrollView className="px-4">
         {/* Title Section */}
+        <TouchableOpacity
+          className="flex-row items-center bg-[#f1f3f5] rounded-lg px-2 gap-2"
+          onPress={() => setModalVisible(true)}
+        >
+          <Ionicons name="filter" size={18} color="#333" />
+          <Text>Filtrer</Text>
+          <Ionicons name="chevron-down" size={16} color="#666" />
+        </TouchableOpacity>
         <View className="items- p-5 mb-6 bg-white">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">
-            {Programe.name}
+            {session.name}
           </Text>
           {/* <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text> */}
           <Text className="text-sm text-gray-600 mb-1">
-            {Programe.date} • Day 1
+            {session.date} • Day 1
           </Text>
           <Text className="text-sm text-gray-600">
-            {Programe.start_date} - {Programe.end_date}
+            {session.start_date} - {session.end_date}
           </Text>
         </View>
 
@@ -169,7 +187,7 @@ export default function SessionDetails() {
           <Text className="text-lg font-semibold text-[#2952a3] mb-3">
             About this Session
           </Text>
-          <Text className="text-gray-600">{Programe.description}</Text>
+          <Text className="text-gray-600">{session.description}</Text>
         </View>
 
         {/* Location */}
@@ -180,7 +198,7 @@ export default function SessionDetails() {
           <View className="flex-row items-start">
             <View className="flex-1">
               <Text className="font-medium text-gray-900">
-                {Programe.location}
+                {session.location}
               </Text>
             </View>
           </View>
@@ -192,11 +210,8 @@ export default function SessionDetails() {
             Speakers
           </Text>
           <View className="space-y-4">
-            {Programe.participants?.map((speaker) => (
-              <View
-                key={speaker.id}
-                className="flex-row items-center space-x-4"
-              >
+            {session.participants?.map((speaker, index) => (
+              <View key={index} className="flex-row items-center space-x-4">
                 <Image
                   source={{ uri: api.IMAGE_URL + speaker?.image }}
                   className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
@@ -217,9 +232,9 @@ export default function SessionDetails() {
 
         {/* Register Button */}
 
-        {enrolledPrograms.includes(Programe.id) ? (
+        {enrolledPrograms.includes(session.id) ? (
           <TouchableOpacity
-            onPress={() => handlcancelEnroll(Programe.id)}
+            onPress={() => handlcancelEnroll(session.id)}
             className="bg-[#2952a3] py-4 rounded-lg mt-4"
           >
             <Text className="text-white text-center font-medium">
@@ -228,7 +243,7 @@ export default function SessionDetails() {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            onPress={() => handleEnroll(Programe.id)}
+            onPress={() => handleEnroll(session.id)}
             className="bg-[#2952a3] py-4 rounded-lg mt-4"
           >
             <Text className="text-center text-white text-base font-medium">
@@ -278,6 +293,69 @@ export default function SessionDetails() {
                 <Text className="text-center text-lg font-semibold text-red-500">
                   You are not enrolled in this session.
                 </Text>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => setModalVisible(false)}
+                >
+                  <TouchableOpacity
+                    className="flex-1 bg-[rgba(0,0,0,0.5)] justify-end"
+                    activeOpacity={1}
+                    onPress={() => setModalVisible(false)}
+                  >
+                    <View
+                      className="bg-white rounded-t-2xl"
+                      style={{ paddingBottom: Platform.OS === "ios" ? 30 : 16 }}
+                    >
+                      <View className="flex-row justify-between items-center p-4 border-b border-[#eee]">
+                        <Text className="text-base font-semibold text-[#333]">
+                          Sessions where the user enrolled
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => setModalVisible(false)}
+                        >
+                          <Ionicons name="close" size={24} color="#333" />
+                        </TouchableOpacity>
+                      </View>
+
+                      {Programe?.map(
+                        (program, index) =>
+                          program?.participantes.some((participant) =>
+                            participant.qr_codes?.some(
+                              (qr) => qr.badge_id === badgeId
+                            )
+                          ) && (
+                            <View
+                              key={index}
+                              className="flex-row relative justify-between items-center p-4 border-b  border-l-4 border-beta"
+                              onPress={() => {
+                                // setSelectedCategory(category);
+                                setModalVisible(false);
+                              }}
+                            >
+                              <View className="flex-col ">
+                                <Text
+                                  className={`text-sm text-[#333]
+                          "text-[#0288d1] font-medium"
+                          `}
+                                >
+                                  {program.name}
+                                </Text>
+                                <Text className="text-sm text-gray-600 my-3">
+                                  🕘 {program.start_date} - {program.end_date}
+                                </Text>
+                                <Text className="text-sm text-gray-600">
+                                  📍​ {program.location}
+                                </Text>
+                              </View>
+                              {/* <Ionicons name="checkmark" size={20} color="#0288d1" /> */}
+                            </View>
+                          )
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                </Modal>
               </View>
             ) : null}
             <Pressable
@@ -285,7 +363,8 @@ export default function SessionDetails() {
                 setIsCameraReady(false);
                 setIsScanned(false);
                 setHasChecked(false);
-                setIsEnrolled(null); // Reset for next scan
+                setIsEnrolled(null);
+                setModalVisible(true);
               }}
               className="bg-alpha w-fit px-4 py-3 rounded-lg mt-4"
             >
