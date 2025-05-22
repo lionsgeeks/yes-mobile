@@ -34,6 +34,7 @@ const AppProvider = ({ children }) => {
   const [badge, setBadge] = useState([]);
   const [Programe, setPrograme] = useState([]);
   const networkState = Network.getNetworkStateAsync();
+  const [notifications, setNotifications] = useState([]);
 
   //* get participamts from the backend
   const [participants, setParticipants] = useState([]);
@@ -76,7 +77,7 @@ const AppProvider = ({ children }) => {
           const allSpeakers = otherParts?.filter(
             (part) => part?.role == "speaker"
           );
-          const  allVisitors = otherParts?.filter(
+          const allVisitors = otherParts?.filter(
             (part) => part?.role == "visitor"
           );
           const allNgos = otherParts?.filter((part) => part?.role == "ngo");
@@ -84,9 +85,9 @@ const AppProvider = ({ children }) => {
           setvisitors(allVisitors);
           setNgos(allNgos);
           setAllParticipants(otherParts);
-            // console.log("🚨 interests", interests);
-            // console.log("🚨 allVistors", visitors);
-            
+          // console.log("🚨 interests", interests);
+          // console.log("🚨 allVistors", visitors);
+
 
         }
       })
@@ -108,7 +109,7 @@ const AppProvider = ({ children }) => {
         console.log("error getting sponsors", err);
       });
   };
-  
+
 
   const fetchBadge = () => {
     api.get(`qrcodes/show/${user?.id}`).then((res) => {
@@ -125,7 +126,7 @@ const AppProvider = ({ children }) => {
     })
   }
 
- 
+
 
   const fetchPrograme = () => {
     api
@@ -157,7 +158,6 @@ const AppProvider = ({ children }) => {
 
   const fetchGeneral = () => {
     api.get("general").then((res) => {
-      // TODO* ask Mehdi if we should add the app links to general table instead of hard code just in case
       if (res.data.general.version != Constants.expoConfig.version) {
         Alert.alert(
           "Update Required",
@@ -167,8 +167,8 @@ const AppProvider = ({ children }) => {
               text: "Update Now",
               onPress: () => {
                 const storeUrl = Platform.select({
-                  ios: "itms-apps://apps.apple.com/app/idYOUR_APP_ID", // Replace with your iOS app ID
-                  android: "market://details?id=YOUR_PACKAGE_NAME", // Replace with your Android package name
+                  ios: res.data.general.appstore,
+                  android: res.data.general.playstore,
                 });
 
                 if (storeUrl) {
@@ -185,6 +185,17 @@ const AppProvider = ({ children }) => {
     });
   };
 
+
+  const fetchNotification = () => {
+    api.get('getNotifications').then((res) => {
+      if (res.data?.notifications) {
+        setNotifications(res.data.notifications);
+      }
+    }).catch((err) => {
+      console.error('error getting notifcations', err);
+    })
+  }
+
   useEffect(() => {
     // add the other fetches here ?
     fetchGeneral();
@@ -195,6 +206,7 @@ const AppProvider = ({ children }) => {
     fetchInterests();
     fetchBadge();
     fetchPrograme();
+    fetchNotification();
   }, [user]);
 
   useEffect(() => {
@@ -224,6 +236,7 @@ const AppProvider = ({ children }) => {
     Programe,
     allParticipants,
     ngos,
+    notifications,
   };
   // const CustomFallback = (props: { error: Error; resetError: Function }) => (
   //   <View>

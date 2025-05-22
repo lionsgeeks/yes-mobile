@@ -30,11 +30,11 @@ export default function HomeScreen() {
 
 
   // router.replace("/sign-in")
-  const {expoToken} = useNotif();
+  const { expoPushToken } = useNotif();
   const { user, imagePath, isAuthLoading } = useAuthContext();
   const { sponsors, speakers } = useAppContext();
   const navigation = useNavigation();
-  console.log(user?.id)
+  // console.log(user?.id)
   const items = [
     {
       icon: "id-card-outline",
@@ -59,7 +59,7 @@ export default function HomeScreen() {
   ];
 
 
-  
+
   const organizres = [
     {
       name: "Jadara",
@@ -172,7 +172,7 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
-        
+
         {/* speakers */}
         {speakers?.length > 0 && (
           <View className="px-6 pb-6">

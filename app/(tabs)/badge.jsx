@@ -11,7 +11,7 @@ import { useAuthContext } from '@/context/auth';
 
 export default function Badge() {
     const { badge } = useAppContext();
-    console.log(badge);
+    // console.log(badge);
     const { imagePath } = useAuthContext();
     // console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
 

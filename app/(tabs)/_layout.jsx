@@ -27,9 +27,9 @@ export default function TabLayout() {
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-outline", showTab: true },
     { route: "bailleur/bailleur", name: "Funders", icon: "ribbon", showTab: true },
-    
+
   ]
-  
+
   const hiddenScreens = [
     { route: "menu", name: "Menu", icon: "settings", showTab: true },
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
@@ -46,11 +46,12 @@ export default function TabLayout() {
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },
-    
+
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },
     { route: "terms/index", name: "Terms", icon: "lock", showTab: true },
     { route: "visitors/index", name: "visitors", icon: "person", showTab: true },
+    { route: "notifications/index", name:"Notifications", icon: "person", showTab: true },
 
   ]
 

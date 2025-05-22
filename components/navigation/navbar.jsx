@@ -48,7 +48,8 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
       {/* Right: Bell + Profile */}
       <View className="flex-row items-center gap-x-4">
         {title != "chat" && title != "Program Details" && title != "Badge" && (
-          <Pressable onPress={() => router.push("/chat")}>
+          <Pressable onPress={() => router.push("/chat")} className="relative">
+            <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
             <IconSymbol name="message" size={22} color="#000" />
           </Pressable>
         )}
@@ -62,11 +63,15 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
             <Ionicons name="qr-code" size={22} color="#000" />
           </Pressable>
         )}
-                <Pressable >
-                    <Feather name="bell" size={22} color="#000" />
-                </Pressable>
+        <Pressable
+          onPress={() => { router.push('notifications') }}
+          className="relative"
+        >
+          <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
+          <Feather name="bell" size={22} color="#000" />
+        </Pressable>
 
-            </View>
-        </View>
-    );
+      </View>
+    </View>
+  );
 }
