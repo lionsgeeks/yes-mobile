@@ -15,6 +15,7 @@ import {
 import ably, { cleanupAbly, setupAbly } from "@/utils/ably";
 import Navbar from "@/components/navigation/navbar";
 import useNotif from "@/hooks/useNotif";
+import { useAppContext } from "@/context";
 
 
 
@@ -48,6 +49,7 @@ export default function ChatScreen() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const { user } = useAuthContext();
+  const { setMesssageNotif } = useAppContext();
   const ablyClient = useRef(null);
   const ablyChannel = useRef(null);
 
@@ -63,6 +65,7 @@ export default function ChatScreen() {
   useFocusEffect(
     useCallback(() => {
       getConversations();
+      setMesssageNotif(null)
     }, [])
   );
 

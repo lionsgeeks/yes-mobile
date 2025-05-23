@@ -70,6 +70,8 @@ export default function ChatDetail() {
 
         try {
             const response = await api.post("message", newMessage, "token");
+            console.log(response.data);
+
             setMessages(response.data.messages);
         } catch (error) {
             console.error("❌ Failed to send message:", error);
@@ -78,7 +80,8 @@ export default function ChatDetail() {
 
     const deleteMessage = async (id) => {
         try {
-            await api.remove(`message/${id}`).then((res)=> {console.log(res.data);
+            await api.remove(`message/${id}`).then((res) => {
+                console.log(res.data);
             });
             setMessages((prev) => prev.filter((msg) => msg.id !== id));
         } catch (error) {
@@ -151,7 +154,7 @@ export default function ChatDetail() {
                         }}
                     >
                         <Text className={`text-base ${isMe ? "text-white" : "text-black"}`}>
-                            {item.text} 
+                            {item.text}
                         </Text>
 
                         <View className="flex-row items-center justify-end mt-1 space-x-1">
@@ -163,7 +166,7 @@ export default function ChatDetail() {
                                 <Ionicons
                                     name={item.seen ? "checkmark-done" : "checkmark"}
                                     size={16}
-                                    color={item.seen ? "#b09417" : "#ccc"} 
+                                    color={item.seen ? "#b09417" : "#ccc"}
                                     style={{ marginLeft: 4 }}
                                 />
                             )}

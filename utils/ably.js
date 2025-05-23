@@ -9,24 +9,28 @@ export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, 
     ablyClient.current = new Ably.Realtime("lExbbw.OPqhwQ:cAV6W9IMcdzXejWqZb78-NZhDE2RisM1xKtscw7cd9s");
     const privateChannel = `private-chat:${user.id}`;
     ablyChannel.current = ablyClient.current.channels.get(privateChannel);
-    const publicChannel = `public_participants`;
-    ablyChannel.current = ablyClient.current.channels.get(publicChannel);
+    // const publicChannel = `public_participants`;
+    // ablyChannel.current = ablyClient.current.channels.get(publicChannel);
 
     ablyChannel.current.subscribe("new-message", (message) => {
-        Alert.alert("jg")  
-        const data = message.data;
-
-
-        if (parseInt(data.sender) === parseInt(receiver.id)) {
-            setMessages((prev) => [...prev, data]);
-        } else {
-            onOtherMessage?.();
+        try {
+            const data = message.data;
+            
+            if (parseInt(data.sender) === parseInt(receiver.id)) {
+                setMessages((prev) => [...prev, data]);
+            } else {
+                console.log("Received message:", message);
+                onOtherMessage?.(message);
+            }
+        } catch (err) {
+            console.error("Error in Ably subscription:", err);
         }
     });
-    ablyChannel.current.subscribe("participant", (participant) => {
-        const data = participant.data;
-        console.log(data);
-    });
+
+    // ablyChannel.current.subscribe("participant", (participant) => {
+    //     const data = participant.data;
+    //     console.log(data);
+    // });
 
     ablyClient.current.connection.on("connected", () => {
         console.log("✅ Connected to Ably");

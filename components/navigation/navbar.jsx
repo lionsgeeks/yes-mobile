@@ -5,9 +5,11 @@ import { router } from "expo-router";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api";
 import { useCameraPermissions } from "expo-camera";
+import { useAppContext } from "@/context";
 
 export default function Navbar({ title = "Screen", setIsCameraReady }) {
   const { user } = useAuthContext();
+  const { messageNotif } = useAppContext()
 
   const imageURL = api.IMAGE_URL + user?.image;
   const [permission, requestPermission] = useCameraPermissions();
@@ -49,7 +51,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
       <View className="flex-row items-center gap-x-4">
         {title != "chat" && title != "Program Details" && title != "Badge" && (
           <Pressable onPress={() => router.push("/chat")} className="relative">
-            <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
+            {messageNotif && <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>}
             <IconSymbol name="message" size={22} color="#000" />
           </Pressable>
         )}

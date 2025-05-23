@@ -36,6 +36,7 @@ const AppProvider = ({ children }) => {
   const networkState = Network.getNetworkStateAsync();
   const [notifications, setNotifications] = useState([]);
   const [general, setGeneral] = useState();
+  const[messageNotif , setMesssageNotif] = useState(null)
 
   //* get participamts from the backend
   const [participants, setParticipants] = useState([]);
@@ -212,7 +213,7 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     const initialize = async () => {
-      await setupAbly(ablyClient, ablyChannel, user, { id: null }, null);
+      await setupAbly(ablyClient, ablyChannel, user, { id: null }, null , setMesssageNotif);
     };
 
     initialize();
@@ -239,6 +240,8 @@ const AppProvider = ({ children }) => {
     ngos,
     notifications,
     general,
+    messageNotif,
+    setMesssageNotif
   };
 
   const sendStorageRepport = async () => {
