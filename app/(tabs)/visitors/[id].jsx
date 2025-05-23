@@ -129,7 +129,7 @@ export default function visitorDetail() {
             </View>
 
             {/* Contact Button */}
-            {/* <View className="px-6 mb-10 mt-4">
+            <View className="px-6 mb-10 mt-4">
                 <Pressable
                     onPress={() => router.push({
                         pathname: `chat/${visitor.id}`,
@@ -141,7 +141,7 @@ export default function visitorDetail() {
                 >
                     <Text className="text-white font-semibold text-base">Send a Message</Text>
                 </Pressable>
-            </View> */}
+            </View>
         </ScrollView>
     );
 }

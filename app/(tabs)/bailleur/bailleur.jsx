@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons"
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
+import { useNavigation } from "expo-router";
 
 const categories = ["Tous", "NGO", "Gouvernement", "Institution Internationale"]
 
@@ -17,6 +18,7 @@ const Bailleur = () => {
     const [modalVisible, setModalVisible] = useState(false)
     const [fadeAnim] = useState(new Animated.Value(0))
     const [translateY] = useState(new Animated.Value(20))
+    const navigation = useNavigation();
 
     const { allParticipants, sponsors } = useAppContext();
 
@@ -50,72 +52,77 @@ const Bailleur = () => {
     })
 
     const renderFunderCard = (funder) => {
-
         return (
-            <View key={funder.id} className="bg-white rounded-lg mb-10 shadow-lg overflow-hidden">
-                <View className="absolute left-0 top-0 bottom-0 w-1 bg-beta z-10"></View>
-                <View className="p-5">
-                    <View className="flex-row mb-3">
-                        <View className="w-[8rem] h-[5.5rem] rounded-lg overflow-hidden items-center justify-center" >
-                            <Image source={{ uri: api.IMAGE_URL + funder.image }}
-                                style={{
-                                    width: 100,
-                                    height: 75,
-                                    // borderRadius: 400,
-                                }}
-                                resizeMode="contain" />
-                        </View>
+            <TouchableOpacity
+                key={funder.id}
+                activeOpacity={0.9}
+                onPress={() => navigation.navigate("bailleur/[id]", { bailleur: funder })}
+            >
+                <View key={funder.id} className="bg-white rounded-lg mb-10 shadow-lg overflow-hidden">
+                    <View className="absolute left-0 top-0 bottom-0 w-1 bg-beta z-10"></View>
+                    <View className="p-5">
+                        <View className="flex-row mb-3">
+                            <View className="w-[8rem] h-[5.5rem] rounded-lg overflow-hidden items-center justify-center" >
+                                <Image source={{ uri: api.IMAGE_URL + funder.image }}
+                                    style={{
+                                        width: 100,
+                                        height: 75,
+                                        // borderRadius: 400,
+                                    }}
+                                    resizeMode="contain" />
+                            </View>
 
-                        <View className="ml-3 flex-1 justify-center">
-                            <Text className="font-semibold text-lg text-[#333] m-1">{funder.name}</Text>
+                            <View className="ml-3 flex-1 justify-center">
+                                <Text className="font-semibold text-lg text-[#333] m-1">{funder.name}</Text>
 
-                            {
-                                funder.interesets && funder.interesets.length > 1 && (
-                                    <View className="flex-row items-center px-2.5 py-1 rounded-full self-start" style={{ backgroundColor: "#f0e6f9", borderRadius: 500 }}>
-                                        <Ionicons name="globe" size={12} color="#6b0d8a" className="mr-2" />
-                                        <Text className="text-sm font-medium text-[#6b0d8a]">
-                                            {funder?.interesets[0]?.name[0].toUpperCase() + funder?.interesets[0]?.name?.slice(1)}
-                                        </Text>
-                                    </View>
-                                )
-                            }
-                        </View>
-                    </View>
-                    {funder.description && (
-                        <Text className="text-gray-500 mb-4 leading-[20px]">{funder.description}</Text>
-
-                            )}
-                </View>
-
-                {
-                    (sponsors.some((sp) => sp.name == funder.name) || funder.social.website) && (
-
-                        <View className="flex-row justify-between items-center px-4 py-3 border-t border-t-[#eee] bg-[#f8f9fa]">
-                            <View>
                                 {
-                                    sponsors.some((sp) => sp.name == funder.name) && (
-
-                                        <View className="flex-row items-center bg-[#f1f3f5] px-[10px] py-[6px] rounded-[12px] gap-[4px]">
-                                            <Ionicons name="globe-outline" size={12} color="#666" />
-                                            <Text className="text-[12px] text-[#666]"
-                                            >Partenaire</Text>
+                                    funder.interesets && funder.interesets.length > 1 && (
+                                        <View className="flex-row items-center px-2.5 py-1 rounded-full self-start" style={{ backgroundColor: "#f0e6f9", borderRadius: 500 }}>
+                                            <Ionicons name="globe" size={12} color="#6b0d8a" className="mr-2" />
+                                            <Text className="text-sm font-medium text-[#6b0d8a]">
+                                                {funder?.interesets[0]?.name[0].toUpperCase() + funder?.interesets[0]?.name?.slice(1)}
+                                            </Text>
                                         </View>
                                     )
                                 }
                             </View>
-
-                            {
-                                funder.social.website && (
-                                    <TouchableOpacity className="flex-row items-center gap-1 " onPress={() => Linking.openURL(funder.url)}>
-                                        <Text className="text-[13px] text-alpha font-medium" >Visiter le site</Text>
-                                        <Ionicons name="open-outline" size={14} color="#2e539d" />
-                                    </TouchableOpacity>
-                                )
-                            }
                         </View>
-                    )
-                }
-            </View>
+                        {funder.description && (
+                            <Text className="text-gray-500 mb-4 leading-[20px]">{funder.description}</Text>
+
+                        )}
+                    </View>
+
+                    {
+                        (sponsors.some((sp) => sp.name == funder.name) || funder.social.website) && (
+
+                            <View className="flex-row justify-between items-center px-4 py-3 border-t border-t-[#eee] bg-[#f8f9fa]">
+                                <View>
+                                    {
+                                        sponsors.some((sp) => sp.name == funder.name) && (
+
+                                            <View className="flex-row items-center bg-[#f1f3f5] px-[10px] py-[6px] rounded-[12px] gap-[4px]">
+                                                <Ionicons name="globe-outline" size={12} color="#666" />
+                                                <Text className="text-[12px] text-[#666]"
+                                                >Partenaire</Text>
+                                            </View>
+                                        )
+                                    }
+                                </View>
+
+                                {
+                                    funder.social.website && (
+                                        <TouchableOpacity className="flex-row items-center gap-1 " onPress={() => Linking.openURL(funder.url)}>
+                                            <Text className="text-[13px] text-alpha font-medium" >Visiter le site</Text>
+                                            <Ionicons name="open-outline" size={14} color="#2e539d" />
+                                        </TouchableOpacity>
+                                    )
+                                }
+                            </View>
+                        )
+                    }
+                </View>
+            </TouchableOpacity>
         )
     }
 
