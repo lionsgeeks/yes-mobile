@@ -21,11 +21,10 @@ export default function TabLayout() {
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-outline", showTab: true },
     { route: "bailleur/bailleur", name: "Funders", icon: "ribbon", showTab: true },
-
+    { route: "menu", name: "Menu", icon: "menu-sharp", showTab: true },
   ]
 
   const hiddenScreens = [
-    { route: "menu", name: "Menu", icon: "settings", showTab: true },
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
     { route: "chat/[id]", name: "ChatDetail", icon: "message", },
     { route: "badge", name: "Badge", icon: "award", showTab: true },

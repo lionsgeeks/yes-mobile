@@ -130,19 +130,19 @@ export default function SpeakerDetail() {
             </View>
 
             {/* Contact Button */}
-            {/* <View className="px-6 mb-10 mt-4">
+            <View className="px-6 mb-10 mt-4">
                 <Pressable
                     onPress={() => router.push({
                         pathname: `chat/${speaker.id}`,
                         params: speaker
                     })}
-                    className="bg-[#2e539d] py-3 rounded-full items-center shadow-md"
+                    className="bg-[#2e539d] py-3 rounded-lg  items-center shadow-md"
                     android_ripple={{ color: "#1c3e7b" }}
 
                 >
                     <Text className="text-white font-semibold text-base">Send a Message</Text>
                 </Pressable>
-            </View> */}
+            </View>
         </ScrollView>
     );
 }

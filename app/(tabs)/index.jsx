@@ -40,19 +40,19 @@ export default function HomeScreen() {
       href: "/badge",
     },
     {
-      icon: "calendar-outline",
-      label: "Program",
-      href: "/program",
-    },
-    {
-      icon: "mic",
-      label: "Speakers",
+      icon: "scan",
+      label: "scan",
       href: "/speakers",
     },
     {
       icon: "globe-outline",
       label: "Networking",
       href: "matches/match",
+    },
+    {
+      icon: "calendar-outline",
+      label: "Program",
+      href: "/program",
     },
   ];
 

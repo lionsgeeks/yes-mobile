@@ -33,7 +33,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
       {/* Left: Home Button */}
       <Pressable
         onPress={() => {
-          router.push("/menu");
+          router.push("/account");
         }}
       >
         <Image

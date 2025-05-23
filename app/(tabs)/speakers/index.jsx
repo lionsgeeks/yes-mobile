@@ -63,62 +63,6 @@ export default function SpeakersScreen() {
         />
       </View>
 
-      {/* Year Dropdown */}
-      {/* <View className="px-6 mb-3 ">
-                <TouchableOpacity
-                    className="bg-white border border-gray-300 rounded-xl p-3"
-                    onPress={() => setDropdownVisible(!dropdownVisible)}
-                >
-                    <Text className="text-base text-gray-800">
-                        {selectedYear || 'Filter by Year'}
-                    </Text>
-                </TouchableOpacity>
-
-                {dropdownVisible && (
-                    <View className=" bg-white border border-gray-300 rounded-xl mt-2 w-full z-10 relative">
-                        {years.map((year) => (
-                            <TouchableOpacity
-                                key={year.value}
-                                className="py-3 px-4"
-                                onPress={() => handleSelectYear(year.value)}
-                            >
-                                <Text className="text-base text-gray-700">{year.label}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                )}
-            </View> */}
-
-      {/* Tag Filter */}
-      {/* <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingRight: 80 }}
-        className={`m-0 px-6 pb-20`}
-      >
-        <Pressable
-          onPress={() => setActiveCategory("All Speakers")}
-          className={`px-4 py-2 h-8 rounded-full mr-2 ${
-            activeCategory === "All Speakers" ? "bg-beta" : "bg-alpha"
-          }`}
-        >
-          <Text className={`text-sm text-white`}>All speakers</Text>
-        </Pressable>
-        {interests?.map((category) => {
-          const isActive = activeCategory === category.name;
-          return (
-            <Pressable
-              key={category.id}
-              onPress={() => setActiveCategory(category.name)}
-              className={`px-4 py-2 h-8 rounded-full mr-2 ${
-                isActive ? "bg-beta" : "bg-alpha"
-              }`}
-            >
-              <Text className={`text-sm text-white`}>{category.name}</Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView> */}
 
       {/* Speaker Cards */}
       <ScrollView className="h-full px-2 mb-4">
