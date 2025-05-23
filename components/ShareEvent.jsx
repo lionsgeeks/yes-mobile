@@ -1,19 +1,34 @@
-import React from "react";
-import { View, Button, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Button, Alert, TouchableOpacity, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { useAuthContext } from "@/context/auth";
+import api from "@/api";
 
-const ShareEvent = ({imagePath}) => {
+const ShareEvent = () => {
+  const { user } = useAuthContext();
+  const [imagePath, setImagePath] = useState(null);
   // const imagePath = 'http://192.168.100.136:8000/assets/posts/screenshot_Hamza.png'
+  useEffect(() => {
+    api
+      .get(`invitation/image?id=${user?.id}`)
+      .then((response) => {
+        console.log("image response", response.data.image_path);
+        setImagePath(response.data.image_path);
+      })
+      .catch((error) => {
+        console.log("image error", error);
+      });
+  }, [user]);
   const shareToLinkedIn = async () => {
     try {
       if (!imagePath) {
-        Alert.alert("Error", "No image URL provided.");
+        Alert.alert(
+          "Error",
+          "Failed to load the image. Please try again later."
+        );
         return;
       }
-      // useEffect(() => {
-      // console.log("HomeScreen user", user);
-      // }, [user]);
 
       const isAvailable = await Sharing.isAvailableAsync();
       if (!isAvailable) {
@@ -42,7 +57,9 @@ const ShareEvent = ({imagePath}) => {
 
   return (
     <View style={{ margin: 20 }}>
-      <Button title="Share Event Image" onPress={shareToLinkedIn} />
+      <TouchableOpacity onPress={shareToLinkedIn}>
+        <Text className="text-beta  text-m font-semibold">Share Badge</Text>
+      </TouchableOpacity>
     </View>
   );
 };

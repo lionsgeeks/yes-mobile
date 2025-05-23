@@ -11,9 +11,6 @@ import { useAuthContext } from '@/context/auth';
 
 export default function Badge() {
     const { badge } = useAppContext();
-    // console.log(badge);
-    const { imagePath } = useAuthContext();
-    // console.log({ url: `http://192.168.100.100:8000/storage/${badge.participant_image}` });
 
 
 
@@ -72,14 +69,14 @@ export default function Badge() {
                         <Text className="text-gray-500 text-sm text-center">
                             This badge must be worn at all times during the event.
                         </Text>
-                        <View className='flex-row justify-center  w-full mt-4 gap-x-4'>
+                        <View className='flex-row justify-center items-center  w-full mt-4 gap-x-4'>
                            <TouchableOpacity>
                                 <Text className="text-beta text-m font-semibold">Download Badge</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            {/* <TouchableOpacity>
                                 <Text className="text-beta text-m font-semibold">Share Badge</Text>
-                            </TouchableOpacity>
-                            {/* <ShareEvent imagePath={imagePath}/> */}
+                            </TouchableOpacity> */}
+                            <ShareEvent/>
                         </View>
                     </View>
                 </View>

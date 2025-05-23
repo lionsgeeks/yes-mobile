@@ -12,7 +12,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [socials, setSocials] = useState(null);
   const [token, setToken] = useState(null);
-  const [imagePath, setImagePath] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const fetchUserInfo = async () => {
     setIsAuthLoading(true);
@@ -41,26 +40,6 @@ const AuthProvider = ({ children }) => {
     setLoading(false);
   }, [token, isSignedIn]);
 
-  // useEffect(() => {
-  //   api
-  //     .get(`invitation/image?id=${user?.id}`)
-  //     .then((response) => {
-  //       console.log("image response", response.data.image_path);
-  //       setImagePath(response.data.image_path);
-  //     })
-  //     .catch((error) => {
-  //       console.log("image error", error);
-  //     });
-  // }, [user]);
-  // useEffect(() => {
-  //   api.post('participant/logged', {
-  //    currentParticipant: user?.id
-  //   }).catch(error => {
-  //    console.error('Failed to send user:',error);
-  //  });
-
-  //  }, [user])
-
   const appValue = {
     isSignedIn,
     setIsSignedIn,
@@ -71,7 +50,6 @@ const AuthProvider = ({ children }) => {
     token,
     setToken,
     fetchUserInfo,
-    imagePath,
     isAuthLoading,
     setIsAuthLoading,
   };
