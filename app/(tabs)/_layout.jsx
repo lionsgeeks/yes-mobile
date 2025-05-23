@@ -23,7 +23,7 @@ export default function TabLayout() {
     { route: "bailleur/bailleur", name: "Funders", icon: "ribbon", showTab: true },
     { route: "menu", name: "Menu", icon: "menu-sharp", showTab: true },
   ]
-
+  
   const hiddenScreens = [
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
     { route: "chat/[id]", name: "ChatDetail", icon: "message", },
@@ -39,7 +39,7 @@ export default function TabLayout() {
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },
-
+    { route: "scans/index", name: "Scan", icon: "scan", showTab: true },
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },
     { route: "terms/index", name: "Terms", icon: "lock", showTab: true },

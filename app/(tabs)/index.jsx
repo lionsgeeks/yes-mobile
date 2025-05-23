@@ -42,7 +42,7 @@ export default function HomeScreen() {
     {
       icon: "scan",
       label: "scan",
-      href: "/speakers",
+      href: "/scans",
     },
     {
       icon: "globe-outline",
