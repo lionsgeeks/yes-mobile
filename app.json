@@ -8,6 +8,7 @@
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yesafrica.app",
@@ -62,10 +63,7 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "7937b32a-fa81-48d3-9281-02e718fdf279"
-      }
+      "router": {}
     }
   }
 }
