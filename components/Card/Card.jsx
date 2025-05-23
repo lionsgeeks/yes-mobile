@@ -15,7 +15,7 @@ import api from "@/api";
 
 export default function Card({ user, onSkip, onConnect }) {
 
-  console.log(user.image);
+  // console.log(user.image);
   
 
   return (
@@ -24,7 +24,7 @@ export default function Card({ user, onSkip, onConnect }) {
         <View style={styles.card} className="">
           <ImageBackground
             source={{
-              uri: api.IMAGE_URL + user.image,
+              uri: api.IMAGE_URL + user?.image,
             }}
             style={styles.image}
             className="border-r-8  border-beta"

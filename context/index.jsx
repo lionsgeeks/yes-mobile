@@ -48,6 +48,7 @@ const AppProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await api.get("participants/?auth=" + user?.id);
+      console.log("🚨🚨🚨🚨🚨🚨 participants", response.data.participants);
       setParticipants(response.data.participants);
     } catch (error) {
       console.error("❌ Failed to fetch participants:", error);
@@ -241,7 +242,8 @@ const AppProvider = ({ children }) => {
     notifications,
     general,
     messageNotif,
-    setMesssageNotif
+    setMesssageNotif,
+    fetchParticipants,
   };
 
   const sendStorageRepport = async () => {

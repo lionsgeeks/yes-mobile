@@ -5,13 +5,19 @@ import { useAppContext } from "@/context";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api";
 import Navbar from "@/components/navigation/navbar";
+import { useFocusEffect } from "expo-router";
 
 export default function Match() {
-  const { participants, fetchMatches } = useAppContext();
-
-  const { user } = useAuthContext();
-
+  const { participants, fetchParticipants } = useAppContext();
   const [userList, setUserList] = useState(participants);
+  const { user } = useAuthContext();
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("connect");
+      fetchParticipants();
+    }, [])
+  );
+  
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleAction = (type) => {
@@ -24,8 +30,6 @@ export default function Match() {
         currentParticipant: user?.id,
         related_participant_id: relatedParticipant,
         action: type,
-      }).then(() => {
-        fetchMatches()
       })
       .catch((error) => {
         console.error(
@@ -54,10 +58,7 @@ export default function Match() {
             onConnect={() => handleAction("connect")}
           />
         </View>
-
       </View>
-
     </>
   );
 }
-
