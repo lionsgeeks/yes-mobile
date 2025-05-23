@@ -56,12 +56,12 @@ const Bailleur = () => {
                 <View className="absolute left-0 top-0 bottom-0 w-1 bg-beta z-10"></View>
                 <View className="p-5">
                     <View className="flex-row mb-3">
-                        <View className="w-[5.5rem] h-[5.5rem] rounded-lg overflow-hidden items-center justify-center" >
+                        <View className="w-[8rem] h-[5.5rem] rounded-lg overflow-hidden items-center justify-center" >
                             <Image source={{ uri: api.IMAGE_URL + funder.image }}
                                 style={{
-                                    width: 200,
+                                    width: 100,
                                     height: 75,
-                                    borderRadius: 400,
+                                    // borderRadius: 400,
                                 }}
                                 resizeMode="contain" />
                         </View>
@@ -81,8 +81,10 @@ const Bailleur = () => {
                             }
                         </View>
                     </View>
+                    {funder.description && (
+                        <Text className="text-gray-500 mb-4 leading-[20px]">{funder.description}</Text>
 
-                    <Text className="text-gray-500 mb-4 leading-[20px]">{funder.description}</Text>
+                            )}
                 </View>
 
                 {
