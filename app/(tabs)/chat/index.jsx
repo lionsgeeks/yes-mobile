@@ -20,31 +20,9 @@ import { useAppContext } from "@/context";
 
 
 
-async function sendPushNotification(expoPushToken) {
-  console.log(expoPushToken);
-
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
-  };
-
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
-}
 
 
 export default function ChatScreen() {
-  const { expoPushToken } = useNotif();
   const [conversations, setConversations] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");

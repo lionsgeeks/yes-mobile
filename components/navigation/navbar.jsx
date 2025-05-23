@@ -65,13 +65,16 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
             <Ionicons name="qr-code" size={22} color="#000" />
           </Pressable>
         )}
-        <Pressable
-          onPress={() => { router.push('notifications') }}
-          className="relative"
-        >
-          <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
-          <Feather name="bell" size={22} color="#000" />
-        </Pressable>
+
+        {title != "Notifications" &&
+          <Pressable
+            onPress={() => { router.push('notifications') }}
+            className="relative"
+          >
+            <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
+            <Feather name="bell" size={22} color="#000" />
+          </Pressable>
+        }
 
       </View>
     </View>

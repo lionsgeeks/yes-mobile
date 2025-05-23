@@ -9,25 +9,25 @@ export default function NotificationScreen() {
         <View className="px-6 pb-12">
             <View className="mt-12"></View>
             <Navbar title="Notifications" />
-            {notifications?.length > 0 && <Text className="text-alpha text-2xl font-semibold">Recent Notifications</Text>}
+            {/* {notifications?.length > 0 && <Text className="text-alpha text-2xl font-semibold">Recent Notifications</Text>} */}
             {
                 (notifications && notifications.length > 0) ?
                     <ScrollView contentContainerStyle={{paddingBottom: 80, marginBottom: 20}}>
                         {
                             notifications.map((notif, ind) => (
-                                <View key={ind} className="bg-white my-3 border-l-4 rounded  border-alpha">
-                                    <View className="px-2 py-4">
-                                        <Text className="font-semibold">{notif.title}</Text>
-                                        <Text>{notif.body}</Text>
-                                    </View>
-                                    <Text className="bg-gray-100 p-1 rounded">{new Date(notif.created_at)
+                                <View key={ind} className="bg-white my-3 px-5 border-l-4 rounded  border-alpha">
+                                    {/* <Text className="p-1 rounded">{new Date(notif.created_at)
                                         .toLocaleDateString('en-US', {
                                             weekday: 'long',
                                             year: 'numeric',
                                             month: 'long',
                                             day: 'numeric'
                                         })}
-                                    </Text>
+                                    </Text> */}
+                                    <View className="px-2 py-4 ">
+                                        <Text className="font-semibold">{notif.title}</Text>
+                                        <Text className="mt-2 text-sm">{notif.body}</Text>
+                                    </View>
                                 </View>
                             ))
                         }
