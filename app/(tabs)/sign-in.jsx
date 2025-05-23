@@ -29,6 +29,8 @@ export default function SignInScreen() {
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState("");
 
   const panHandlers = handleBack("/sign-in");
 
@@ -89,112 +91,159 @@ export default function SignInScreen() {
       });
   };
 
-    return (
 
+  const onForgotPassword = () => {
+    // confirm email and confirm email are equal
+    if (email !== confirmEmail) {
+      Alert.alert('Confirm Email First', 'Please make sure you write your email correctly.')
+      return
+    }
 
-        <LinearGradient
-            colors={['#2e539d', '#000']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            {...panHandlers}
-            style={{
-                flex: 1,
-                height: '100%',
-                padding: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
+    // api call to backend and display alert if all is good
+    // loading and disabled for buttons
+    setIsLoading(true);
+    api.post('participant/resetPassword', { email: email }).then((res) => {
+      if (res?.status == 200) {
+        alert(res.data?.message);
+      }
+    }).catch((err) => {
+      console.log('error resetting password', err);
+    }).finally(() => {
+      setForgotPassword(false);
+      setConfirmEmail('');
+      setIsLoading(false)
+    })
+  }
+
+  return (
+
+    <LinearGradient
+      colors={['#2e539d', '#000']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      {...panHandlers}
+      style={{
+        flex: 1,
+        height: '100%',
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {Platform.OS === "ios" ? (
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={{ flex: 1, width: '100%' }}
+          keyboardVerticalOffset={0}
         >
-            {Platform.OS === "ios" ? (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={{ flex: 1, width: '100%' }}
-                    keyboardVerticalOffset={0}
-                >
-                    <ScrollView
-                        contentContainerStyle={{
-                            flexGrow: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            paddingBottom: 30
-                        }}
-                        keyboardShouldPersistTaps="handled"
-                    >
-                        <Image
-                            source={yeslogo}
-                            style={{
-                                width: 320,
-                                resizeMode: 'contain',
-                            }}
-                        />
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 30
+            }}
 
-                        <View className="w-full">
-                            <Text className=" text-white">Email: </Text>
-                            <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
-                                <MaterialIcons name="email" size={20} color="white" />
-                                <TextInput
-                                    style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
-                                    placeholder="you@example.com"
-                                    placeholderTextColor="#ccc"
-                                    autoCapitalize="none"
-                                    value={email}
-                                    onChangeText={setEmail}
-                                />
-                            </View>
-                        </View>
+          >
+            <Image
+              source={yeslogo}
+              style={{
+                width: 320,
+                resizeMode: 'contain',
+              }}
+            />
 
-                        <View className="my-4 w-full">
-                            <Text className=" text-white">Password:</Text>
-                            <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
-                                <MaterialIcons name="lock" size={20} color="white" />
-                                <TextInput
-                                    placeholder="Password"
-                                    placeholderTextColor="#ccc"
-                                    secureTextEntry={hidePassword}
-                                    autoCapitalize="none"
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
-                                />
-                                <Pressable onPress={() => setHidePassword(!hidePassword)}>
-                                    {hidePassword ?
-                                        <Ionicons name="eye-off" size={20} color="white" />
-                                        :
-                                        <Ionicons name="eye" size={20} color="white" />
-                                    }
-                                </Pressable>
-                            </View>
-                            {/* <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text> */}
-                        </View>
+            <View className="w-full">
+              <Text className=" text-white">Email: </Text>
+              <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                <MaterialIcons name="email" size={20} color="white" />
+                <TextInput
+                  style={{ flex: 1, marginLeft: 10, color: "white", padding: 10 }}
+                  placeholder="you@example.com"
+                  placeholderTextColor="#ccc"
+                  autoCapitalize="none"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </View>
+            </View>
 
-                        <TouchableOpacity
-                            onPress={onSignIn}
-                            disabled={isLoading}
-                            className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
-                        >
-                            {isLoading && <ActivityIndicator />}
-                            <Text className="text-alpha text-center font-bold">
-                                Sign In</Text>
-                        </TouchableOpacity>
-                    </ScrollView>
-                </KeyboardAvoidingView>
-            ) : (
-                <ScrollView
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        paddingBottom: 30
-                    }}
+            <View className="my-4 w-full">
+              {
+                forgotPassword ?
+                  <View className="w-full">
+                    <Text className=" text-white">Confirm Email: </Text>
+                    <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                      <MaterialIcons name="email" size={20} color="white" />
+                      <TextInput
+                        style={{ flex: 1, marginLeft: 10, color: "white", padding: 10 }}
+                        placeholder="you@example.com"
+                        placeholderTextColor="#ccc"
+                        autoCapitalize="none"
+                        value={confirmEmail}
+                        onChangeText={setConfirmEmail}
+                      />
+                    </View>
+                  </View>
+                  :
+                  <View>
+                    <Text className=" text-white">Password:</Text>
+                    <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                      <MaterialIcons name="lock" size={20} color="white" />
+                      <TextInput
+                        placeholder="Password"
+                        placeholderTextColor="#ccc"
+                        secureTextEntry={hidePassword}
+                        autoCapitalize="none"
+                        value={password}
+                        onChangeText={setPassword}
+                        style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
+                      />
+                      <Pressable onPress={() => setHidePassword(!hidePassword)}>
+                        {hidePassword ?
+                          <Ionicons name="eye-off" size={20} color="white" />
+                          :
+                          <Ionicons name="eye" size={20} color="white" />
+                        }
+                      </Pressable>
+                    </View>
+                  </View>
+              }
 
-                >
-                    <Image
-                        source={yeslogo}
-                        style={{
-                            width: 320,
-                            resizeMode: 'contain',
-                        }}
-                    />
+              <Pressable onPress={() => { setForgotPassword(!forgotPassword) }}>
+                <Text className=" text-right text-sm underline text-white">
+                  {forgotPassword ? ' Return to Sign In' : 'Forgot Password ?'}</Text>
+              </Pressable>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => { forgotPassword ? onForgotPassword() : onSignIn() }}
+              disabled={isLoading}
+              className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
+            >
+              {isLoading && <ActivityIndicator />}
+              <Text className="text-alpha text-center font-bold">
+                {forgotPassword ? 'Forgot Password' : 'Sign In'}</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingBottom: 30
+          }}
+
+        >
+          <Image
+            source={yeslogo}
+            style={{
+              width: 320,
+              resizeMode: 'contain',
+            }}
+          />
 
           <View className="w-full">
             <Text className=" text-white">Email: </Text>
@@ -211,43 +260,67 @@ export default function SignInScreen() {
             </View>
           </View>
 
-                    <View className="my-4 w-full">
-                        <Text className=" text-white">Password:</Text>
-                        <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
-                            <MaterialIcons name="lock" size={20} color="white" />
-                            <TextInput
-                                placeholder="Password"
-                                placeholderTextColor="#ccc"
-                                secureTextEntry={hidePassword}
-                                autoCapitalize="none"
-                                value={password}
-                                onChangeText={setPassword}
-                                style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
-                            />
-                            <Pressable onPress={() => setHidePassword(!hidePassword)}>
-                                {hidePassword ?
-                                    <Ionicons name="eye-off" size={20} color="white" />
-                                    :
-                                    <Ionicons name="eye" size={20} color="white" />
-                                }
-                            </Pressable>
-                        </View>
-                        <Text className=" text-right text-sm underline text-white">Forgot Password ?</Text>
-                    </View>
+          <View className="my-4 w-full">
+            {
+              forgotPassword ?
+                <View className="w-full">
+                  <Text className=" text-white">Confirm Email: </Text>
+                  <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                    <MaterialIcons name="email" size={20} color="white" />
+                    <TextInput
+                      style={{ flex: 1, marginLeft: 10, color: "white", padding: 10 }}
+                      placeholder="you@example.com"
+                      placeholderTextColor="#ccc"
+                      autoCapitalize="none"
+                      value={confirmEmail}
+                      onChangeText={setConfirmEmail}
+                    />
+                  </View>
+                </View>
+                :
+                <View>
+                  <Text className=" text-white">Password:</Text>
+                  <View className="flex-row items-center border border-white rounded-md px-3 my-2 w-full bg-white/10">
+                    <MaterialIcons name="lock" size={20} color="white" />
+                    <TextInput
+                      placeholder="Password"
+                      placeholderTextColor="#ccc"
+                      secureTextEntry={hidePassword}
+                      autoCapitalize="none"
+                      value={password}
+                      onChangeText={setPassword}
+                      style={{ flex: 1, marginLeft: 10, color: 'white', padding: 10 }}
+                    />
+                    <Pressable onPress={() => setHidePassword(!hidePassword)}>
+                      {hidePassword ?
+                        <Ionicons name="eye-off" size={20} color="white" />
+                        :
+                        <Ionicons name="eye" size={20} color="white" />
+                      }
+                    </Pressable>
+                  </View>
+                </View>
+            }
 
-                    <TouchableOpacity
-                        onPress={onSignIn}
-                        disabled={isLoading}
-                        className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
-                    >
-                        {isLoading && <ActivityIndicator />}
-                        <Text className="text-alpha text-center font-bold">
-                            Sign In</Text>
-                    </TouchableOpacity>
-                </ScrollView>
-            )}
-        </LinearGradient>
-    );
+            <Pressable onPress={() => { setForgotPassword(!forgotPassword) }}>
+              <Text className=" text-right text-sm underline text-white">
+                {forgotPassword ? ' Return to Sign In' : 'Forgot Password ?'}</Text>
+            </Pressable>
+          </View>
 
-         
+          <TouchableOpacity
+            onPress={() => { forgotPassword ? onForgotPassword() : onSignIn() }}
+            disabled={isLoading}
+            className={`${isLoading ? 'bg-white/50' : 'bg-white'} rounded-md p-3 mt-4 w-full text-center flex-row gap-2 justify-center `}
+          >
+            {isLoading && <ActivityIndicator />}
+            <Text className="text-alpha text-center font-bold">
+              {forgotPassword ? 'Forgot Password' : 'Sign In'}</Text>
+          </TouchableOpacity>
+        </ScrollView> 
+      )}
+    </LinearGradient>
+  );
+
+
 }
