@@ -253,6 +253,7 @@ const AppProvider = ({ children }) => {
     sponsors,
     participants,
     matches,
+    setMatches,
     fetchMatches,
     interests,
     speakers,

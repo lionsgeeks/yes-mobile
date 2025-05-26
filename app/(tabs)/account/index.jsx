@@ -27,13 +27,13 @@ export default function AccountScreen() {
 
     // Form state
     const [formData, setFormData] = useState({
-        fullName: user.name,
-        email: user.email,
-        company: user.company,
-        city: user.city,
-        country: user.country,
-        bio: user.description,
-        location: user.location,
+        fullName: user?.name,
+        email: user?.email,
+        company: user?.company,
+        city: user?.city,
+        country: user?.country,
+        bio: user?.description,
+        location: user?.location,
         website: socials?.website,
         youtube: socials?.youtube,
         linkedin: socials?.linkedin,
@@ -44,13 +44,13 @@ export default function AccountScreen() {
         // the formdata kept the old logged user
         // this is a fix for that
         setFormData({
-            fullName: user.name,
-            email: user.email,
-            company: user.company,
-            city: user.city,
-            country: user.country,
-            bio: user.description,
-            location: user.location,
+            fullName: user?.name,
+            email: user?.email,
+            company: user?.company,
+            city: user?.city,
+            country: user?.country,
+            bio: user?.description,
+            location: user?.location,
             website: socials?.website,
             youtube: socials?.youtube,
             linkedin: socials?.linkedin,

@@ -20,7 +20,7 @@ export default function TabLayout() {
     { route: "speakers/index", name: "Speakers", icon: "mic", showTab: true },
     { route: "ngos/index", name: "NGOs", icon: "business", showTab: true },
     { route: "program/index", name: "program", icon: "calendar-outline", showTab: true },
-    { route: "bailleur/bailleur", name: "Funders", icon: "ribbon", showTab: true },
+    { route: "bailleurs/bailleur", name: "Funders", icon: "ribbon", showTab: true },
     { route: "menu", name: "Menu", icon: "menu-sharp", showTab: true },
   ]
   
@@ -39,7 +39,7 @@ export default function TabLayout() {
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },
-    { route: "bailleur/[id]", name: "program", icon: "settings", showTab: true },
+    { route: "bailleurs/[id]", name: "program", icon: "settings", showTab: true },
     { route: "scans/index", name: "Scan", icon: "scan", showTab: true },
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },

@@ -134,7 +134,6 @@ export default function SessionDetails() {
       });
       console.log("🚨🚨🚨 response : ", response);
       if (response?.status === 200) {
-
         setIsEnrolled(response?.data.isRegistered);
       } else {
         Alert.alert("Error: " + response?.data?.message);
@@ -147,7 +146,6 @@ export default function SessionDetails() {
   };
   useFocusEffect(
     React.useCallback(() => {
-      // Do something when the screen is focused
       return () => {
         setIsCameraReady(false);
         setIsScanned(false);

@@ -56,7 +56,7 @@ const Bailleur = () => {
             <TouchableOpacity
                 key={funder.id}
                 activeOpacity={0.9}
-                onPress={() => navigation.navigate("bailleur/[id]", { bailleur: funder })}
+                onPress={() => navigation.navigate("bailleurs/[id]", { bailleur: funder })}
             >
                 <View key={funder.id} className="bg-white rounded-lg mb-10 shadow-lg overflow-hidden">
                     <View className="absolute left-0 top-0 bottom-0 w-1 bg-beta z-10"></View>

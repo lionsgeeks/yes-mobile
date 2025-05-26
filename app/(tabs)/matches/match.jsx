@@ -8,27 +8,33 @@ import Navbar from "@/components/navigation/navbar";
 import { useFocusEffect } from "expo-router";
 
 export default function Match() {
-  const { participants, fetchParticipants } = useAppContext();
+  const { participants, fetchParticipants, setMatches } = useAppContext();
   const [userList, setUserList] = useState(participants);
   const { user } = useAuthContext();
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchParticipants();
-    }, [])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     fetchParticipants();
+  //   }, [])
+  // );
   
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  console.log(currentIndex);
   const handleAction = (type) => {
     const updatedUsers = participants;
+    // console.log("Updated Users:", cuur);
     const relatedParticipant = updatedUsers[currentIndex]?.id;
+    console.log("🗼Current Index:", currentIndex);
+    console.log("Related Participant :", updatedUsers[currentIndex]);
     if (!relatedParticipant) return;
-
     api
       .post("participants/action", {
         currentParticipant: user?.id,
         related_participant_id: relatedParticipant,
         action: type,
+      }).then((response) => {
+        // console.log("Action sent successfully:", response.data.matches);
+        setMatches(response.data.matches);
+        // setUserList(participants)
       })
       .catch((error) => {
         console.error(
@@ -53,7 +59,7 @@ export default function Match() {
         <View className="items-center my-3">
           <Card
             user={userList[currentIndex]}
-            onSkip={() => handleAction("skip")}
+            onSkip={() => {setCurrentIndex((prev) => prev + 1)}}
             onConnect={() => handleAction("connect")}
           />
         </View>
