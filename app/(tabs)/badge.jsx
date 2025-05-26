@@ -921,8 +921,8 @@ border-radius:10px;
                 <View className="flex-1  w-full px-4 rounded-2xl bg-white shadow-lg overflow-hidden">
                     {/* Header */}
                     <View className="bg-alpha p-6 items-center justify-center">
-                        <Text className="text-white text-lg font-bold">Global Impact Summit</Text>
-                        <Text className="text-white text-base opacity-90 mt-1">May 15-17, 2023</Text>
+                        <Text className="text-white text-lg font-bold">Youth Empowerment Summit</Text>
+                        <Text className="text-white text-base opacity-90 mt-1">Juin 2025 - Marrakech</Text>
                     </View>
 
                     {/* Profile Section */}
@@ -965,7 +965,7 @@ border-radius:10px;
                         </Text>
                         <View className="flex-row justify-center items-center w-full mt-4 gap-x-4">
                             <TouchableOpacity onPress={downloadBadge}>
-                                <Text className="text-beta text-m font-semibold">Download Badge</Text>
+                                <Text className="text-white bg-alpha p-3 rounded-xl text-m font-semibold">Download Badge</Text>
                             </TouchableOpacity>
 
                             <ShareEvent />

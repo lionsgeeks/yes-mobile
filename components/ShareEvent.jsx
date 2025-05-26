@@ -58,7 +58,7 @@ const ShareEvent = () => {
   return (
     <View style={{ margin: 20 }}>
       <TouchableOpacity onPress={shareToLinkedIn}>
-        <Text className="text-beta  text-m font-semibold">Share Badge</Text>
+        <Text className="text-white bg-beta p-3 rounded-xl  text-m font-semibold">Share Badge</Text>
       </TouchableOpacity>
     </View>
   );
