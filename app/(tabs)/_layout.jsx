@@ -79,7 +79,7 @@ export default function TabLayout() {
             title: screen.name,
             tabBarIcon: ({ focused }) => (
               <Ionicons
-                size={28}
+                size={25}
                 name={screen.icon}
                 color={focused ? '#b09417' : '#2e539d'}
               />
@@ -104,7 +104,7 @@ export default function TabLayout() {
             headerShown: false,
             title: screen.name,
             tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name={screen.icon} color={color} />
+              <IconSymbol size={20} name={screen.icon} color={color} />
             ),
             tabBarStyle: screen.showTab ? undefined : { display: 'none' },
             href: null,

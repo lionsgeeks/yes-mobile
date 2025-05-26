@@ -23,32 +23,24 @@ import { useAppContext } from "@/context";
 
 
 export default function ChatScreen() {
-  const [conversations, setConversations] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const { user } = useAuthContext();
-  const { setMesssageNotif } = useAppContext();
+  const { setMesssageNotif , fetchConversations , conversations  } = useAppContext();
   const ablyClient = useRef(null);
   const ablyChannel = useRef(null);
 
-  const getConversations = async () => {
-    try {
-      const response = await api.get("chats/" + user.id);
-      setConversations(response.data.conversations);
-    } catch (error) {
-      console.error("Error fetching conversations:", error);
-    }
-  };
+
 
   useFocusEffect(
     useCallback(() => {
-      getConversations();
-      setMesssageNotif(null)
+      fetchConversations();
+      setMesssageNotif(false)
     }, [])
   );
 
   useEffect(() => {
-    setupAbly(ablyClient, ablyChannel, user, { id: null }, null, getConversations);
+    setupAbly(ablyClient, ablyChannel, user, { id: null }, null, fetchConversations);
 
     return () => {
       cleanupAbly(ablyClient, ablyChannel);

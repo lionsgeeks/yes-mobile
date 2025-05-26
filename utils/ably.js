@@ -20,7 +20,7 @@ export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, 
                 setMessages((prev) => [...prev, data]);
             } else {
                 console.log("Received message:", message);
-                onOtherMessage?.(message);
+                onOtherMessage?.(true);
             }
         } catch (err) {
             console.error("Error in Ably subscription:", err);

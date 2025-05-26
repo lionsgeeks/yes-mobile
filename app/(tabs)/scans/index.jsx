@@ -3,14 +3,19 @@ import { View, Text, Button, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useFocusEffect } from '@react-navigation/native';
 import Navbar from '@/components/navigation/navbar';
+import { useAppContext } from '@/context';
 
 const ScanScreen = () => {
     const [hasPermission, requestPermission] = useCameraPermissions();
     const [cameraActive, setCameraActive] = useState(false);
-
+    const { visitors, speakers, ngos, participants } = useAppContext()
     const handleScan = (data) => {
         if (data?.data) {
-            Alert.alert("Scanned", data.data);
+            const allPeople = visitors + speakers + ngos + participants
+            // const scannedBadge = allPeople.find(e=> e?.email?.includes("fork"))
+            console.log(speakers[0]);
+            
+            // Alert.alert("Scanned", data.data);
             setCameraActive(false); // stop scanning after success
         }
     };

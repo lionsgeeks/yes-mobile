@@ -40,13 +40,13 @@ export default function HomeScreen() {
       href: "/badge",
     },
     {
-      icon: "scan",
-      label: "scan",
-      href: "/scans",
+      icon: "globe-outline",
+      label: "Network",
+      href: "/matches/matches",
     },
     {
-      icon: "globe-outline",
-      label: "Networking",
+      icon: "person-add-outline",
+      label: "Discover",
       href: "matches/match",
     },
     {

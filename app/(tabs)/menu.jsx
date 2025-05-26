@@ -24,7 +24,6 @@ export default function MenuScreen() {
     { name: "Account", route: "account", icon: "person" },
     { name: "Sponsors", route: "sponsors/sponsors", icon: "cash-outline" },
     { name: "Connect", route: "matches/match", icon: "link-outline" },
-    { name: "Connect", route: "matches/match", icon: "link-outline" },
     { name: "Favorites", route: "matches/matches", icon: "heart" },
     { name: "Badge", route: "badge", icon: "qr-code-sharp" },
     { name: "About", route: "about", icon: "information-circle-outline" },

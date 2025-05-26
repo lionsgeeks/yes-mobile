@@ -13,7 +13,6 @@ export default function Match() {
   const { user } = useAuthContext();
   useFocusEffect(
     React.useCallback(() => {
-      console.log("connect");
       fetchParticipants();
     }, [])
   );

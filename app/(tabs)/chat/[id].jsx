@@ -70,7 +70,6 @@ export default function ChatDetail() {
 
         try {
             const response = await api.post("message", newMessage, "token");
-            console.log(response.data);
 
             setMessages(response.data.messages);
         } catch (error) {
@@ -81,7 +80,6 @@ export default function ChatDetail() {
     const deleteMessage = async (id) => {
         try {
             await api.remove(`message/${id}`).then((res) => {
-                console.log(res.data);
             });
             setMessages((prev) => prev.filter((msg) => msg.id !== id));
         } catch (error) {
@@ -113,7 +111,7 @@ export default function ChatDetail() {
     useEffect(() => {
         const keyboardListener = Keyboard.addListener("keyboardDidShow", scrollToBottom);
         return () => keyboardListener.remove();
-    }, []);
+    }, []);  
 
     const formatTime = (datetime) => {
         const now = new Date();
@@ -123,7 +121,7 @@ export default function ChatDetail() {
         const diffHours = Math.floor(diffMinutes / 60);
 
         if (diffMinutes < 60) {
-            return `${diffMinutes} min${diffMinutes === 1 ? "" : "s"} ago`;
+            return `${diffMinutes > 0?  diffMinutes  : "0"} min${diffMinutes === 1 ? "" : "s"} ago`;
         } else if (diffHours < 24) {
             const hours = messageDate.getHours().toString().padStart(2, "0");
             const minutes = messageDate.getMinutes().toString().padStart(2, "0");

@@ -15,13 +15,14 @@ import Constants from "expo-constants";
 import * as Network from "expo-network";
 import ErrorBoundary from "react-native-error-boundary";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingScreen from "@/app/(tabs)/loading";
 
 const appContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
   const [language, setLanguage] = useState("en");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState([]);
   const [ngos, setNgos] = useState([]);
   const ablyClient = useRef(null);
@@ -36,7 +37,9 @@ const AppProvider = ({ children }) => {
   const networkState = Network.getNetworkStateAsync();
   const [notifications, setNotifications] = useState([]);
   const [general, setGeneral] = useState();
-  const[messageNotif , setMesssageNotif] = useState(null)
+  const [messageNotif, setMesssageNotif] = useState(false)
+  const [conversations, setConversations] = useState([]);
+
 
   //* get participamts from the backend
   const [participants, setParticipants] = useState([]);
@@ -44,16 +47,18 @@ const AppProvider = ({ children }) => {
   const [allParticipants, setAllParticipants] = useState([]);
   const osName = Platform.OS;
   const osVersion = Platform.Version;
+
+
+
+
   const fetchParticipants = async () => {
     try {
-      setLoading(true);
       const response = await api.get("participants/?auth=" + user?.id);
-      console.log("🚨🚨🚨🚨🚨🚨 participants", response.data.participants);
+
       setParticipants(response.data.participants);
     } catch (error) {
       console.error("❌ Failed to fetch participants:", error);
     } finally {
-      setLoading(false);
     }
   };
   const fetchMatches = async () => {
@@ -76,7 +81,7 @@ const AppProvider = ({ children }) => {
       .then((res) => {
         const allParts = res?.data.participants;
         if (allParts) {
-          const otherParts = allParts?.filter((part) => part.id != user?.id);
+          const otherParts = allParts?.filter((part) => (part.id != user?.id && part.role != "admin"));
           const allSpeakers = otherParts?.filter(
             (part) => part?.role == "speaker"
           );
@@ -128,7 +133,6 @@ const AppProvider = ({ children }) => {
       console.log('error getting badge', err);
     })
   }
-
 
 
   const fetchPrograme = () => {
@@ -200,7 +204,18 @@ const AppProvider = ({ children }) => {
     })
   }
 
+  const fetchConversations = async () => {
+    try {
+      const response = await api.get("chats/" + user.id);
+      setConversations(response.data.conversations);
+    } catch (error) {
+      console.error("Error fetching conversations:", error);
+    }
+  };
+
   useEffect(() => {
+    setLoading(true);
+
     fetchGeneral();
     fetchAllParticipants();
     fetchParticipants();
@@ -210,11 +225,18 @@ const AppProvider = ({ children }) => {
     fetchBadge();
     fetchPrograme();
     fetchNotification();
+    fetchConversations();
+
+    setLoading(false);
+
+    setMesssageNotif(conversations.some(e => e.last_message.seen == false))
+
+
   }, [user]);
 
   useEffect(() => {
     const initialize = async () => {
-      await setupAbly(ablyClient, ablyChannel, user, { id: null }, null , setMesssageNotif);
+      await setupAbly(ablyClient, ablyChannel, user, { id: null }, null, setMesssageNotif);
     };
 
     initialize();
@@ -244,6 +266,10 @@ const AppProvider = ({ children }) => {
     messageNotif,
     setMesssageNotif,
     fetchParticipants,
+    conversations,
+    setConversations,
+    fetchConversations
+
   };
 
   const sendStorageRepport = async () => {
@@ -294,7 +320,7 @@ const AppProvider = ({ children }) => {
   };
   return (
     <ErrorBoundary onError={errorHandler}>
-      <appContext.Provider value={appValue}>{children}</appContext.Provider>
+      <appContext.Provider value={appValue}>{loading ? <LoadingScreen /> : children}</appContext.Provider>
     </ErrorBoundary>
   );
 };

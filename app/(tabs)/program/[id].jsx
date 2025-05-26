@@ -26,9 +26,9 @@ export default function SessionDetails() {
   const { Programe } = useAppContext();
   const { params } = useRoute();
   const { session } = params;
-  console.log("🚨🚨🚨🚨🚨🚨 session", session);
+
   const navigation = useNavigation();
-  console.log("🚨🚨🚨🚨🚨🚨", session);
+
   const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
   const [modalVisible, setModalVisible] = useState(true);
@@ -134,7 +134,7 @@ export default function SessionDetails() {
       });
       console.log("🚨🚨🚨 response : ", response);
       if (response?.status === 200) {
-        // console.log("🚨🚨🚨🚨🚨🚨", response?.data.isRegistered);
+
         setIsEnrolled(response?.data.isRegistered);
       } else {
         Alert.alert("Error: " + response?.data?.message);
