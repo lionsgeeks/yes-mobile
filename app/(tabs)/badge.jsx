@@ -602,11 +602,7 @@ border-radius:10px;
 
 <body>
     <div class="container">
-        <div class="header">
-            <h1>GITEX Africa Badge Generator</h1>
-            <button class="print-btn" onclick="window.print()">Print Badge</button>
-        </div>
-
+      
         <div class="a4-page">
             <div class="badge-container">
                 <!-- Left Side of Badge -->
@@ -864,7 +860,8 @@ border-radius:10px;
                         </div>
                         <div class="qr">
                             <img style="width:15px;" src="https://upload.wikimedia.org/wikipedia/fr/0/09/Logo_App_Store_d%27Apple.png">
-                            <img style="width:48px;" src="${api.IMAGE_URL}${badge.file_url}">
+                        <img style="width:52px;" src="https://app.youthempowermentsummit.africa/storage/qrcodes/qrApp.png" alt="QR Code" />
+                            
                         </div>
                     </div>
                     <div class="website" style="margin-bottom:10px;">
@@ -900,13 +897,12 @@ border-radius:10px;
                     });
                 }
             } else {
-      // Partie iOS modifiée
-      await Sharing.shareAsync(uri, {
-        mimeType: 'application/pdf',
-        dialogTitle: 'Enregistrer le badge',
-        UTI: 'com.adobe.pdf'
-      });
-    }
+                await Sharing.shareAsync(uri, {
+                    mimeType: 'application/pdf',
+                    dialogTitle: 'Enregistrer le badge',
+                    UTI: 'com.adobe.pdf'
+                });
+            }
 
             Alert.alert('Succès', 'Fichier enregistré avec succès');
         } catch (error) {
@@ -971,8 +967,8 @@ border-radius:10px;
                             <TouchableOpacity onPress={downloadBadge}>
                                 <Text className="text-beta text-m font-semibold">Download Badge</Text>
                             </TouchableOpacity>
-                            
-                            <ShareEvent/>
+
+                            <ShareEvent />
                         </View>
                     </View>
                 </View>
