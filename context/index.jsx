@@ -206,8 +206,8 @@ const AppProvider = ({ children }) => {
 
   const fetchConversations = async () => {
     try {
-      const response = await api.get("chats/" + user.id);
-      setConversations(response.data.conversations);
+      const response = await api.get("chats/" + user?.id);
+      setConversations(response.data?.conversations);
     } catch (error) {
       console.error("Error fetching conversations:", error);
     }
@@ -225,14 +225,14 @@ const AppProvider = ({ children }) => {
     fetchBadge();
     fetchPrograme();
     fetchNotification();
-    fetchConversations();
+    fetchConversations(); 
 
     setLoading(false);
 
-    setMesssageNotif(conversations.some(e => e.last_message.seen == false))
+    setMesssageNotif(conversations.some(e => e.last_message.seen == false)) 
 
 
-  }, [user]);
+  }, [user?.id]);
 
   useEffect(() => {
     const initialize = async () => {

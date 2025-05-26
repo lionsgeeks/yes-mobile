@@ -16,17 +16,26 @@ import ably, { cleanupAbly, setupAbly } from "@/utils/ably";
 import Navbar from "@/components/navigation/navbar";
 import useNotif from "@/hooks/useNotif";
 import { useAppContext } from "@/context";
+import *  as Notifications from "expo-notifications";
 
-
-
+async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: "Title Of the Notification",
+            body: 'Messsage of The Notification',
+        },
+        trigger: null,
+    });
+}
 
 
 
 export default function ChatScreen() {
+  const { expoPushToken } = useNotif();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const { user } = useAuthContext();
-  const { setMesssageNotif , fetchConversations , conversations  } = useAppContext();
+  const { setMesssageNotif, fetchConversations, conversations } = useAppContext();
   const ablyClient = useRef(null);
   const ablyChannel = useRef(null);
 
@@ -66,9 +75,9 @@ export default function ChatScreen() {
       <View className="flex-1 px-6 ">
 
         {/* <Button
-          title="Press to Send Notification"
+          title={expoPushToken}
           onPress={async () => {
-            await sendPushNotification(expoPushToken);
+            await schedulePushNotification();
           }}
         /> */}
 

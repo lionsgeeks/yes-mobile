@@ -78,7 +78,7 @@ export default function useNotif() {
                         if (res?.status == 200) {
                             // Alert.alert('Information Updated', 'Your Account Information Has Been Updated Successfully!');
                             // console.log(res.data);
-                            console.log('notif should have been updated')
+                            // console.log('notif should have been updated')
                         }
                     }).catch((err) => {
                         console.log('error updating the account', err)

@@ -25,7 +25,7 @@ export default function bailleurDetail() {
                 <Text className="text-2xl font-bold text-[#2e539d]">{bailleur.name}</Text>
                 <Text className="text-base text-gray-600">{bailleur.email}</Text>
                 <Text className="text-sm text-gray-400 mb-3">{bailleur?.role}</Text>
-            
+
             </View>
 
             {/* Info Sections */}
@@ -35,30 +35,29 @@ export default function bailleurDetail() {
                     <Text className="text-lg font-semibold text-[#2e539d] mb- text-center">About</Text>
                     <Text className="text-sm text-gray-700 leading-relaxed">
                         {bailleur.bio || "This bailleur is a leading expert in their field, contributing to impactful initiatives and programs across the globe."}
-                    </Text>
+                    </Text> 
                 </View>
 
 
-              
-                          {/* Contact Button */}
-                          <View className="px-6 mb-10 mt-4">
-                              <Pressable
-                                  onPress={() => router.push({
-                                      pathname: `chat/${speaker.id}`,
-                                      params: speaker
-                                  })}
-                                  className="bg-[#2e539d] py-3 rounded-lg  items-center shadow-md"
-                                  android_ripple={{ color: "#1c3e7b" }}
-              
-                              >
-                                  <Text className="text-white font-semibold text-base">Send a Message</Text>
-                              </Pressable>
-                          </View>
+                {/* Contact Button */}
+                <View className="px-6 mb-10 mt-4">
+                    <Pressable
+                        onPress={() => router.push({
+                            pathname: `chat/${bailleur.id}`,
+                            params: bailleur
+                        })}
+                        className="bg-[#2e539d] py-3 rounded-lg  items-center shadow-md"
+                        android_ripple={{ color: "#1c3e7b" }}
 
-              
+                    >
+                        <Text className="text-white font-semibold text-base">Send a Message</Text>
+                    </Pressable>
+                </View>
+
+ 
             </View>
 
-            
+
         </ScrollView>
     );
 }

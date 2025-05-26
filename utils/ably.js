@@ -1,8 +1,18 @@
 // utils/ably.js
 import * as Ably from "ably";
-import { Alert } from "react-native";
+import * as Notifications from 'expo-notifications';
 
 
+
+async function schedulePushNotification(msg, sender) {
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: sender.name.charAt(0).toUpperCase() + sender.name.slice(1) + " sent a message :",
+            body: msg,
+        },
+        trigger: null,
+    });
+}
 
 
 export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, onOtherMessage) => {
@@ -15,12 +25,13 @@ export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, 
     ablyChannel.current.subscribe("new-message", (message) => {
         try {
             const data = message.data;
-            
+
             if (parseInt(data.sender) === parseInt(receiver.id)) {
                 setMessages((prev) => [...prev, data]);
             } else {
                 console.log("Received message:", message);
                 onOtherMessage?.(true);
+                schedulePushNotification(message?.data?.text, message?.data?.sender_infos);
             }
         } catch (err) {
             console.error("Error in Ably subscription:", err);
