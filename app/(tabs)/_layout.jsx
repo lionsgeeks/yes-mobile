@@ -40,6 +40,7 @@ export default function TabLayout() {
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },
     { route: "bailleurs/[id]", name: "program", icon: "settings", showTab: true },
+    { route: "bailleur/[id]", name: "program", icon: "settings", showTab: true },
     { route: "scans/index", name: "Scan", icon: "scan", showTab: true },
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },

@@ -11,7 +11,7 @@ import { useNavigation } from "expo-router";
 const categories = ["Tous", "NGO", "Gouvernement", "Institution Internationale"]
 
 
-const Bailleur = () => {
+const BailleurScreen = () => {
     const [selectedCategory, setSelectedCategory] = useState("Tous")
     const [searchQuery, setSearchQuery] = useState("")
     const [isLoading, setIsLoading] = useState(true)
@@ -235,4 +235,4 @@ const Bailleur = () => {
 
 
 
-export default Bailleur
+export default BailleurScreen

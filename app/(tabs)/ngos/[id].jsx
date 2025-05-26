@@ -84,10 +84,10 @@ const NgoDetails = () => {
         }
       </View>
       <View className="p-5 mt-5 bg-white/50 h-full rounded-lg ">
-        <View className="mb-2">
+        {/* <View className="mb-2">
           <Text className="text-2xl font-bold">Email:</Text>
           <Text className="leading-relaxed">{ngo?.email}</Text>
-        </View>
+        </View> */} 
         {
           ngo?.description && (
             <View className="">

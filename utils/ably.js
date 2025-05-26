@@ -14,7 +14,6 @@ async function schedulePushNotification(msg, sender) {
     });
 }
 
-
 export const setupAbly = (ablyClient, ablyChannel, user, receiver, setMessages, onOtherMessage) => {
     ablyClient.current = new Ably.Realtime("lExbbw.OPqhwQ:cAV6W9IMcdzXejWqZb78-NZhDE2RisM1xKtscw7cd9s");
     const privateChannel = `private-chat:${user.id}`;

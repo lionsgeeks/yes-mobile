@@ -53,7 +53,7 @@ export default function NgosScreen() {
                   <TruncateText length={70} text={ngo.description} />
                 </Text>
               )}
-              <Text className="text-gray-500">Email: {ngo.email}</Text>
+              {/* <Text className="text-gray-500">Email: {ngo.email}</Text> */}
               <View className="flex flex-row flex-wrap items-center gap-3 mb-2">
                 {ngo.interesets?.map(
                   (interest, index) =>
