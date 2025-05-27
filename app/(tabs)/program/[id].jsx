@@ -29,8 +29,22 @@ export default function SessionDetails() {
 
   const navigation = useNavigation();
 
-  const { id } = useLocalSearchParams();
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
+
+  const matches = session.participantes?.map((p) => {
+    console.log("🚨🚨🚨 p : ", session);
+
+    if (p.pivot.participant_id === user.id && p.pivot.programe_id === session.id) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const isUserEnrolled = matches?.includes(true);
+  console.log(isUserEnrolled);
+
+
+  const { id } = useLocalSearchParams();
   const [modalVisible, setModalVisible] = useState(true);
 
   // const [session, setPrograme] = useState(null);
@@ -41,9 +55,10 @@ export default function SessionDetails() {
   const [isEnrolled, setIsEnrolled] = useState(null);
   const [isScanned, setIsScanned] = useState(null);
   const [loadingCamera, setLoadingCamera] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
   const [badgeId, setBadgeId] = useState(null);
   const handleEnroll = async (programId) => {
-    console.log("Enrolling in program:", programId);
+    // console.log("Enrolling in program:", programId);
 
     try {
       const response = await fetch(`${api.APP_URL}/api/enrolled`, {
@@ -60,14 +75,14 @@ export default function SessionDetails() {
       const data = await response.json();
 
       if (response.status === 409) {
-        Alert.alert(data.message, 'user already enrolled'); // Already enrolled
-        setEnrolledPrograms((prev) => [...prev, programId]);
+        Alert.alert(data.message, 'user already enrolled');
+        setEnrolled(true); // Already enrolled
         return;
       }
 
       if (response.ok) {
         Alert.alert(data.message || "Enrolled successfully!", 'You have been succesfully enrolled');
-        setEnrolledPrograms((prev) => [...prev, programId]); // Mark this program as enrolled
+        setEnrolled(true);
       } else {
         Alert.alert(data.message || "Failed to enroll.", 'Something went wrong');
       }
@@ -94,7 +109,7 @@ export default function SessionDetails() {
 
       if (response.ok) {
         Alert.alert(data.message || "Enrollment cancelled successfully!", 'Your Cancellation was succesfull');
-        setEnrolledPrograms((prev) => prev.filter((id) => id !== programId)); // Remove this program from enrolled list
+        setEnrolled(false)
       } else {
         Alert.alert(data.message || "Failed to cancel enrollment.", 'Something went wrong');
       }
@@ -104,21 +119,6 @@ export default function SessionDetails() {
     }
   };
 
-  // if (loading) {
-  //   return (
-  //     <View className="flex-1 items-center justify-center bg-gray-50">
-  //       <Text className="text-lg text-gray-600">Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <View className="flex-1 items-center justify-center bg-gray-50 px-4">
-  //       <Text className="text-lg text-red-500">{error}</Text>
-  //     </View>
-  //   );
-  // }
   const checkParticipant = async (badgeId) => {
     // console.log(typeof badgeId);
     setBadgeId(badgeId);
@@ -132,14 +132,14 @@ export default function SessionDetails() {
         badge_id: badgeId,
         programe_id: session.id,
       });
-      console.log("🚨🚨🚨 response : ", response);
+      // console.log("🚨🚨🚨 response : ", response);
       if (response?.status === 200) {
         setIsEnrolled(response?.data.isRegistered);
       } else {
         Alert.alert("Error: " + response?.data?.message);
       }
     } catch (error) {
-      console.log("🚨Error checking participant:", error);
+      // console.log("🚨Error checking participant:", error);
     } finally {
       setLoadingCamera(false);
     }
@@ -222,26 +222,37 @@ export default function SessionDetails() {
         </View>
 
         {/* Register Button */}
+        {
+          session.capacity > 0 ? (
+            isUserEnrolled || enrolled ? (
+              <TouchableOpacity
+                onPress={() => handlcancelEnroll(session.id)}
+                className="border border-red-600 py-4 rounded-lg mt-4"
+              >
+                <Text className="text-red-600 text-center font-medium">
+                  Cancel your register
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => handleEnroll(session.id)}
+                className="bg-[#2952a3] py-4 rounded-lg mt-4"
+              >
+                <Text className="text-center text-white text-base font-medium">
+                  Register for Session
+                </Text>
+              </TouchableOpacity>
+            )
+          ) : (
+            <View className="bg-gray-200 py-4 rounded-lg mt-4">
+              <Text className="text-center text-gray-500 text-base font-medium">
+                Programme full
+              </Text>
+            </View>
+          )
+        }
 
-        {enrolledPrograms.includes(session.id) ? (
-          <TouchableOpacity
-            onPress={() => handlcancelEnroll(session.id)}
-            className="bg-[#2952a3] py-4 rounded-lg mt-4"
-          >
-            <Text className="text-white text-center font-medium">
-              Cancel your register
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => handleEnroll(session.id)}
-            className="bg-[#2952a3] py-4 rounded-lg mt-4"
-          >
-            <Text className="text-center text-white text-base font-medium">
-              Register for Session
-            </Text>
-          </TouchableOpacity>
-        )}
+
       </ScrollView>
     </View>
   ) : (
