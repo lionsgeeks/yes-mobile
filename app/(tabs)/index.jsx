@@ -212,7 +212,7 @@ export default function HomeScreen() {
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
             {
-              ['major', 'valued', 'supporter'].map((rank, ind) => (
+              ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
                 <View key={ind}>
                   <Text className="text-xl underline text-beta text-center font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
                   <View className="flex flex-row py-6 flex-wrap w-full  ">

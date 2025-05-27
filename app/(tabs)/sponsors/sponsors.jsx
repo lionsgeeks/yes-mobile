@@ -54,7 +54,7 @@ const Sponsors = () => {
       </View>
       <ScrollView className="px-4 mb-20 mt-6">
         {
-          ['major', 'valued', 'supporter'].map((rank, ind) => (
+          ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
             <View key={ind}>
               <Text className="text-xl underline text-beta font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
               <View className="gap-4">
