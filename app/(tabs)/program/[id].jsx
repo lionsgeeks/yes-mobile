@@ -159,14 +159,7 @@ export default function SessionDetails() {
       <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
       <ScrollView className="px-4">
         {/* Title Section */}
-        <TouchableOpacity
-          className="flex-row items-center bg-[#f1f3f5] rounded-lg px-2 gap-2"
-          onPress={() => setModalVisible(true)}
-        >
-          <Ionicons name="filter" size={18} color="#333" />
-          <Text>Filtrer</Text>
-          <Ionicons name="chevron-down" size={16} color="#666" />
-        </TouchableOpacity>
+        
         <View className="items- p-5 mb-6 bg-white">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">
             {session.name}

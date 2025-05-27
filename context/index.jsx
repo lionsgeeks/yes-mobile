@@ -214,24 +214,25 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-
-    fetchGeneral();
-    fetchAllParticipants();
-    fetchParticipants();
-    fetchMatches();
-    fetchSponsors();
-    fetchInterests();
-    fetchBadge();
-    fetchPrograme();
-    fetchNotification();
-    fetchConversations(); 
-
-    setLoading(false);
-
-    setMesssageNotif(conversations.some(e => e.last_message.seen == false)) 
-
-
+    const fetchAll = async () => {
+      setLoading(true);
+      await Promise.all([
+        console.log("Fetching all data..."),
+        fetchGeneral(),
+        fetchAllParticipants(),
+        fetchParticipants(),
+        fetchMatches(),
+        fetchSponsors(),
+        fetchInterests(),
+        fetchBadge(),
+        fetchPrograme(),
+        fetchNotification(),
+        fetchConversations()
+      ]);
+      setLoading(false);
+      setMesssageNotif(conversations.some(e => e.last_message.seen == false));
+    };
+    fetchAll();
   }, [user?.id]);
 
   useEffect(() => {
@@ -243,7 +244,7 @@ const AppProvider = ({ children }) => {
     return () => {
       cleanupAbly(ablyClient, ablyChannel);
     };
-  }, [user?.id]);
+  }, []);
 
   const appValue = {
     language,

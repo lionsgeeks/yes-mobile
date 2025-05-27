@@ -11,20 +11,13 @@ export default function Match() {
   const { participants, fetchParticipants, setMatches } = useAppContext();
   const [userList, setUserList] = useState(participants);
   const { user } = useAuthContext();
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchParticipants();
-  //   }, [])
-  // );
   
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(currentIndex);
+  // console.log(currentIndex);
   const handleAction = (type) => {
     const updatedUsers = participants;
     // console.log("Updated Users:", cuur);
     const relatedParticipant = updatedUsers[currentIndex]?.id;
-    console.log("🗼Current Index:", currentIndex);
-    console.log("Related Participant :", updatedUsers[currentIndex]);
     if (!relatedParticipant) return;
     api
       .post("participants/action", {
@@ -33,7 +26,7 @@ export default function Match() {
         action: type,
       }).then((response) => {
         // console.log("Action sent successfully:", response.data.matches);
-        setMatches(response.data.matches);
+        setMatches(response?.data?.matches);
         // setUserList(participants)
       })
       .catch((error) => {

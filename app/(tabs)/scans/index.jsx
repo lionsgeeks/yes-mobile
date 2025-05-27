@@ -11,11 +11,11 @@ import { router, useNavigation } from "expo-router";
 const ScanScreen = () => {
   const [hasPermission, requestPermission] = useCameraPermissions();
   const [cameraActive, setCameraActive] = useState(false);
-  const { visitors, speakers, ngos, participants } = useAppContext();
+  const { setMatches } = useAppContext();
   const { user } = useAuthContext();
   const navigation = useNavigation();
   const handleScan = (data) => {
-    console.log("Scanned data:", data);
+    // console.log("Scanned data:", data);
     if (data?.data) {
       api
         .post("participants/action", {
@@ -24,30 +24,31 @@ const ScanScreen = () => {
           badge_id: data.data,
         })
         .then((response) => {
-          // console.log("Action sent successfully🚗🚗🚗:", response.data.scanned);
-          const user =
-            response.data?.scanned;
+          if (response?.data?.matches) {
+            setMatches(response?.data?.matches);
+          }
+          const user = response.data?.scanned;
 
-          console.log(`${user.role + "s"}/${user.id}`);
+          // console.log(`${user.role + "s"}/${user.id}`);
           switch (user.role) {
             case "visitor":
-              navigation.navigate(`${user.role + "s"}/[id]`, {
+              navigation.navigate("visitors/[id]", {
                 visitor: user,
               });
               break;
             case "speaker":
-              navigation.navigate(`${user.role + "s"}/[id]`, {
+              navigation.navigate("speakers/[id]", {
                 speaker: user,
               });
               break;
             case "ngo":
-              navigation.navigate(`${user.role + "s"}/[id]`, {
+              navigation.navigate("ngos/[id]", {
                 id: user.id,
               });
               break;
             case "bailleur":
-              navigation.navigate(`${user.role + "s"}/[id]`, {
-                id: user.id,
+              navigation.navigate("bailleurs/[id]", {
+                bailleur: user.id,
               });
               break;
             default:

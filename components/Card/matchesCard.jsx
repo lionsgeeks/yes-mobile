@@ -7,18 +7,13 @@ import React from "react";
 export default function MatchesCard() {
   const { matches, fetchMatches } = useAppContext();
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchMatches();
-  //   }, [])
-  // );
   return (
     <View className="flex-row flex-wrap justify-between mx-4 mt-2">
       {matches?.length > 0 ? (
         matches?.filter((user) => user?.id != 0)
-          .map((item) => (
+          .map((item,index) => (
             <Pressable
-              key={item.id} 
+              key={index} 
               className="bg-white rounded-2xl shadow-xl shadow-alpha  overflow-hidden mb-5 px-4 pt-5 pb-3 w-[48%]"
               style={{ elevation: 3 }}
               android_ripple={{ color: "#ccc" }}
@@ -46,7 +41,7 @@ export default function MatchesCard() {
           ))
       ) : (
         <Text className="text-center text-gray-400 mt-12 w-full text-sm">
-          Ypu didnt connect with any user  !
+          You didnt connect with any user  !
         </Text>
       )}
     </View>
