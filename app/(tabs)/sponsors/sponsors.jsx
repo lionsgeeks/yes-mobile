@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Text, View, Pressable, Image, ScrollView, TextInput, Linking, TouchableOpacity } from 'react-native';
+import { Text, View, Pressable, Image, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Navbar from "@/components/navigation/navbar";
-import { Picker } from '@react-native-picker/picker';
 import { useAppContext } from '@/context';
 import api from '@/api';
 
@@ -14,7 +13,6 @@ const Sponsors = () => {
   const navigation = useNavigation();
   const categories = ["All", "Finance", "Marketing", "Media", "Technology", "Association"];
 
-  // TODO: change to sponsors from api
   const { sponsors } = useAppContext();
 
   const handleSelectCategory = (category) => {
@@ -55,55 +53,61 @@ const Sponsors = () => {
         )}
       </View>
       <ScrollView className="px-4 mb-20 mt-6">
-        <View className="flex-row flex-wrap justify-between gap-4">
-          {filteredSponsors.map((item) => (
-            <View key={item.id} className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
-              <View className="flex-row items-center mb-4">
-                <Image
-                  // source={{ uri: item.image }}
-                  source={{ uri: api.IMAGE_URL + item.image }}
-                  style={{
-                    width: 70,
-                    aspectRatio: 1,
-                    borderRadius: 500,
-                    marginRight: 10,
-                  }}
-                  resizeMode="contain"
-                />
-                <View>
-                  <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
-                  <Text className="text-sm text-gray-500">{item.description}</Text>
-                </View>
-              </View>
-              <View className='flex-row justify-between items-center'>
-                {/* could be null from backend */}
-                {
-                  item.type ? (
-                    <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
-                      <Text className="text-beta font-medium text-sm capitalize">{item.type} </Text>
+        {
+          ['major', 'valued', 'supporter'].map((rank, ind) => (
+            <View key={ind}>
+              <Text className="text-xl underline text-beta font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
+              <View className="gap-4">
+                {filteredSponsors.filter((spo) => spo.rank == rank).map((item) => (
+                  <View key={item.id} className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
+                    <View className="flex-row items-center mb-4">
+                      <Image
+                        source={{ uri: api.IMAGE_URL + item.image }}
+                        style={{
+                          width: 70,
+                          aspectRatio: 1,
+                          borderRadius: 500,
+                          marginRight: 10,
+                        }}
+                        resizeMode="contain"
+                      />
+                      <View>
+                        <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
+                        <Text className="text-sm text-gray-500">{item.description}</Text>
+                      </View>
                     </View>
-                  )
-                    :
-                    <View></View>
-                }
+                    <View className='flex-row justify-between items-center'>
+                      {/* could be null from backend */}
+                      {
+                        item.type ? (
+                          <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
+                            <Text className="text-beta font-medium text-sm capitalize">{item.type} </Text>
+                          </View>
+                        )
+                          :
+                          <View></View>
+                      }
 
-                {
-                  item.website && (
-                    <Pressable
-                      className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
-                      onPress={() => Linking.openURL(item.website)}
-                    >
+                      {
+                        item.website && (
+                          <Pressable
+                            className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
+                            onPress={() => Linking.openURL(item.website)}
+                          >
 
-                      <Text className="text-white font-medium">Visit site</Text>
-                      <Text className="text-blue-400 ml-2">→</Text>
-                    </Pressable>
-                  )
-                }
+                            <Text className="text-white font-medium">Visit site</Text>
+                            <Text className="text-blue-400 ml-2">→</Text>
+                          </Pressable>
+                        )
+                      }
 
+                    </View>
+                  </View>
+                ))}
               </View>
             </View>
-          ))}
-        </View>
+          ))
+        }
       </ScrollView>
     </View>
   );

@@ -211,24 +211,33 @@ export default function HomeScreen() {
             className="px-6"
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
-            <View className="flex flex-row py-6 flex-wrap w-full justify-around ">
-              {sponsors.reverse().map((partner, index) => (
-                <View
-                  key={index}
-                  className="bg-white rounded-lg p-3 "
-                  style={{
-                    elevation: 3,
-                    width: "30%",
-                    marginBottom: 16,
-                  }}
-                >
-                  <Image
-                    source={{ uri: api.IMAGE_URL + partner.image }}
-                    style={{ width: 90, height: 60, resizeMode: "contain" }}
-                  />
+            {
+              ['major', 'valued', 'supporter'].map((rank, ind) => (
+                <View key={ind}>
+                  <Text className="text-xl underline text-beta text-center font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
+                  <View className="flex flex-row py-6 flex-wrap w-full  ">
+
+                    {sponsors.filter((spo) => spo.rank == rank).map((partner, index) => (
+                      <View
+                        key={index}
+                        className="bg-white rounded-lg p-3 "
+                        style={{
+                          elevation: 3,
+                          width: "30%",
+                          marginBottom: 16,
+                          marginRight: "2%",
+                        }}
+                      >
+                        <Image
+                          source={{ uri: api.IMAGE_URL + partner.image }}
+                          style={{ width: 90, height: 60, resizeMode: "contain" }}
+                        />
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              ))}
-            </View>
+              ))
+            }
           </Pressable>
         )}
       </Animated.ScrollView>
