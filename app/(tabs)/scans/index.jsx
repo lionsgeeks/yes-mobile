@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Button, Alert, TouchableOpacity } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect } from "@react-navigation/native";
 import Navbar from "@/components/navigation/navbar";
@@ -24,7 +24,7 @@ const ScanScreen = () => {
           badge_id: data.data,
         })
         .then((response) => {
-            // console.log("Action sent successfully🚗🚗🚗:", response.data.scanned);
+          // console.log("Action sent successfully🚗🚗🚗:", response.data.scanned);
           const user =
             response.data?.scanned;
 
@@ -45,7 +45,7 @@ const ScanScreen = () => {
                 id: user.id,
               });
               break;
-              case "bailleur":
+            case "bailleur":
               navigation.navigate(`${user.role + "s"}/[id]`, {
                 id: user.id,
               });
@@ -83,9 +83,21 @@ const ScanScreen = () => {
 
   if (!hasPermission.granted) {
     return (
-      <View className="flex-1 justify-center items-center">
-        <Text>No access to camera</Text>
-        <Button title="Allow Camera" onPress={requestPermission} />
+      <View className="flex-1 justify-center items-center bg-gray-100 px-6">
+        <Text className="text-xl font-semibold text-gray-800 mb-6 text-center">
+          Please Give Access To Camera To Scan A Badge.
+        </Text>
+
+        <View className="w-full">
+          <TouchableOpacity
+          onPress={() => {requestPermission()}}
+          className="bg-alpha py-4 rounded"
+          >
+            <Text className="text-white text-center text-lg font-semibold">
+              Allow Camera
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -103,7 +115,7 @@ const ScanScreen = () => {
         >
           <View className="h-screen items-center text-white justify-end ">
             <Text className="text-xl mb-52 text-white font-bold">
-              Scann any Y.E.S Badge to connect
+              Scan any Y.E.S Badge to connect
             </Text>
           </View>
         </CameraView>

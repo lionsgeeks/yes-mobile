@@ -43,8 +43,9 @@ export default function SignInScreen() {
   );
   const onSignIn = () => {
     setIsLoading(true);
+    const userEmail = email.trim().toLowerCase();
     api
-      .post("sanctum/token", { email, password })
+      .post("sanctum/token", { email: userEmail, password }) 
       .then(async (response) => {
         const participant = response.data.participant;
         const token = response.data.token;

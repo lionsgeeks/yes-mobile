@@ -49,7 +49,7 @@ export default function visitorsScreen() {
     <View className="h-screen bg-white pt-10">
       {/* Header */}
 
-      <Navbar title="visitors" />
+      <Navbar title="Visitors" />
 
       {/* Search */}
       <View className="px-6 mb-4">
@@ -142,11 +142,11 @@ export default function visitorsScreen() {
                 <Text className="text-center text-base font-semibold text-alpha mb-1">
                   {item.name}
                 </Text>
-                <Text className="text-center text-sm text-gray-600 mb-0.5">
+                {/* <Text className="text-center text-sm text-gray-600 mb-0.5">
                   {item.title}
-                </Text>
+                </Text> */}
                 <Text className="text-center text-xs text-gray-400 mb-2">
-                  {item?.role}
+                  {item?.role.charAt(0).toUpperCase() + item?.role.slice(1)}
                 </Text>
                 {/* <View className="flex-row flex-wrap justify-center gap-x-1 gap-y-1">
                                     {item.tags.slice(0, 2).map((tag) => (

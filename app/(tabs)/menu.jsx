@@ -107,7 +107,7 @@ export default function MenuScreen() {
           <>
             <TouchableOpacity
               onPress={() => { handleDelete(); }}
-              className="w-[45%] h-[19%] flex-col items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-red-500 gap-2"
+              className="w-[45%] flex-col items-center justify-center px-3 py-1 rounded-xl my-3 mx-2 border border-red-500 gap-2"
             >
               <Icon.User active={true} color="#ef4444" size={20} />
               <Text className="text-red-500 text-lg font-semibold">
