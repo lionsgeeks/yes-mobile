@@ -10,6 +10,7 @@ import { useAuthContext } from '@/context/auth';
 import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import TransText from '@/components/TransText';
 
 export default function Badge() {
     const { badge } = useAppContext();
@@ -913,7 +914,8 @@ border-radius:10px;
 
     return (
         <View className="flex-1 bg-white pt-10 ">
-            <Navbar title="Badge" />
+            <Navbar title=<TransText en="Badge" fr="Badge" ar="شارة" /> />
+
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 className="px-4"

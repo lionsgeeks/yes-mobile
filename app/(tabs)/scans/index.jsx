@@ -16,6 +16,7 @@ import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { router, useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import TransText from "@/components/TransText";
 
 const ScanScreen = () => {
   const [hasPermission, requestPermission] = useCameraPermissions();
@@ -134,7 +135,8 @@ const ScanScreen = () => {
 
   return (
     <View className="flex-1 py-8">
-      <Navbar title="Connect" />
+      <Navbar title=<TransText en="Connect" fr="connecter" ar="اتصال" /> />
+
       {cameraActive ? (
         <CameraView
           className="flex-1"

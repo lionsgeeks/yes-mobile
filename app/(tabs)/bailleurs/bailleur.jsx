@@ -7,6 +7,7 @@ import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
 import { useNavigation } from "expo-router";
+import TransText from "@/components/TransText";
 
 const categories = ["Tous", "NGO", "Gouvernement", "Institution Internationale"]
 
@@ -157,7 +158,8 @@ const BailleurScreen = () => {
         <SafeAreaView className="flex-1 bg-[#f8f9fa] pt-10">
             <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-            <Navbar title="Funders" />
+            <Navbar title=<TransText en="Funders" fr="Financeurs" ar="الجهات الممولة " />
+            />
 
             <View className="flex-row px-5 py-2 gap-5">
                 <View className="flex-1 flex-row items-center bg-[#f1f3f5] rounded-lg px-2">

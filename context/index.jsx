@@ -33,7 +33,10 @@ const AppProvider = ({ children }) => {
   const [speakers, setSpeakers] = useState([]);
   const [visitors, setvisitors] = useState([]);
   const [badge, setBadge] = useState([]);
+  const [MyPrograme, setMyPrograme] = useState([]);
   const [Programe, setPrograme] = useState([]);
+  const [mycategory, setMyCategory] = useState([]);
+  const [category, setCategory] = useState([]);
   const networkState = Network.getNetworkStateAsync();
   const [notifications, setNotifications] = useState([]);
   const [general, setGeneral] = useState();
@@ -140,8 +143,25 @@ const AppProvider = ({ children }) => {
       .get("programe/create")
       .then((res) => {
         const receivedPrograme = res?.data.programes;
+        const Categorie = res?.data.categorie;
         if (receivedPrograme) {
           setPrograme(receivedPrograme);
+          setCategory(Categorie);
+        }
+      })
+      .catch((err) => {
+        console.log("error getting programe", err);
+      });
+  };
+  const fetchMyPrograme = () => {
+    api
+      .get(`MyPrograme/${user?.id}`)
+      .then((res) => {
+        const receivedPrograme = res?.data.programes;
+        const Categorie = res?.data.categorie;
+        if (receivedPrograme) {
+          setMyPrograme(receivedPrograme);
+          setMyCategory(Categorie);
         }
       })
       .catch((err) => {
@@ -226,6 +246,7 @@ const AppProvider = ({ children }) => {
         fetchInterests(),
         fetchBadge(),
         fetchPrograme(),
+        fetchMyPrograme(),
         fetchNotification(),
         fetchConversations()
       ]);
@@ -261,6 +282,9 @@ const AppProvider = ({ children }) => {
     visitors,
     badge,
     Programe,
+    MyPrograme,
+    mycategory,
+    category,
     allParticipants,
     ngos,
     notifications,

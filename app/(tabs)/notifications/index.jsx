@@ -1,4 +1,5 @@
 import Navbar from "@/components/navigation/navbar";
+import TransText from "@/components/TransText";
 import { useAppContext } from "@/context";
 import { ScrollView, Text, View } from "react-native";
 
@@ -8,7 +9,7 @@ export default function NotificationScreen() {
     return (
         <View className="px-6 pb-12">
             <View className="mt-12"></View>
-            <Navbar title="Notifications" />
+            <Navbar title=<TransText en="Notifications" fr="Notifications" ar="إشعارات" /> />
             {/* {notifications?.length > 0 && <Text className="text-alpha text-2xl font-semibold">Recent Notifications</Text>} */}
             {
                 (notifications && notifications.length > 0) ?

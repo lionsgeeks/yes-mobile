@@ -7,13 +7,14 @@ import { Link, router } from "expo-router";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Icon } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
+import TransText from "@/components/TransText";
 
 
 export default function Matches() {
   return (
     <View className="flex-1 pt-10">
       <ScrollView>
-        <Navbar title="Network" />
+        <Navbar title=<TransText en="Network" fr="réseau" ar="شبكة" />/>
         <View className="py-5 flex-row gap-3 items-center px-6">
           <Pressable onPress={()=>{router.push("/scans")}} className="w-[48%] rounded-xl flex-row text-center items-center justify-center py-3 bg-alpha">
             <Ionicons color={"white"} size={16} name="scan"/>

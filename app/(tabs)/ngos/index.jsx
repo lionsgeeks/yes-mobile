@@ -5,6 +5,7 @@ import { Location } from "@/constants/icons";
 import { useAppContext } from "@/context";
 import { router } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import TransText from "@/components/TransText"
 
 export default function NgosScreen() {
   const { ngos } = useAppContext();
@@ -12,7 +13,7 @@ export default function NgosScreen() {
 
   return (
     <View className="mb-2 pt-10 ">
-      <Navbar title="Ngo's" />
+      <Navbar title=<TransText en="Ngo's" fr="ONG" ar="م.غ.ح" /> />
       <ScrollView className="">
         <View className="flex px-6 flex-col gap-4 mt-4 mb-20">
           {ngos?.map((ngo) => (

@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import {  Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -23,7 +23,7 @@ export default function TabLayout() {
     { route: "bailleurs/bailleur", name: "Funders", icon: "ribbon", showTab: true },
     { route: "menu", name: "Menu", icon: "menu-sharp", showTab: true },
   ]
-  
+
   const hiddenScreens = [
     { route: "chat/index", name: "Chat", icon: "message", showTab: true },
     { route: "chat/[id]", name: "ChatDetail", icon: "message", },
@@ -47,8 +47,10 @@ export default function TabLayout() {
     { route: "sponsors/[id]", name: "Sponsors", icon: "money", showTab: true },
     { route: "terms/index", name: "Terms", icon: "lock", showTab: true },
     { route: "visitors/index", name: "visitors", icon: "person", showTab: true },
-    { route: "notifications/index", name:"Notifications", icon: "person", showTab: true },
-    { route: "about/index", name:"About", icon: "person", showTab: true },
+    { route: "notifications/index", name: "Notifications", icon: "person", showTab: true },
+    { route: "about/index", name: "About", icon: "person", showTab: true },
+    { route: "program/myschedule", name: "Myprogram", icon: "calendar-outline", showTab: true },
+
 
   ]
 

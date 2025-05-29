@@ -11,6 +11,7 @@ import { useNavigation } from "expo-router";
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
+import TransText from "@/components/TransText"
 
 const categories = [
   "All Speakers",
@@ -50,7 +51,7 @@ export default function SpeakersScreen() {
     <View className="h-screen bg-white pt-10">
       {/* Header */}
 
-      <Navbar title="Speakers" />
+      <Navbar title= <TransText en="Speakers" fr="Conférenciers" ar="المتحدثون" /> />
 
       {/* Search */}
       <View className="px-6 mb-4">

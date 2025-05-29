@@ -17,6 +17,7 @@ import Navbar from "@/components/navigation/navbar";
 import useNotif from "@/hooks/useNotif";
 import { useAppContext } from "@/context";
 import *  as Notifications from "expo-notifications";
+import TransText from "@/components/TransText";
 
 async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
@@ -70,7 +71,7 @@ export default function ChatScreen() {
     <View className=" bg-[#F9FAFB] flex-1">
       <View className="pt-10 pb-6">
 
-        <Navbar title="chat" />
+        <Navbar  title=<TransText en="chat" fr="chat" ar="دردشة" /> />
       </View>
       <View className="flex-1 px-6 ">
 

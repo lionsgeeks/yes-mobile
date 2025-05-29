@@ -6,6 +6,7 @@ import { useAuthContext } from "@/context/auth";
 import api from "@/api";
 import Navbar from "@/components/navigation/navbar";
 import { useFocusEffect } from "expo-router";
+import TransText from "@/components/TransText";
 
 export default function Match() {
   const { participants, fetchParticipants, setMatches } = useAppContext();
@@ -47,7 +48,7 @@ export default function Match() {
   return (
     <>
       <View className="h-screen bg-white pt-10">
-        <Navbar title="Connect" />
+        <Navbar title=<TransText en="Connect" fr="connecter" ar="اتصال" /> />
         {/* <Text>Selection For You</Text> */}
         <View className="items-center my-3">
           <Card

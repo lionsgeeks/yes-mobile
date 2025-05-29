@@ -21,6 +21,7 @@ import { useAppContext } from "@/context";
 import api from "@/api";
 import AuthLoader from "@/components/loading";
 import useNotif from "@/hooks/useNotif";
+import TransText from "@/components/TransText"
 
 
 
@@ -36,7 +37,7 @@ export default function HomeScreen() {
   const items = [
     {
       icon: "id-card-outline",
-      label: "Badge",
+      label: <TransText en="Badge" fr="badge" ar="شارة" />,
       href: "/badge",
     },
     {
@@ -46,13 +47,13 @@ export default function HomeScreen() {
     },
     {
       icon: "person-add-outline",
-      label: "Discover",
+      label: <TransText en="Discover" fr="découvrir" ar="اكتشاف" />,
       href: "matches/match",
     },
     {
       icon: "calendar-outline",
-      label: "Program",
-      href: "/program",
+      label: <TransText en="myschedule" fr="Agenda" ar="جدولي" />,
+      href: "/program/myschedule",
     },
   ];
 
@@ -137,7 +138,7 @@ export default function HomeScreen() {
 
         {/* orgnazires */}
         <View className="px-6 pt-6">
-          <Text className="text-xl font-bold text-alpha">Organizers</Text>
+          <Text className="text-xl font-bold text-alpha"><TransText en="Organizers" fr="organisateurs" ar="المنظمون" /></Text>
           <View className="flex py-6 flex-row justify-between w-full ">
             {organizres.map((organizre, index) => (
               <View
@@ -159,11 +160,11 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* speakers */}
+        {/* Featured Speakers */}
         {speakers?.length > 0 && (
           <View className="px-6 pb-6">
             <Text className="text-xl font-bold text-alpha">
-              Featured Speakers
+              <TransText en="Featured Speakers" fr="Conférenciers en vedette" ar="المتحدثون المميزون" />
             </Text>
             <ScrollView
               horizontal

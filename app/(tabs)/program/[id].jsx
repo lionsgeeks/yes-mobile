@@ -20,6 +20,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import api from "@/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppContext } from "@/context";
+import TransText from "@/components/TransText";
 
 export default function SessionDetails() {
   const { user } = useAuthContext();
@@ -156,10 +157,11 @@ export default function SessionDetails() {
   );
   return !isCameraReady ? (
     <View className="flex-1 bg-gray-50 pt-10">
-      <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
+      <Navbar title=<TransText en="Program Details" fr="Détails du programme" ar="تفاصيل البرنامج" />
+        setIsCameraReady={setIsCameraReady} />
       <ScrollView className="px-4">
         {/* Title Section */}
-        
+
         <View className="items- p-5 mb-6 bg-white">
           <Text className="text-2xl font-bold text-[#2952a3] mb-2">
             {session.name}

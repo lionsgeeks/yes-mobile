@@ -11,6 +11,7 @@ import { useNavigation } from "expo-router";
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
+import TransText from "@/components/TransText";
 
 const categories = [
   "All visitors",
@@ -32,24 +33,25 @@ export default function visitorsScreen() {
     setSelectedYear(value === "all" ? null : value);
     setDropdownVisible(false); // Close dropdown after selecting a year
   };
-//   const filteredvisitors = visitors.filter((speaker) => {
-//     const matchesSearch = speaker.name
-//       .toLowerCase()
-//       .includes(searchQuery.toLowerCase());
-//     const matchesCategory =
-//       activeCategory === "All visitors" ||
-//       speaker.interesets?.some(
-//         (interest) =>
-//           interest.name.toLowerCase() === activeCategory.toLowerCase()
-//       );
-//     return matchesSearch && matchesCategory;
-//   });
+  //   const filteredvisitors = visitors.filter((speaker) => {
+  //     const matchesSearch = speaker.name
+  //       .toLowerCase()
+  //       .includes(searchQuery.toLowerCase());
+  //     const matchesCategory =
+  //       activeCategory === "All visitors" ||
+  //       speaker.interesets?.some(
+  //         (interest) =>
+  //           interest.name.toLowerCase() === activeCategory.toLowerCase()
+  //       );
+  //     return matchesSearch && matchesCategory;
+  //   });
 
   return (
     <View className="h-screen bg-white pt-10">
       {/* Header */}
 
-      <Navbar title="Visitors" />
+      <Navbar title=<TransText en="Visitors" fr="Visiteurs" ar="الزوار" /> />
+
 
       {/* Search */}
       <View className="px-6 mb-4">

@@ -5,6 +5,7 @@ import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
 import api from '@/api';
 import { router } from 'expo-router';
+import TransText from '@/components/TransText';
 
 
 
@@ -28,7 +29,8 @@ const Sponsors = () => {
 
   return (
     <View className="min-h-screen bg-white pt-10">
-      <Navbar title="Sponsors" />
+      <Navbar title=<TransText en="Sponsors" fr="Sponsors" ar="الرعاة" /> />
+
       <View className="px-6 mb-3">
         <TouchableOpacity
           className="bg-white border border-gray-200 rounded-xl p-3"
