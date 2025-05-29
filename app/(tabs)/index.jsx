@@ -40,9 +40,9 @@ export default function HomeScreen() {
       href: "/badge",
     },
     {
-      icon: "globe-outline",
-      label: "Network",
-      href: "/matches/matches",
+      icon: user?.role === 'admin' ? "qr-code" : "globe-outline",
+      label: "Scan",
+      href: user?.role === 'admin' ? "/scans" : "/matches/matches",
     },
     {
       icon: "person-add-outline",

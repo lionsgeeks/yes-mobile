@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, Button, Alert, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+  Pressable,
+} from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect } from "@react-navigation/native";
 import Navbar from "@/components/navigation/navbar";
@@ -7,57 +15,76 @@ import { useAppContext } from "@/context";
 import api from "@/api";
 import { useAuthContext } from "@/context/auth";
 import { router, useNavigation } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const ScanScreen = () => {
   const [hasPermission, requestPermission] = useCameraPermissions();
   const [cameraActive, setCameraActive] = useState(false);
   const { setMatches } = useAppContext();
+  const [isEnrolled, setIsEnrolled] = useState(null);
   const { user } = useAuthContext();
   const navigation = useNavigation();
+  const [loadingCamera, setLoadingCamera] = useState(null);
   const handleScan = (data) => {
     // console.log("Scanned data:", data);
     if (data?.data) {
-      api
-        .post("participants/action", {
-          currentParticipant: user?.id,
-          action: "connect",
-          badge_id: data.data,
-        })
-        .then((response) => {
-          if (response?.data?.matches) {
-            setMatches(response?.data?.matches);
-          }
-          const user = response.data?.scanned;
+      if (user.role === "admin") {
+        setLoadingCamera(true);
+        console.log(data?.data);
+        api
+          .post("participants/checkqr", {
+            badge_id: data.data,
+          })
+          .then((response) => {
+            setIsEnrolled(response.data?.isEnrolled);
+          })
+          .finally(() => {
+            setLoadingCamera(false);
+          });
+      } else {
+        api
+          .post("participants/action", {
+            currentParticipant: user?.id,
+            action: "connect",
+            badge_id: data.data,
+          })
+          .then((response) => {
+            if (response?.data?.matches) {
+              setMatches(response?.data?.matches);
+            }
+            const user = response.data?.scanned;
 
-          // console.log(`${user.role + "s"}/${user.id}`);
-          switch (user.role) {
-            case "visitor":
-              navigation.navigate("visitors/[id]", {
-                visitor: user,
-              });
-              break;
-            case "speaker":
-              navigation.navigate("speakers/[id]", {
-                speaker: user,
-              });
-              break;
-            case "ngo":
-              navigation.navigate("ngos/[id]", {
-                id: user.id,
-              });
-              break;
-            case "bailleur":
-              navigation.navigate("bailleurs/[id]", {
-                bailleur: user.id,
-              });
-              break;
-            default:
-              break;
-          }
+            // console.log(`${user.role + "s"}/${user.id}`);
+            switch (user.role) {
+              case "visitor":
+                navigation.navigate("visitors/[id]", {
+                  visitor: user,
+                });
+                break;
+              case "speaker":
+                navigation.navigate("speakers/[id]", {
+                  speaker: user,
+                });
+                break;
+              case "ngo":
+                navigation.navigate("ngos/[id]", {
+                  id: user.id,
+                });
+                break;
+              case "bailleur":
+                navigation.navigate("bailleurs/[id]", {
+                  bailleur: user.id,
+                });
+                break;
+              default:
+                break;
+            }
 
-          //   navigation.navigate("/ngos/[id]", { id: 5 });
-        });
-      setCameraActive(false); // stop scanning after success
+            //   navigation.navigate("/ngos/[id]", { id: 5 });
+          });
+      }
+      setCameraActive(false);
+      router.replace("scans");
     }
   };
 
@@ -91,8 +118,10 @@ const ScanScreen = () => {
 
         <View className="w-full">
           <TouchableOpacity
-          onPress={() => {requestPermission()}}
-          className="bg-alpha py-4 rounded"
+            onPress={() => {
+              requestPermission();
+            }}
+            className="bg-alpha py-4 rounded"
           >
             <Text className="text-white text-center text-lg font-semibold">
               Allow Camera
@@ -106,7 +135,7 @@ const ScanScreen = () => {
   return (
     <View className="flex-1 py-8">
       <Navbar title="Connect" />
-      {cameraActive && (
+      {cameraActive ? (
         <CameraView
           className="flex-1"
           onBarcodeScanned={handleScan}
@@ -120,6 +149,35 @@ const ScanScreen = () => {
             </Text>
           </View>
         </CameraView>
+      ) : (
+        <View className="justify-center items-center h-screen">
+          <View className=" p-5 bg-white justify-center items-center">
+            {loadingCamera ? (
+              <ActivityIndicator size="large" color="#b09417" />
+            ) : isEnrolled === true ? (
+              <View className="items-center justify-center">
+                <Ionicons name="checkmark-done" size={50} color={"#22c55e"} />
+                <Text className="text-center text-lg font-semibold text-green-500">
+                  Participant enrolled in the Event!
+                </Text>
+              </View>
+            ) : isEnrolled === false ? (
+              <View className="items-center justify-center">
+                <Ionicons name="remove-circle" size={50} color={"#ef4444"} />
+                <Text className="text-center text-lg font-semibold text-red-500">
+                  Participant are not enrolled in the Event.
+                </Text>
+              </View>
+            ) : null}
+          </View>
+
+          <TouchableOpacity
+            className="bg-alpha px-3 py-2 rounded w-fit mt-4"
+            onPress={() => setCameraActive(true)}
+          >
+            <Text className="text-white font-bold text-2xl">Scan Qr Code</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
