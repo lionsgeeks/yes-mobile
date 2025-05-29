@@ -204,21 +204,21 @@ export default function HomeScreen() {
 
         {/* partners */}
         {sponsors?.length > 0 && (
-          <Pressable
-            onPress={() => {
-              router.push("/sponsors/sponsors");
-            }}
+          <View
             className="px-6"
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
             {
               ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
                 <View key={ind}>
-                  <Text className="text-xl underline text-beta text-center font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
+                  <Text className="text-xl underline text-beta text-center font-bold">{rank.toUpperCase()}</Text>
                   <View className="flex flex-row py-6 flex-wrap w-full  ">
 
                     {sponsors.filter((spo) => spo.rank == rank).map((partner, index) => (
-                      <View
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("sponsors/[id]", { sponsor: partner })
+                        }
                         key={index}
                         className="bg-white rounded-lg p-3 "
                         style={{
@@ -232,13 +232,13 @@ export default function HomeScreen() {
                           source={{ uri: api.IMAGE_URL + partner.image }}
                           style={{ width: 90, height: 60, resizeMode: "contain" }}
                         />
-                      </View>
+                      </TouchableOpacity>
                     ))}
                   </View>
                 </View>
               ))
             }
-          </Pressable>
+          </View>
         )}
       </Animated.ScrollView>
     </View>

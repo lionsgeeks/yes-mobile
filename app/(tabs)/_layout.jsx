@@ -44,6 +44,7 @@ export default function TabLayout() {
     { route: "scans/index", name: "Scan", icon: "scan", showTab: true },
     { route: "ngos/[id]", name: "NgoDetails", icon: "business", showTab: true },
     { route: "sponsors/sponsors", name: "Sponsors", icon: "money", showTab: true },
+    { route: "sponsors/[id]", name: "Sponsors", icon: "money", showTab: true },
     { route: "terms/index", name: "Terms", icon: "lock", showTab: true },
     { route: "visitors/index", name: "visitors", icon: "person", showTab: true },
     { route: "notifications/index", name:"Notifications", icon: "person", showTab: true },

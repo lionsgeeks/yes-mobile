@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from '@/context';
 import api from '@/api';
+import { router } from 'expo-router';
 
 
 
@@ -26,7 +27,7 @@ const Sponsors = () => {
 
 
   return (
-    <View className="h-screen bg-white pt-10">
+    <View className="min-h-screen bg-white pt-10">
       <Navbar title="Sponsors" />
       <View className="px-6 mb-3">
         <TouchableOpacity
@@ -56,10 +57,14 @@ const Sponsors = () => {
         {
           ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
             <View key={ind}>
-              <Text className="text-xl underline text-beta font-bold">{rank.charAt(0).toUpperCase() + rank.slice(1)}</Text>
+              <Text className="text-xl underline text-beta font-bold">{rank.toUpperCase()}</Text>
               <View className="gap-4">
                 {filteredSponsors.filter((spo) => spo.rank == rank).map((item) => (
-                  <View key={item.id} className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
+                  <TouchableOpacity key={item.id}
+                    onPress={() =>
+                      navigation.navigate("sponsors/[id]", { sponsor: item })
+                    }
+                    className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
                     <View className="flex-row items-center mb-4">
                       <Image
                         source={{ uri: api.IMAGE_URL + item.image }}
@@ -73,7 +78,8 @@ const Sponsors = () => {
                       />
                       <View>
                         <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
-                        <Text className="text-sm text-gray-500">{item.description}</Text>
+                        <Text className="text-sm text-gray-500">{item.description.slice(1, 50)}</Text>
+                        <Text className="text-sm text-gray-500">{item.description.slice(50, 125)}...</Text>
                       </View>
                     </View>
                     <View className='flex-row justify-between items-center'>
@@ -102,7 +108,7 @@ const Sponsors = () => {
                       }
 
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
