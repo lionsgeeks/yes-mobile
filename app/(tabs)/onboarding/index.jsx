@@ -13,33 +13,27 @@ const onboardingData = [
     {
         title: "Welcome to Y.E.S Africa",
         description:
-            "Youth Empowerment Summit Africa is dedicated to inspiring and equipping young Africans with the skills and knowledge needed to drive positive change across the continent.",
-        description2:
-            "Through collaborative initiatives and transformative programs, we aim to ignite passion and purpose among Africa’s youth, empowering them to become leaders in their communities.",
+            "You're now part of a vibrant pan-African platform where civil society organizations, experts, and funders come together to amplify youth empowerment.YES Africa is where African NGOs grow stronger — by learning from each other, forging partnerships with local and regional authorities, and connecting with key development actors to access the resources they need to scale their impact across the continent.",
         image: africa1,
     },
     {
         title: "Our Mission",
         description:
-            "We bring together young leaders, entrepreneurs, and changemakers from across Africa to connect, learn, and collaborate on solutions to the continent's most pressing challenges.",
-        description2:
-            "By fostering a culture of innovation and unity, we help young people turn ideas into impactful actions that address real-world problems and uplift African societies.",
+            "YES Africa is committed to transforming the challenge of NEET youth into a game-changing opportunity for the continent.We bring together civil society, communities, experts, funders, and private partners to act now — and empower the millions of young people in Africa who are currently Not in Education, Employment or Training.",
         image: africa2,
     },
     {
-        title: "What to Expect",
+        title: "Our Vision",
         description:
-            "Engaging workshops, inspiring keynote speakers, networking opportunities, and hands-on projects that will help you develop your skills and expand your professional network.",
-        description2:
-            "Whether you’re looking to sharpen your entrepreneurial mindset or grow your influence as a leader, Y.E.S Africa offers immersive experiences tailored to your growth.",
+            "To turn 70 million potential NEETs into 70 million Doers — skilled, engaged, and leading the way toward a brighter African future.",
         image: africa3,
     },
     {
-        title: "Join the Movement",
+        title: "Together, We Move Forward",
         description:
-            "Be part of a growing community of young Africans who are passionate about creating a better future for Africa through innovation, leadership, and sustainable development.",
+            "As a member of the YES Africa community, you're now part of a growing movement of changemakers shaping the future of youth empowerment on the continent.Take this opportunity to connect with peers, collaborate with experts, engage with funders, and scale your impact.",
         description2:
-            "Your journey with Y.E.S Africa is just the beginning—connect with like-minded peers, access long-term mentorship, and contribute to a pan-African legacy of empowerment.",
+            "Together, we say YES to action. YES to youth. YES to Africa.",
         image: africa4,
     },
 ];

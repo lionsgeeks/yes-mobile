@@ -51,6 +51,7 @@ const ScanScreen = () => {
           })
           .then((response) => {
             if (response?.data?.matches) {
+              console.log(response.data);
               setMatches(response?.data?.matches);
             }
             const user = response.data?.scanned;
@@ -82,6 +83,9 @@ const ScanScreen = () => {
             }
 
             //   navigation.navigate("/ngos/[id]", { id: 5 });
+          })
+          .catch(() => {
+            console.log("error");
           });
       }
       setCameraActive(false);
@@ -170,15 +174,26 @@ const ScanScreen = () => {
                   Participant are not enrolled in the Event.
                 </Text>
               </View>
-            ) : null}
+            ) : (
+              <View className="items-center justify-center">
+                <Ionicons name="close" size={50} color={"#ef4444"} />
+                <Text className="text-center text-lg font-semibold text-red-500">
+                  We couldn’t find a user with this badge. Please double-check
+                  that the badge was generated through the app
+                </Text>
+              </View>
+            )}
           </View>
-
-          <TouchableOpacity
-            className="bg-alpha px-3 py-2 rounded w-fit mt-4"
-            onPress={() => setCameraActive(true)}
-          >
-            <Text className="text-white font-bold text-2xl">Scan Qr Code</Text>
-          </TouchableOpacity>
+          {user?.role === "admin" && (
+            <TouchableOpacity
+              className="bg-alpha px-3 py-2 rounded w-fit mt-4"
+              onPress={() => setCameraActive(true)}
+            >
+              <Text className="text-white font-bold text-2xl">
+                Scan Qr Code
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </View>

@@ -42,7 +42,7 @@ export default function HomeScreen() {
     },
     {
       icon: user?.role === 'admin' ? "qr-code" : "globe-outline",
-      label: "Scan",
+      label: user?.role === 'admin' ? "Scan" : "Network",
       href: user?.role === 'admin' ? "/scans" : "/matches/matches",
     },
     {

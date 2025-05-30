@@ -26,7 +26,7 @@ export default function Program() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  console.log("programe : ", Programe[0].category_id);
+  // console.log("programe : ", Programe[0]?.category_id);
   console.log("cat : ", category);
 
   const filteredSessions = Programe.filter(session => {
@@ -36,7 +36,7 @@ export default function Program() {
       session.location.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
-      selectedCategory === '' || session.category_id === selectedCategory;
+      selectedCategory === '' || session?.category_id === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -46,7 +46,7 @@ export default function Program() {
     <SafeAreaView className="flex-1 bg-gray-50 pt-10">
       {/* Header */}
 
-      <Navbar title=<TransText en="Program" fr="programme" ar="برنامج" /> />
+      <Navbar title={ <TransText en="Program" fr="programme" ar="برنامج" />} />
       <View className="px-6 mb-4 flex-row flex-wrap gap-">
         <ScrollView
 
