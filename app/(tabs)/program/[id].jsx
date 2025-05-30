@@ -11,6 +11,8 @@ import {
   Modal,
   Platform,
 } from "react-native";
+
+
 import Navbar from "@/components/navigation/navbar";
 import { useCameraPermissions, CameraView } from "expo-camera";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
@@ -160,71 +162,92 @@ export default function SessionDetails() {
       <Navbar title=<TransText en="Program Details" fr="Détails du programme" ar="تفاصيل البرنامج" />
         setIsCameraReady={setIsCameraReady} />
       <ScrollView className="px-4">
-        {/* Title Section */}
 
-        <View className="items- p-5 mb-6 bg-white">
-          <Text className="text-2xl font-bold text-[#2952a3] mb-2">
-            {session.name}
-          </Text>
-          {/* <Text className="text-sm text-gray-600 mb-1">{id} Edition</Text> */}
-          <Text className="text-sm text-gray-600 mb-1">
-            {session.date} • Day 1
-          </Text>
-          <Text className="text-sm text-gray-600">
-            {session.start_date} - {session.end_date}
-          </Text>
-        </View>
-
-        {/* About this Session */}
-        <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
-            About this Session
-          </Text>
-          <Text className="text-gray-600">{session.description}</Text>
-        </View>
-
-        {/* Location */}
-        <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
-            Location
-          </Text>
-          <View className="flex-row items-start">
-            <View className="flex-1">
-              <Text className="font-medium text-gray-900">
-                {session.location}
+        {session.name && (
+          <View className="items- p-5 mb-6 bg-white">
+            <Text className="text-2xl font-bold text-[#2952a3] mb-2">{session.name}</Text>
+            {session.date && (
+              <Text className="text-sm text-gray-600 mb-1">{session.date} • Day 1</Text>
+            )}
+            {session.start_date && session.end_date && (
+              <Text className="text-sm text-gray-600">
+                {session.start_date} - {session.end_date}
               </Text>
+            )}
+          </View>
+        )}
+
+        {session.description && (
+          <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
+            <Text className="text-lg font-semibold text-[#2952a3] mb-3">About this Session</Text>
+            <Text className="text-gray-600">{session.description}</Text>
+          </View>
+        )}
+
+        {session.location && (
+          <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
+            <Text className="text-lg font-semibold text-[#2952a3] mb-3">Location</Text>
+            <View className="flex-row items-start">
+              <View className="flex-1">
+                <Text className="font-medium text-gray-900">{session.location}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        )}
 
-        {/* Speakers */}
-        <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-[#2952a3] mb-3">
-            Speakers
-          </Text>
-          <View className="space-y-4">
-            {session.participants?.map((speaker, index) => (
-              <View key={index} className="flex-row items-center space-x-4">
-                <Image
-                  source={{ uri: api.IMAGE_URL + speaker?.image }}
-                  className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
-                />
-                <View className="flex-1 p-2">
-                  <Text className="font-medium text-[#2952a3]">
-                    {speaker?.name}
-                  </Text>
-                  <Text className="text-sm text-gray-600">{speaker?.role}</Text>
-                  <Text className="text-xs text-gray-500">
-                    {speaker?.organization}
-                  </Text>
-                </View>
-              </View>
-            ))}
+        {session.participants?.some(p => p?.role?.toLowerCase() === "moderator") && (
+          <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
+            <Text className="text-lg font-semibold text-[#2952a3] mb-3">Moderators</Text>
+            <View className="space-y-4">
+              {session.participants
+                .filter(p => p?.role?.toLowerCase() === "moderator")
+                .map((moderator, index) => (
+                  <View key={index} className="flex-row items-center space-x-4">
+                    <Image
+                      source={{ uri: api.IMAGE_URL + moderator?.image }}
+                      className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
+                    />
+                    <View className="flex-1 p-2">
+                      <Text className="font-medium text-[#2952a3]">{moderator?.name}</Text>
+                      <Text className="text-sm text-gray-600">{moderator?.role}</Text>
+                      <Text className="text-xs text-gray-500">{moderator?.organization}</Text>
+                    </View>
+                  </View>
+                ))}
+            </View>
           </View>
-        </View>
+        )}
 
-        {/* Register Button */}
-        {
+        {session.participants?.some(p => p?.role?.toLowerCase() === "speaker") && (
+          <View className="bg-white rounded-lg p-5 shadow-sm mb-4">
+            <Text className="text-lg font-semibold text-[#2952a3] mb-3">Speakers</Text>
+            <View className="space-y-4">
+              {session.participants
+                .filter(p => p?.role?.toLowerCase() === "speaker")
+                .map((speaker, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => navigation.navigate('speakers/[id]', { speaker: speaker })}
+                    className="flex-row items-center space-x-4"
+                  >
+                    <Image
+                      source={{ uri: api.IMAGE_URL + speaker?.image }}
+                      className="w-14 h-14 rounded-full border-2 border-[#d4af37]"
+                    />
+                    <View className="flex-1 p-2">
+                      <Text className="font-medium text-[#2952a3]">{speaker?.name}</Text>
+                      <Text className="text-sm text-gray-600">{speaker?.role}</Text>
+                      <Text className="text-xs text-gray-500">{speaker?.organization}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+            </View>
+          </View>
+        )}
+
+
+
+        {typeof session.capacity === 'number' && (
           session.capacity > 0 ? (
             isUserEnrolled || enrolled ? (
               <TouchableOpacity
@@ -252,7 +275,7 @@ export default function SessionDetails() {
               </Text>
             </View>
           )
-        }
+        )}
 
 
       </ScrollView>

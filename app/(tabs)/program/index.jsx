@@ -62,7 +62,7 @@ export default function Program() {
               <Text className={`${selectedCategory === '' ? 'text-white' : 'text-gray-700'}`}>All</Text>
             </TouchableOpacity>
 
-            {category.map((cat, index) => (
+            {category?.map((cat, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => setSelectedCategory(cat.id)}

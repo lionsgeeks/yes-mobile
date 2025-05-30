@@ -62,7 +62,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
+        // tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
@@ -90,7 +90,9 @@ export default function TabLayout() {
             ),
             tabBarActiveTintColor: '#b09417',
             tabBarInactiveTintColor: '#2e539d',
-            tabBarStyle: screen.showTab ? undefined : { display: 'none' },
+            tabBarStyle: screen.showTab
+              ? { backgroundColor: 'white' } // Set background to white
+              : { display: 'none' },
           }}
         />
       ))}
