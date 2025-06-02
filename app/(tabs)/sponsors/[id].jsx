@@ -2,13 +2,15 @@ import api from "@/api";
 import Navbar from "@/components/navigation/navbar";
 import { useRoute } from "@react-navigation/native";
 import { Image, ScrollView, Text, View } from "react-native"
+import handleBack from "@/utils/handleBack";
 
 const sponsorDetails = () => {
     const { params } = useRoute();
     const { sponsor } = params;
+    const panHandlers = handleBack("/sponsors/sponsors");
 
     return (
-        <ScrollView className="flex-1 pt-10 bg-[#f9f9f9]">
+        <ScrollView {...panHandlers} className="flex-1 pt-10 bg-[#f9f9f9]">
             <Navbar title={sponsor.name} />
 
             {/* Profile Section */}

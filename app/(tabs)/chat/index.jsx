@@ -18,6 +18,7 @@ import useNotif from "@/hooks/useNotif";
 import { useAppContext } from "@/context";
 import *  as Notifications from "expo-notifications";
 import TransText from "@/components/TransText";
+import handleBack from "@/utils/handleBack";
 
 async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
@@ -40,6 +41,7 @@ export default function ChatScreen() {
   const ablyClient = useRef(null);
   const ablyChannel = useRef(null);
 
+    const panHandlers = handleBack("/");
 
 
   useFocusEffect(
@@ -68,7 +70,7 @@ export default function ChatScreen() {
 
 
   return (
-    <View className=" bg-[#F9FAFB] flex-1">
+    <View {...panHandlers} className=" bg-[#F9FAFB] flex-1">
       <View className="pt-10 pb-6">
 
         <Navbar  title=<TransText en="chat" fr="chat" ar="دردشة" /> />

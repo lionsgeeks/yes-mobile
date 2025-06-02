@@ -4,16 +4,18 @@ import { Ionicons } from '@expo/vector-icons';
 import Navbar from '@/components/navigation/navbar';
 import { router } from 'expo-router';
 import api from '@/api';
+import handleBack from "@/utils/handleBack";
 
 export default function bailleurDetail() {
     const { params } = useRoute();
     const { bailleur } = params;
     const navigation = useNavigation();
+    const panHandlers = handleBack("/bailleurs");
 
 
 
     return (
-        <ScrollView className="flex-1 pt-10 bg-[#f9f9f9]">
+        <ScrollView {...panHandlers} className="flex-1 pt-10 bg-[#f9f9f9]">
             <Navbar title={bailleur.name} />
 
             {/* Profile Section */}

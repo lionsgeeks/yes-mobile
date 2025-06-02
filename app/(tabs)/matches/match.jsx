@@ -7,12 +7,15 @@ import api from "@/api";
 import Navbar from "@/components/navigation/navbar";
 import { useFocusEffect } from "expo-router";
 import TransText from "@/components/TransText";
+import handleBack from "@/utils/handleBack";
 
 export default function Match() {
+  const panHandlers = handleBack("/menu");
+
   const { participants, fetchParticipants, setMatches } = useAppContext();
   const [userList, setUserList] = useState(participants);
   const { user } = useAuthContext();
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   // console.log(currentIndex);
   const handleAction = (type) => {
@@ -46,18 +49,18 @@ export default function Match() {
   }, [user?.id]);
 
   return (
-    <>
-      <View className="h-screen bg-white pt-10">
+    <View {...panHandlers}>
+      <View  className="h-screen bg-white pt-10">
         <Navbar title=<TransText en="Connect" fr="connecter" ar="اتصال" /> />
         {/* <Text>Selection For You</Text> */}
         <View className="items-center my-3">
           <Card
             user={userList[currentIndex]}
-            onSkip={() => {setCurrentIndex((prev) => prev + 1)}}
+            onSkip={() => { setCurrentIndex((prev) => prev + 1) }}
             onConnect={() => handleAction("connect")}
           />
         </View>
       </View>
-    </>
+    </View>
   );
 }

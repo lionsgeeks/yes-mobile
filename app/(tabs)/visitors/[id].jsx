@@ -12,14 +12,16 @@ import { Ionicons } from "@expo/vector-icons";
 import Navbar from "@/components/navigation/navbar";
 import { router } from "expo-router";
 import api from "@/api";
+import handleBack from "@/utils/handleBack";
 
 export default function visitorDetail() {
   const { params } = useRoute();
   const { visitor } = params;
   const navigation = useNavigation();
+    const panHandlers = handleBack("/visitors");
 
   return (
-    <ScrollView className="flex-1 pt-10 bg-[#f9f9f9]">
+    <ScrollView {...panHandlers} className="flex-1 pt-10 bg-[#f9f9f9]">
       <Navbar title={visitor.name} />
 
       {/* Profile Section */}

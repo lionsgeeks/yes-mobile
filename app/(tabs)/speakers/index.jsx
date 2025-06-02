@@ -12,6 +12,7 @@ import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
 import TransText from "@/components/TransText"
+import handleBack from "@/utils/handleBack";
 
 const categories = [
   "All Speakers",
@@ -23,6 +24,7 @@ const categories = [
 ];
 
 export default function SpeakersScreen() {
+  const panHandlers = handleBack("/");
   const { speakers, interests } = useAppContext();
 
   const [activeCategory, setActiveCategory] = useState("All Speakers");
@@ -48,7 +50,7 @@ export default function SpeakersScreen() {
   });
 
   return (
-    <View className="h-screen bg-white pt-10">
+    <View {...panHandlers} className="h-screen bg-white pt-10">
       {/* Header */}
 
       <Navbar title= <TransText en="Speakers" fr="Conférenciers" ar="المتحدثون" /> />

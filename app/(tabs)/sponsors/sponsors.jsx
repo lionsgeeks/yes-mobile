@@ -6,10 +6,12 @@ import { useAppContext } from '@/context';
 import api from '@/api';
 import { router } from 'expo-router';
 import TransText from '@/components/TransText';
+import handleBack from "@/utils/handleBack";
 
 
 
 const Sponsors = () => {
+  const panHandlers = handleBack("/menu");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const navigation = useNavigation();
@@ -28,7 +30,7 @@ const Sponsors = () => {
 
 
   return (
-    <View className="min-h-screen bg-white pt-10">
+    <View {...panHandlers} className="min-h-screen bg-white pt-10">
       <Navbar title=<TransText en="Sponsors" fr="Sponsors" ar="الرعاة" /> />
 
       <View className="px-6 mb-3">

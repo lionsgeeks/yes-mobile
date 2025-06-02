@@ -3,9 +3,12 @@ import yeslogo from "@/assets/images/yeslogo.png";
 import jadara from "@/assets/images/partners/Jadaralogo.png";
 import pan from "@/assets/images/partners/pan.jpeg";
 import { useAppContext } from "@/context";
+import handleBack from "@/utils/handleBack";
 
 export default function AboutSceen() {
     const { general } = useAppContext();
+    const panHandlers = handleBack("/menu");
+
     const organizres = [
         {
             name: "Jadara",
@@ -18,7 +21,7 @@ export default function AboutSceen() {
     ];
 
     return (
-        <ScrollView contentContainerStyle={{ paddingBottom: 40 }} className="px-3 py-8">
+        <ScrollView {...panHandlers} contentContainerStyle={{ paddingBottom: 40 }} className="px-3 py-8">
             <View className="flex-row items-center justify-center gap-3 mt-8 mb-4">
                 <Image
                     source={yeslogo}

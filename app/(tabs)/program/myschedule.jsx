@@ -11,12 +11,14 @@ import Navbar from "@/components/navigation/navbar";
 import TransText from "@/components/TransText";
 import { router, useNavigation } from "expo-router";
 import { useAppContext } from '@/context';
+import handleBack from "@/utils/handleBack";
 
 const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
 export default function MyMyPrograme() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedMycategory, setSelectedMycategory] = useState('');
+    const panHandlers = handleBack("/");
 
     const { MyPrograme, Mycategory } = useAppContext();
     const navigation = useNavigation();
@@ -34,7 +36,7 @@ export default function MyMyPrograme() {
     });
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-50 pt-10">
+        <SafeAreaView {...panHandlers} className="flex-1 bg-gray-50 pt-10">
             {/* Header */}
             <Navbar title={<TransText en="Program" fr="programme" ar="برنامج" />} />
 

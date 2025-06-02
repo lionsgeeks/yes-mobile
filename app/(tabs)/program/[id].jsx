@@ -22,6 +22,7 @@ import api from "@/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppContext } from "@/context";
 import TransText from "@/components/TransText";
+import handleBack from "@/utils/handleBack";
 
 export default function SessionDetails() {
   const { user } = useAuthContext();
@@ -30,6 +31,7 @@ export default function SessionDetails() {
   const { session } = params;
 
   const navigation = useNavigation();
+    const panHandlers = handleBack("/program");
 
   const [enrolledPrograms, setEnrolledPrograms] = useState([]);
 
@@ -172,8 +174,14 @@ export default function SessionDetails() {
     }, [])
   );
   return !isCameraReady ? (
+<<<<<<< Updated upstream
     <View className="flex-1 bg-gray-50 pt-10">
       <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
+=======
+    <View {...panHandlers} className="flex-1 bg-gray-50 pt-10">
+      <Navbar title=<TransText en="Program Details" fr="Détails du programme" ar="تفاصيل البرنامج" />
+        setIsCameraReady={setIsCameraReady} />
+>>>>>>> Stashed changes
       <ScrollView className="px-4">
         {session.name && (
           <View className="items- p-5 mb-6 bg-white">
@@ -319,7 +327,7 @@ export default function SessionDetails() {
       </ScrollView>
     </View>
   ) : (
-    <View className=" items-center justify-center h-screen ">
+    <View {...panHandlers} className=" items-center justify-center h-screen ">
       {/* <Text>Scan</Text>
       <Pressable
         onPress={() => {

@@ -16,6 +16,7 @@ import TransText from "@/components/TransText"
 import { router } from "expo-router"
 import { useAppContext } from '@/context';
 import { useNavigation } from "expo-router";
+import handleBack from "@/utils/handleBack";
 
 
 export default function Program() {
@@ -25,6 +26,7 @@ export default function Program() {
   const { category } = useAppContext();
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState('');
+    const panHandlers = handleBack("/");
 
   // console.log("programe : ", Programe[0]?.category_id);
   console.log("cat : ", category);
@@ -43,7 +45,7 @@ export default function Program() {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 pt-10">
+    <SafeAreaView {...panHandlers} className="flex-1 bg-gray-50 pt-10">
       {/* Header */}
 
       <Navbar title={ <TransText en="Program" fr="programme" ar="برنامج" />} />

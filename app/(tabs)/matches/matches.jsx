@@ -8,11 +8,13 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Icon } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import TransText from "@/components/TransText";
+import handleBack from "@/utils/handleBack";
 
 
 export default function Matches() {
+  const panHandlers = handleBack("/menu");
   return (
-    <View className="flex-1 pt-10">
+    <View {...panHandlers} className="flex-1 pt-10">
       <ScrollView>
         <Navbar title=<TransText en="Network" fr="réseau" ar="شبكة" />/>
         <View className="py-5 flex-row gap-3 items-center px-6">

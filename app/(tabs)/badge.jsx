@@ -11,9 +11,11 @@ import * as Print from 'expo-print';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import TransText from '@/components/TransText';
+import handleBack from "@/utils/handleBack";
 
 export default function Badge() {
     const { badge } = useAppContext();
+    const panHandlers = handleBack("/");
 
     const downloadBadge = async () => {
         const html = `
@@ -913,7 +915,7 @@ border-radius:10px;
     };
 
     return (
-        <View className="flex-1 bg-white pt-10 ">
+        <View {...panHandlers} className="flex-1 bg-white pt-10 ">
             <Navbar title=<TransText en="Badge" fr="Badge" ar="شارة" /> />
 
             <ScrollView

@@ -6,13 +6,15 @@ import { useAppContext } from "@/context";
 import { router } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import TransText from "@/components/TransText"
+import handleBack from "@/utils/handleBack";
 
 export default function NgosScreen() {
+  const panHandlers = handleBack("/");
   const { ngos } = useAppContext();
 
 
   return (
-    <View className="mb-2 pt-10 ">
+    <View {...panHandlers} className="mb-2 pt-10 ">
       <Navbar title=<TransText en="Ngo's" fr="ONG" ar="م.غ.ح" /> />
       <ScrollView className="">
         <View className="flex px-6 flex-col gap-4 mt-4 mb-20">

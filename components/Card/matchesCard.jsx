@@ -3,12 +3,15 @@ import { useAppContext } from "@/context";
 import api from "@/api";
 import { useFocusEffect } from "expo-router";
 import React from "react";
+import handleBack from "@/utils/handleBack";
 
 export default function MatchesCard() {
+      const panHandlers = handleBack("/menu");
+
   const { matches, fetchMatches } = useAppContext();
 
   return (
-    <View className="flex-row flex-wrap justify-between mx-4 mt-2">
+    <View  {...panHandlers} className="flex-row flex-wrap justify-between mx-4 mt-2">
       {matches?.length > 0 ? (
         matches?.filter((user) => user?.id != 0)
           .map((item,index) => (

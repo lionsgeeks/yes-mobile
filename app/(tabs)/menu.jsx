@@ -15,10 +15,12 @@ import yeslogo from "@/assets/images/yeslogo.png";
 import api from "@/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import handleBack from "@/utils/handleBack";
 
 export default function MenuScreen() {
   const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } =
     useAuthContext();
+    const panHandlers = handleBack("/");
 
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },
@@ -65,7 +67,7 @@ export default function MenuScreen() {
   };
 
   return (
-    <ScrollView className="h-full bg-white px-6 relative">
+    <ScrollView {...panHandlers} className="h-full bg-white px-6 relative">
       <View className="mt-16"></View>
       <View className="flex-row items-center justify-center gap-3 mb-4">
         <Image

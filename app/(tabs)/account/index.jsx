@@ -18,12 +18,14 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 
+import handleBack from "@/utils/handleBack";
 
 
 export default function AccountScreen() {
     const { user, token, setIsSignedIn, fetchUserInfo, socials, setToken, setUser } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user?.image);
+        const panHandlers = handleBack("/menu");
 
     // Form state
     const [formData, setFormData] = useState({
@@ -199,7 +201,7 @@ export default function AccountScreen() {
 
 
     return (
-        <View>
+        <View {...panHandlers}>
             <View className="bg-white justify-around">
                 <View className="items-center py-8 mt-5">
                     <TouchableOpacity

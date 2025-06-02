@@ -8,6 +8,7 @@ import { useAppContext } from "@/context";
 import api from "@/api";
 import { useNavigation } from "expo-router";
 import TransText from "@/components/TransText";
+import handleBack from "@/utils/handleBack";
 
 const categories = ["Tous", "NGO", "Gouvernement", "Institution Internationale"]
 
@@ -20,6 +21,7 @@ const BailleurScreen = () => {
     const [fadeAnim] = useState(new Animated.Value(0))
     const [translateY] = useState(new Animated.Value(20))
     const navigation = useNavigation();
+    const panHandlers = handleBack("/");
 
     const { allParticipants, sponsors } = useAppContext();
 
@@ -155,7 +157,7 @@ const BailleurScreen = () => {
 
     return (
 
-        <SafeAreaView className="flex-1 bg-[#f8f9fa] pt-10">
+        <SafeAreaView {...panHandlers} className="flex-1 bg-[#f8f9fa] pt-10">
             <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
             <Navbar title=<TransText en="Funders" fr="Financeurs" ar="الجهات الممولة " />

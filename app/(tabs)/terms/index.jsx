@@ -1,13 +1,16 @@
 import TransText from '@/components/TransText';
 import { useAppContext } from '@/context';
 import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+import handleBack from "@/utils/handleBack";
 
 export default function TermsScreen() {
     const { language } = useAppContext();
     const textAlign = language === 'ar' ? 'text-right' : 'text-left';
+    const panHandlers = handleBack("/menu");
 
     return (
-        <ScrollView className="bg-white py-12 px-6"
+        <ScrollView {...panHandlers} className="bg-white py-12 px-6"
         >
             <Text className={`text-2xl font-bold text-alpha mb-4 ${textAlign}`}>
                 <TransText
