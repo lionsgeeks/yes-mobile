@@ -15,10 +15,10 @@ import api from "@/api";
 import handleBack from "@/utils/handleBack";
 
 export default function visitorDetail() {
+  const panHandlers = handleBack("/visitors");
   const { params } = useRoute();
   const { visitor } = params;
   const navigation = useNavigation();
-    const panHandlers = handleBack("/visitors");
 
   return (
     <ScrollView {...panHandlers} className="flex-1 pt-10 bg-[#f9f9f9]">

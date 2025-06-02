@@ -4,9 +4,9 @@ import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
 import handleBack from "@/utils/handleBack";
 
 export default function TermsScreen() {
+    const panHandlers = handleBack("/menu");
     const { language } = useAppContext();
     const textAlign = language === 'ar' ? 'text-right' : 'text-left';
-    const panHandlers = handleBack("/menu");
 
     return (
         <ScrollView {...panHandlers} className="bg-white py-12 px-6"

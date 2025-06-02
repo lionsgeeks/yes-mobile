@@ -11,8 +11,8 @@ import Navbar from "@/components/navigation/navbar";
 import TruncateText from "@/components/TruncateText";
 
 const NgoDetails = () => {
-  const { params } = useRoute();
   const panHandlers = handleBack("/ngos");
+  const { params } = useRoute();
   const { ngos } = useAppContext();
   const ngo = ngos.find((ngo) => ngo.id == params.id);
 

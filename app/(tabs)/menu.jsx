@@ -18,9 +18,9 @@ import { Ionicons } from "@expo/vector-icons";
 import handleBack from "@/utils/handleBack";
 
 export default function MenuScreen() {
+  const panHandlers = handleBack("/");
   const { isSignedIn, setIsSignedIn, user, token, setToken, setUser } =
     useAuthContext();
-    const panHandlers = handleBack("/");
 
   const gridTabs = [
     { name: "Account", route: "account", icon: "person" },

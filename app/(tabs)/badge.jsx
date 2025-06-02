@@ -14,8 +14,8 @@ import TransText from '@/components/TransText';
 import handleBack from "@/utils/handleBack";
 
 export default function Badge() {
-    const { badge } = useAppContext();
     const panHandlers = handleBack("/");
+    const { badge } = useAppContext();
 
     const downloadBadge = async () => {
         const html = `

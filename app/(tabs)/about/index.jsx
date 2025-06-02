@@ -6,8 +6,8 @@ import { useAppContext } from "@/context";
 import handleBack from "@/utils/handleBack";
 
 export default function AboutSceen() {
-    const { general } = useAppContext();
     const panHandlers = handleBack("/menu");
+    const { general } = useAppContext();
 
     const organizres = [
         {

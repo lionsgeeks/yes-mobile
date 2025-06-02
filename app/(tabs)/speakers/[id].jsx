@@ -7,10 +7,10 @@ import api from '@/api';
 import handleBack from "@/utils/handleBack";
 
 export default function SpeakerDetail() {
+    const panHandlers = handleBack("/speakers");
     const { params } = useRoute();
     const { speaker } = params;
     const navigation = useNavigation();
-    const panHandlers = handleBack("/speakers");
 
 
 

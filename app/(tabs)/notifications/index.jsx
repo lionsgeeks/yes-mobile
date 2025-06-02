@@ -5,8 +5,8 @@ import { ScrollView, Text, View } from "react-native";
 import handleBack from "@/utils/handleBack";
 
 export default function NotificationScreen() {
-    const { notifications } = useAppContext();
     const panHandlers = handleBack("/");
+    const { notifications } = useAppContext();
 
     return (
         <View {...panHandlers} className="px-6 pb-12">

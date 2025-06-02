@@ -5,9 +5,9 @@ import { Image, ScrollView, Text, View } from "react-native"
 import handleBack from "@/utils/handleBack";
 
 const sponsorDetails = () => {
+    const panHandlers = handleBack("/sponsors/sponsors");
     const { params } = useRoute();
     const { sponsor } = params;
-    const panHandlers = handleBack("/sponsors/sponsors");
 
     return (
         <ScrollView {...panHandlers} className="flex-1 pt-10 bg-[#f9f9f9]">

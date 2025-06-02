@@ -7,10 +7,10 @@ import api from '@/api';
 import handleBack from "@/utils/handleBack";
 
 export default function bailleurDetail() {
+    const panHandlers = handleBack("/bailleurs/bailleur");
     const { params } = useRoute();
     const { bailleur } = params;
     const navigation = useNavigation();
-    const panHandlers = handleBack("/bailleurs");
 
 
 

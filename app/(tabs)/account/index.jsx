@@ -22,10 +22,10 @@ import handleBack from "@/utils/handleBack";
 
 
 export default function AccountScreen() {
+    const panHandlers = handleBack("/menu");
     const { user, token, setIsSignedIn, fetchUserInfo, socials, setToken, setUser } = useAuthContext();
     const [isLoading, setIsLoading] = useState(false)
     const [profileImage, setProfileImage] = useState(api.IMAGE_URL + user?.image);
-        const panHandlers = handleBack("/menu");
 
     // Form state
     const [formData, setFormData] = useState({

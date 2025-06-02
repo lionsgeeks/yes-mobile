@@ -24,6 +24,7 @@ const categories = [
 
 import handleBack from "@/utils/handleBack";
 export default function visitorsScreen() {
+  const panHandlers = handleBack("/menu");
 
   const { visitors, interests } = useAppContext();
   const [activeCategory, setActiveCategory] = useState("All visitors");
@@ -47,7 +48,6 @@ export default function visitorsScreen() {
   //       );
   //     return matchesSearch && matchesCategory;
   //   });
-    const panHandlers = handleBack("/menu");
 
   return (
     <View {...panHandlers} className="h-screen bg-white pt-10">
