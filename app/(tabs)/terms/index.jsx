@@ -1,7 +1,6 @@
 import TransText from '@/components/TransText';
 import { useAppContext } from '@/context';
 import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
-import { ScrollView, Text, View } from 'react-native';
 import handleBack from "@/utils/handleBack";
 
 export default function TermsScreen() {

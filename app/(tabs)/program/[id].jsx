@@ -174,14 +174,9 @@ export default function SessionDetails() {
     }, [])
   );
   return !isCameraReady ? (
-<<<<<<< Updated upstream
-    <View className="flex-1 bg-gray-50 pt-10">
-      <Navbar title="Program Details" setIsCameraReady={setIsCameraReady} />
-=======
     <View {...panHandlers} className="flex-1 bg-gray-50 pt-10">
       <Navbar title=<TransText en="Program Details" fr="Détails du programme" ar="تفاصيل البرنامج" />
         setIsCameraReady={setIsCameraReady} />
->>>>>>> Stashed changes
       <ScrollView className="px-4">
         {session.name && (
           <View className="items- p-5 mb-6 bg-white">
