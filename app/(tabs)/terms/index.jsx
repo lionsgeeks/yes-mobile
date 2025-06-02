@@ -1,6 +1,6 @@
 import TransText from '@/components/TransText';
 import { useAppContext } from '@/context';
-import { ScrollView, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, Text, View } from 'react-native';
 
 export default function TermsScreen() {
     const { language } = useAppContext();
@@ -176,7 +176,9 @@ export default function TermsScreen() {
                     fr="Des questions ? Contactez-nous à : "
                     ar="هل لديك أسئلة؟ تواصل معنا عبر: "
                 />
-                <Text className="text-alpha font-semibold">contact@youthempowermentsummit.africa</Text>
+                <Text className="text-alpha font-semibold"
+                    onPress={() => Linking.openURL('mailto:contact@youthempowermentsummit.africa')}
+                >contact@youthempowermentsummit.africa</Text>
             </Text>
 
             <View className='mt-12'></View>

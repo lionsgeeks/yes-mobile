@@ -57,64 +57,73 @@ const Sponsors = () => {
       </View>
       <ScrollView className="px-4 mb-20 mt-6">
         {
-          ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
-            <View key={ind}>
-              <Text className="text-xl underline text-beta font-bold">{rank.toUpperCase()}</Text>
-              <View className="gap-4">
-                {filteredSponsors.filter((spo) => spo.rank == rank).map((item) => (
-                  <TouchableOpacity key={item.id}
-                    onPress={() =>
-                      navigation.navigate("sponsors/[id]", { sponsor: item })
-                    }
-                    className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
-                    <View className="flex-row items-center mb-4">
-                      <Image
-                        source={{ uri: api.IMAGE_URL + item.image }}
-                        style={{
-                          width: 70,
-                          aspectRatio: 1,
-                          borderRadius: 500,
-                          marginRight: 10,
-                        }}
-                        resizeMode="contain"
-                      />
-                      <View>
-                        <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
-                        <Text className="text-sm text-gray-500">{item.description.slice(1, 50)}</Text>
-                        <Text className="text-sm text-gray-500">{item.description.slice(50, 125)}...</Text>
+          ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => {
+            const sponsorsForRank = sponsors.filter((spo) => spo.rank === rank);
+
+            if (sponsorsForRank.length === 0) return null;
+            return (
+              <View key={ind}>
+                <Text className="text-xl underline text-beta font-bold">{rank.toUpperCase()}</Text>
+                <View className="gap-4">
+                  {filteredSponsors.filter((spo) => spo.rank == rank).map((item) => (
+                    <TouchableOpacity key={item.id}
+                      onPress={() =>
+                        navigation.navigate("sponsors/[id]", { sponsor: item })
+                      }
+                      className="bg-white rounded-xl shadow-lg shadow-gray-300 w-full p-4 mb-4">
+                      <View className="flex-row items-center mb-4">
+                        <Image
+                          source={{ uri: api.IMAGE_URL + item.image }}
+                          style={{
+                            width: 70,
+                            aspectRatio: 1,
+                            borderRadius: 500,
+                            marginRight: 10,
+                          }}
+                          resizeMode="contain"
+                        />
+                        <View>
+                          <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
+                          <Text className="text-sm text-gray-500">{item?.description?.slice(1, 50)}</Text>
+                          {
+                            item.description?.length > 50 && (
+                              <Text className="text-sm text-gray-500">{item?.description?.slice(50, 125)}...</Text>
+                            )
+                          }
+                        </View>
                       </View>
-                    </View>
-                    <View className='flex-row justify-between items-center'>
-                      {/* could be null from backend */}
-                      {
-                        item.type ? (
-                          <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
-                            <Text className="text-beta font-medium text-sm capitalize">{item.type} </Text>
-                          </View>
-                        )
-                          :
-                          <View></View>
-                      }
+                      <View className='flex-row justify-between items-center'>
+                        {/* could be null from backend */}
+                        {
+                          item.type ? (
+                            <View className="bg-[#efcc2d38] px-4 py-1.5 rounded-full self-start mt-1">
+                              <Text className="text-beta font-medium text-sm capitalize">{item.type} </Text>
+                            </View>
+                          )
+                            :
+                            <View></View>
+                        }
 
-                      {
-                        item.website && (
-                          <Pressable
-                            className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
-                            onPress={() => Linking.openURL(item.website)}
-                          >
+                        {
+                          item.website && (
+                            <Pressable
+                              className="bg-[#2e539d] px-4 py-2 rounded-full flex-row items-center justify-between"
+                              onPress={() => Linking.openURL(item.website)}
+                            >
 
-                            <Text className="text-white font-medium">Visit site</Text>
-                            <Text className="text-blue-400 ml-2">→</Text>
-                          </Pressable>
-                        )
-                      }
+                              <Text className="text-white font-medium">Visit site</Text>
+                              <Text className="text-blue-400 ml-2">→</Text>
+                            </Pressable>
+                          )
+                        }
 
-                    </View>
-                  </TouchableOpacity>
-                ))}
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
-            </View>
-          ))
+            )
+          })
         }
       </ScrollView>
     </View>

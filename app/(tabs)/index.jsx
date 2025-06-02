@@ -210,34 +210,40 @@ export default function HomeScreen() {
           >
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
             {
-              ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => (
-                <View key={ind}>
-                  <Text className="text-xl underline text-beta text-center font-bold">{rank.toUpperCase()}</Text>
-                  <View className="flex flex-row py-6 flex-wrap w-full  ">
+              ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => {
+                const sponsorsForRank = sponsors.filter((spo) => spo.rank === rank);
 
-                    {sponsors.filter((spo) => spo.rank == rank).map((partner, index) => (
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate("sponsors/[id]", { sponsor: partner })
-                        }
-                        key={index}
-                        className="bg-white rounded-lg p-3 "
-                        style={{
-                          elevation: 3,
-                          width: "30%",
-                          marginBottom: 16,
-                          marginRight: "2%",
-                        }}
-                      >
-                        <Image
-                          source={{ uri: api.IMAGE_URL + partner.image }}
-                          style={{ width: 90, height: 60, resizeMode: "contain" }}
-                        />
-                      </TouchableOpacity>
-                    ))}
+                if (sponsorsForRank.length === 0) return null;
+                return (
+                  <View key={ind}>
+                    <Text className="text-xl underline text-beta font-bold">{rank.toUpperCase()}</Text>
+                    <View className="flex flex-row py-6 flex-wrap w-full  ">
+
+                      {sponsors.filter((spo) => spo.rank == rank).map((partner, index) => (
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate("sponsors/[id]", { sponsor: partner })
+                          }
+                          key={index}
+                          className="bg-white rounded-lg p-3 "
+                          style={{
+                            elevation: 3,
+                            width: "30%",
+                            marginBottom: 16,
+                            marginRight: "2%",
+                          }}
+                        >
+                          <Image
+                            source={{ uri: api.IMAGE_URL + partner.image }}
+                            style={{ width: 90, height: 60, resizeMode: "contain" }}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
                   </View>
-                </View>
-              ))
+                )
+
+              })
             }
           </View>
         )}
