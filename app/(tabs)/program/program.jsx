@@ -17,38 +17,48 @@ import { router } from "expo-router"
 import { useAppContext } from '@/context';
 import { useNavigation } from "expo-router";
 import handleBack from "@/utils/handleBack";
+import { useRoute } from '@react-navigation/native';
 
 
-export default function Category() {
+export default function Program() {
+  const { params } = useRoute();
+  const { sessionn } = params;
+
   const [searchQuery, setSearchQuery] = useState('');
 
   const { Programe } = useAppContext();
   const { category } = useAppContext();
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState('');
-    const panHandlers = handleBack("/");
+  const panHandlers = handleBack("/program");
 
   // console.log("programe : ", Programe[0]?.category_id);
   // console.log("cat : ", category);
 
-  const filteredSessions = category.filter(session => {
+  const filteredSessions = Programe.filter(s => {
     const matchesSearch =
       searchQuery === '' ||
-      session.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      session.location.toLowerCase().includes(searchQuery.toLowerCase());
+      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.location.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
-      selectedCategory === '' || session?.category_id === selectedCategory;
+      selectedCategory === '' || s?.category_id === selectedCategory;
 
-    return matchesSearch && matchesCategory;
+    const matchesCategoryFromParam = sessionn?.id === s.category_id;
+
+    return matchesSearch && matchesCategory && matchesCategoryFromParam;
   });
+
+
+  // console.log("filteredSessions : ", Programe);
+  
 
 
   return (
     <SafeAreaView {...panHandlers} className="flex-1 bg-gray-50 pt-10">
       {/* Header */}
 
-      <Navbar title={ <TransText en="Categories" fr="programme" ar="برنامج" />} />
+      <Navbar title={<TransText en="Program" fr="programme" ar="برنامج" />} />
       {/* <View className="px-6 mb-4 flex-row flex-wrap gap-">
         <ScrollView
 
@@ -99,7 +109,7 @@ export default function Category() {
         <View className="px-6">
           {filteredSessions.map((session, index) => (
             <TouchableOpacity onPress={() =>
-              navigation.navigate("program/program", { sessionn: session })
+              navigation.navigate("program/[id]", { session: session })
             } key={index} className="bg-white rounded-xl p-4 mb-4 shadow-sm border-l-4 border-beta">
               <View className="flex-row items-center mb-3">
                 <Text className="mr-2 text-gray-600">🗓️</Text>

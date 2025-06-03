@@ -39,6 +39,7 @@ export default function TabLayout() {
     { route: "account/index", name: "Account", icon: "settings", showTab: true },
     { route: "account/changePassword", name: "Change Password", icon: "settings", showTab: true },
     { route: "program/[id]", name: "program", icon: "settings", showTab: true },
+    { route: "program/program", name: "program", icon: "settings", showTab: true },
     { route: "bailleurs/[id]", name: "program", icon: "settings", showTab: true },
     { route: "bailleur/[id]", name: "program", icon: "settings", showTab: true },
     { route: "scans/index", name: "Scan", icon: "scan", showTab: true },
