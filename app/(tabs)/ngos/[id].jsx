@@ -107,7 +107,7 @@ const NgoDetails = () => {
             </View>
           )
         }
-        <Pressable
+        {/* <Pressable
           onPress={() =>
             router.push({
               pathname: `chat/${ngo.id}`,
@@ -118,7 +118,7 @@ const NgoDetails = () => {
           className="bg-alpha rounded-lg p-3 mt-5 mb-5"
         >
           <Text className="text-center text-white font-bold">Send Message</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

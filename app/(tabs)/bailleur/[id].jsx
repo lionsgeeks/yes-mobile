@@ -42,7 +42,7 @@ export default function bailleurDetail() {
 
 
                 {/* Contact Button */}
-                <View className="px-6 mb-10 mt-4">
+                {/* <View className="px-6 mb-10 mt-4">
                     <Pressable
                         onPress={() => router.push({
                             pathname: `chat/${bailleur.id}`,
@@ -54,7 +54,7 @@ export default function bailleurDetail() {
                     >
                         <Text className="text-white font-semibold text-base">Send a Message</Text>
                     </Pressable>
-                </View>
+                </View> */}
 
  
             </View>

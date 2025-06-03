@@ -21,7 +21,7 @@ const sponsorDetails = () => {
                 />
                 <Text className="text-2xl font-bold text-[#2e539d]">{sponsor.name}</Text>
                 <Text className="text-base text-gray-600">{sponsor.rank.toUpperCase()}</Text>
-                <Text className="text-sm text-gray-400 mb-3">{sponsor.type.charAt(0).toUpperCase() + sponsor.type.slice(1)}</Text>
+                <Text className="text-sm text-gray-400 mb-3">{sponsor?.type?.charAt(0).toUpperCase() + sponsor?.type?.slice(1)}</Text>
 
             </View>
 

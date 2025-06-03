@@ -2,7 +2,7 @@
   "expo": {
     "name": "Y.E.S Africa",
     "slug": "yes-mobile",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "mobile",
@@ -64,7 +64,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "1aa39bcd-2a59-4354-8914-8127c8d0dda8"
+        "projectId": "7937b32a-fa81-48d3-9281-02e718fdf279"
       }
     }
   }
