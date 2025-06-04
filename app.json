@@ -2,7 +2,11 @@
   "expo": {
     "name": "Y.E.S Africa",
     "slug": "yes-mobile",
+<<<<<<< Updated upstream
     "version": "1.0.2",
+=======
+    "version": "1.0.3",
+>>>>>>> Stashed changes
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "mobile",

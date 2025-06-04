@@ -272,8 +272,12 @@ const AppProvider = ({ children }) => {
     conversations,
     setConversations,
     fetchConversations,
+<<<<<<< Updated upstream
     setMyCategory,
     setMyPrograme,
+=======
+    setMyPrograme
+>>>>>>> Stashed changes
 
   };
 

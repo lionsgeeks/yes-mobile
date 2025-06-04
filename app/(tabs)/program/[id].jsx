@@ -26,7 +26,7 @@ import handleBack from "@/utils/handleBack";
 
 export default function SessionDetails() {
   const { user } = useAuthContext();
-  const { Programe } = useAppContext();
+  const { Programe, MyPrograme, setMyPrograme } = useAppContext();
   const { params } = useRoute();
   const { session } = params;
 
@@ -92,6 +92,7 @@ export default function SessionDetails() {
           "You have been succesfully enrolled"
         );
         setEnrolled(true);
+        setMyPrograme((prev) => [...prev, session]);
       } else {
         Alert.alert(
           data.message || "Failed to enroll.",
@@ -126,6 +127,7 @@ export default function SessionDetails() {
           "Your Cancellation was succesfull"
         );
         setEnrolled(false);
+        setMyPrograme((prev) => prev.filter((p) => p.id !== session?.id));
       } else {
         Alert.alert(
           data.message || "Failed to cancel enrollment.",
@@ -293,7 +295,7 @@ export default function SessionDetails() {
         )}
 
         {session.capacity > 0 ? (
-          isUserEnrolled || enrolled ? (
+          MyPrograme.find((pro) => pro.id == session?.id) ? (
             <TouchableOpacity
               onPress={() => handlcancelEnroll(session.id)}
               className="border border-red-600 py-4 rounded-lg mt-4"
