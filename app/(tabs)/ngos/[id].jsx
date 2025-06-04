@@ -15,19 +15,19 @@ const NgoDetails = () => {
   const { params } = useRoute();
   const { ngos } = useAppContext();
   const ngo = ngos.find((ngo) => ngo.id == params.id);
-
+  console.log(ngo);
   return (
     <View {...panHandlers} className="p-5">
       <Navbar title={<TruncateText text={ngo.name} length={9} />} />
       <View className="flex justify-center items-center mt-10 bg-alpha/20 p-5 rounded-lg">
-        <View className="w-32 h-32 rounded-full border-4 border-[#b09417] mb-4 bg-alpha">
+        <View className="w-36 h-36 rounded-full border-4 border-[#b09417] mb-4 bg-white">
           <Image
             source={{ uri: api.IMAGE_URL + ngo.image }}
             style={{
               width: "100%",
               height: "100%",
               borderRadius: 100,
-              resizeMode: "cover",
+              resizeMode: "contain",
             }}
           />
         </View>

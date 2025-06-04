@@ -53,7 +53,7 @@ export default function visitorsScreen() {
     <View {...panHandlers} className="h-screen bg-white pt-10">
       {/* Header */}
 
-      <Navbar title=<TransText en="Visitors" fr="Visiteurs" ar="الزوار" /> />
+      <Navbar title={<TransText en="Visitors" fr="Visiteurs" ar="الزوار" />} />
 
 
       {/* Search */}
@@ -145,7 +145,7 @@ export default function visitorsScreen() {
                   />
                 </View>
                 <Text className="text-center text-base font-semibold text-alpha mb-1">
-                  {item.name}
+                  {item.name} 
                 </Text>
                 {/* <Text className="text-center text-sm text-gray-600 mb-0.5">
                   {item.title}

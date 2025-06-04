@@ -50,7 +50,7 @@ export default function SpeakersScreen() {
   });
 
   return (
-    <View {...panHandlers} className="h-screen bg-white pt-10">
+    <View {...panHandlers} className="h-screen bg- pt-10">
       {/* Header */}
 
       <Navbar title= <TransText en="Speakers" fr="Conférenciers" ar="المتحدثون" /> />

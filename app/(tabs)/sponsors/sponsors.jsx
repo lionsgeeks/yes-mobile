@@ -7,6 +7,7 @@ import api from '@/api';
 import { router } from 'expo-router';
 import TransText from '@/components/TransText';
 import handleBack from "@/utils/handleBack";
+import TruncateText from '@/components/TruncateText';
 
 
 
@@ -31,7 +32,7 @@ const Sponsors = () => {
 
   return (
     <View {...panHandlers} className="min-h-screen bg-white pt-10">
-      <Navbar title=<TransText en="Sponsors" fr="Sponsors" ar="الرعاة" /> />
+      <Navbar title={<TransText en="Sponsors" fr="Sponsors" ar="الرعاة" />} />
 
       <View className="px-6 mb-3">
         <TouchableOpacity
@@ -84,14 +85,14 @@ const Sponsors = () => {
                           }}
                           resizeMode="contain"
                         />
-                        <View>
+                        <View className='w-[80%]'>
                           <Text className="text-lg font-bold text-gray-800">{item.name}</Text>
-                          <Text className="text-sm text-gray-500">{item?.description?.slice(1, 50)}</Text>
-                          {
+                          <Text className="text-sm text-gray-500"><TruncateText text={item?.description} length={100} /></Text>
+                          {/* {
                             item.description?.length > 50 && (
                               <Text className="text-sm text-gray-500">{item?.description?.slice(50, 125)}...</Text>
                             )
-                          }
+                          } */}
                         </View>
                       </View>
                       <View className='flex-row justify-between items-center'>

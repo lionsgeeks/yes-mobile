@@ -17,7 +17,7 @@ const sponsorDetails = () => {
             <View className="items-center px-4 mt-8">
                 <Image
                     source={{ uri: api.IMAGE_URL + sponsor.image }}
-                    className="w-32 h-32 rounded-full border-4 border-[#b09417] mb-4"
+                    className="w-32 h-32 object-contain rounded-full border-4 border-[#b09417] mb-4"
                 />
                 <Text className="text-2xl font-bold text-[#2e539d]">{sponsor.name}</Text>
                 <Text className="text-base text-gray-600">{sponsor.rank.toUpperCase()}</Text>
