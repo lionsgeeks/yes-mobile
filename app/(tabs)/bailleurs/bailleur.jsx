@@ -95,7 +95,7 @@ const BailleurScreen = () => {
                     </View>
 
                     {
-                        (sponsors.some((sp) => sp.name == funder.name) || funder.social.website) && (
+                        (sponsors.some((sp) => sp.name == funder.name) || funder.social?.website) && (
 
                             <View className="flex-row justify-between items-center px-4 py-3 border-t border-t-[#eee] bg-[#f8f9fa]">
                                 <View>
@@ -112,8 +112,8 @@ const BailleurScreen = () => {
                                 </View>
 
                                 {
-                                    funder.social.website && (
-                                        <TouchableOpacity className="flex-row items-center gap-1 " onPress={() => Linking.openURL(funder.url)}>
+                                    funder.social?.website && (
+                                        <TouchableOpacity className="flex-row items-center gap-1 " onPress={() => Linking.openURL(funder.social?.website)}>
                                             <Text className="text-[13px] text-alpha font-medium" >Visiter le site</Text>
                                             <Ionicons name="open-outline" size={14} color="#2e539d" />
                                         </TouchableOpacity>

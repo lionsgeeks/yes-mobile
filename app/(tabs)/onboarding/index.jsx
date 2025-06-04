@@ -6,9 +6,9 @@ import africa2 from "@/assets/images/onboarding/africa2.jpg";
 import africa3 from "@/assets/images/onboarding/africa3.jpg";
 import africa4 from "@/assets/images/onboarding/africa4.jpg";
 import { router } from "expo-router"
+import handleBack from "@/utils/handleBack";
 
 
-// will be changed to better content/images later
 const onboardingData = [
     {
         title: "Welcome to Y.E.S Africa",
@@ -40,6 +40,8 @@ const onboardingData = [
 
 
 export default function OnboardingScreen() {
+      const panHandlers = handleBack("/onboarding");
+    
     const [currentSlide, setCurrentSlide] = useState(0)
 
     const nextSlide = () => {
@@ -61,7 +63,9 @@ export default function OnboardingScreen() {
     const isLastSlide = currentSlide === onboardingData.length - 1
 
     return (
-        <View className="flex items-center justify-center">
+        <View 
+        {...panHandlers} 
+        className="flex items-center justify-center">
             <View className="w-full h-full flex justify-between">
                 <Image
                     source={onboardingData[currentSlide].image}

@@ -46,7 +46,6 @@ const AppProvider = ({ children }) => {
 
   //* get participamts from the backend
   const [participants, setParticipants] = useState([]);
-  // console.log(user.id);
   const [allParticipants, setAllParticipants] = useState([]);
   const osName = Platform.OS;
   const osVersion = Platform.Version;
@@ -96,10 +95,6 @@ const AppProvider = ({ children }) => {
           setvisitors(allVisitors);
           setNgos(allNgos);
           setAllParticipants(otherParts);
-          // console.log("🚨 interests", interests);
-          // console.log("🚨 allVistors", visitors);
-
-
         }
       })
       .catch((err) => {
@@ -125,11 +120,9 @@ const AppProvider = ({ children }) => {
   const fetchBadge = () => {
     api.get(`qrcodes/show/${user?.id}`).then((res) => {
       const receivedBadge = res?.data.data[0];
-      // console.log(`qrcodes/show/${user?.id}`);
 
 
       if (receivedBadge) {
-        // console.log(receivedBadge);
         setBadge(receivedBadge);
       }
     }).catch((err) => {
@@ -147,21 +140,6 @@ const AppProvider = ({ children }) => {
         if (receivedPrograme) {
           setPrograme(receivedPrograme);
           setCategory(Categorie);
-        }
-      })
-      .catch((err) => {
-        console.log("error getting programe", err);
-      });
-  };
-  const fetchMyPrograme = () => {
-    api
-      .get(`MyPrograme/${user?.id}`)
-      .then((res) => {
-        const receivedPrograme = res?.data.programes;
-        const Categorie = res?.data.categorie;
-        if (receivedPrograme) {
-          setMyPrograme(receivedPrograme);
-          setMyCategory(Categorie);
         }
       })
       .catch((err) => {
@@ -195,8 +173,8 @@ const AppProvider = ({ children }) => {
               text: "Update Now",
               onPress: () => {
                 const storeUrl = Platform.select({
-                  ios: res.data.general.appstore,
-                  android: res.data.general.playstore,
+                  ios: res.data?.general?.appstore,
+                  android: res.data?.general?.playstore,
                 });
 
                 if (storeUrl) {
@@ -237,7 +215,7 @@ const AppProvider = ({ children }) => {
     const fetchAll = async () => {
       setLoading(true);
       await Promise.all([
-        console.log("Fetching all data..."),
+        console.log("Fetching all data..."), 
         fetchGeneral(),
         fetchAllParticipants(),
         fetchParticipants(),
@@ -246,7 +224,6 @@ const AppProvider = ({ children }) => {
         fetchInterests(),
         fetchBadge(),
         fetchPrograme(),
-        fetchMyPrograme(),
         fetchNotification(),
         fetchConversations()
       ]);
@@ -294,7 +271,9 @@ const AppProvider = ({ children }) => {
     fetchParticipants,
     conversations,
     setConversations,
-    fetchConversations
+    fetchConversations,
+    setMyCategory,
+    setMyPrograme,
 
   };
 
@@ -341,8 +320,6 @@ const AppProvider = ({ children }) => {
       await AsyncStorage.setItem("errorData", JSON.stringify(errorData));
       console.log("Network is not reachable");
     }
-    // console.error("Error package:", error.message);
-    // console.log("Stack Trace:", stackTrace);
   };
   return (
     <ErrorBoundary onError={errorHandler}>

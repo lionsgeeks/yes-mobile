@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -12,15 +12,17 @@ import TransText from "@/components/TransText";
 import { router, useNavigation } from "expo-router";
 import { useAppContext } from '@/context';
 import handleBack from "@/utils/handleBack";
+import api from '@/api';
+import { useAuthContext } from '@/context/auth';
 
-const APP_URL = process.env.EXPO_PUBLIC_APP_URL;
 
 export default function MyMyPrograme() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedMycategory, setSelectedMycategory] = useState('');
     const panHandlers = handleBack("/");
 
-    const { MyPrograme, Mycategory } = useAppContext();
+    const { MyPrograme, Mycategory , setMyCategory, setMyPrograme} = useAppContext();
+    const {user} = useAuthContext();
     const navigation = useNavigation();
 
     const filteredSessions = MyPrograme.filter(session => {
@@ -34,6 +36,29 @@ export default function MyMyPrograme() {
 
         return matchesSearch && matchesMycategory;
     });
+
+
+    const fetchMyPrograme = () => {
+        if (user) {
+            api
+                .get(`MyPrograme/${user?.id}`)
+                .then((res) => {
+                    const receivedPrograme = res?.data?.programes;
+                    const Categorie = res?.data?.categorie;
+                    if (receivedPrograme) {
+                        setMyPrograme(receivedPrograme);
+                        setMyCategory(Categorie);
+                    }
+                })
+                .catch((err) => {
+                    console.log("error getting programe", err);
+                });
+        }
+    };
+
+    useEffect(() => {
+        fetchMyPrograme();
+    }, [user])
 
     return (
         <SafeAreaView {...panHandlers} className="flex-1 bg-gray-50 pt-10">

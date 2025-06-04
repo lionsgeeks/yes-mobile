@@ -45,7 +45,7 @@ export default function SignInScreen() {
     setIsLoading(true);
     const userEmail = email.trim().toLowerCase();
     api
-      .post("sanctum/token", { email: userEmail, password }) 
+      .post("sanctum/token", { email: userEmail, password })
       .then(async (response) => {
         const participant = response.data.participant;
         const token = response.data.token;
@@ -73,10 +73,8 @@ export default function SignInScreen() {
         // clear the input fields
         setEmail("");
         setPassword("");
-        setIsSignedIn(true);
 
         setUser(participant);
-
         if (participant.interesets && participant?.interesets?.length > 0) {
           router.push("/");
         } else {
@@ -318,7 +316,7 @@ export default function SignInScreen() {
             <Text className="text-alpha text-center font-bold">
               {forgotPassword ? 'Forgot Password' : 'Sign In'}</Text>
           </TouchableOpacity>
-        </ScrollView> 
+        </ScrollView>
       )}
     </LinearGradient>
   );

@@ -12,10 +12,10 @@ export default function handleBack(targetRoute) {
                 return true; 
             };
 
-            BackHandler.addEventListener("hardwareBackPress", onBackPress);
+            const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
             return () => {
-                BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+                subscription.remove();
             };
         } else if (Platform.OS === "ios") {
             panResponder.current = PanResponder.create({

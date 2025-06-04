@@ -23,6 +23,14 @@ const AuthProvider = ({ children }) => {
       api.post("getuser/token", { token }).then((response) => {
         setUser(response?.data?.user);
         setSocials(response?.data?.socials);
+        const participant = response?.data?.user
+        if (participant.interesets && participant?.interesets?.length > 0) {
+          router.push("/");
+        } else {
+          router.push("/onboarding");
+        }
+
+
         setIsSignedIn(true);
         setIsAuthLoading(false);
         // console.log("response 🚑", user);
