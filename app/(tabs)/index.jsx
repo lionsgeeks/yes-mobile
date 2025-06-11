@@ -14,20 +14,16 @@ import logo from "../../assets/images/yeslogo.png";
 import hero from "../../assets/images/yes_patterns.png";
 import jadara from "../../assets/images/partners/Jadaralogo.png";
 import pan from "../../assets/images/partners/pan.jpeg";
-import { router, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 
 import Navbar from "@/components/navigation/navbar";
 import { useAppContext } from "@/context";
 import api from "@/api";
 import AuthLoader from "@/components/loading";
 import useNotif from "@/hooks/useNotif";
-import TransText from "@/components/TransText"
-
-
-
+import TransText from "@/components/TransText";
 
 export default function HomeScreen() {
-
   // i'm calling useNotif to get the permission - Please Don't Delete
   const { expoPushToken } = useNotif();
   const { user, imagePath, isAuthLoading } = useAuthContext();
@@ -38,12 +34,12 @@ export default function HomeScreen() {
     {
       icon: "id-card-outline",
       label: <TransText en="Badge" fr="badge" ar="شارة" />,
-      href: "/badge",
+      href: "badge",
     },
     {
-      icon: user?.role === 'admin' ? "qr-code" : "globe-outline",
-      label: user?.role === 'admin' ? "Scan" : "Network",
-      href: user?.role === 'admin' ? "/scans" : "/matches/matches",
+      icon: user?.role === "admin" ? "qr-code" : "globe-outline",
+      label: user?.role === "admin" ? "Scan" : "Network",
+      href: user?.role === "admin" ? "scans" : "matches/matches",
     },
     {
       icon: "person-add-outline",
@@ -53,11 +49,9 @@ export default function HomeScreen() {
     {
       icon: "calendar-outline",
       label: <TransText en="myschedule" fr="Agenda" ar="جدولي" />,
-      href: "/program/myschedule",
+      href: "program/myschedule",
     },
   ];
-
-
 
   const organizres = [
     {
@@ -78,8 +72,7 @@ export default function HomeScreen() {
     outputRange: ["transparent", "white"],
     extrapolate: "clamp",
   });
-
-  return isAuthLoading ? (
+  return isAuthLoading  ? (
     <AuthLoader />
   ) : (
     <View>
@@ -122,7 +115,10 @@ export default function HomeScreen() {
         <View className="flex-row flex-wrap justify-around py-5 bg-beta h-fit rounded-b-3xl">
           {items.map((item, index) => (
             <TouchableOpacity
-              onPress={() => router.push(item.href)}
+              onPress={() => {
+                navigation.navigate(item.href);
+                console.log("click");
+              }}
               key={index}
               className="justify-center items-center "
             >
@@ -138,7 +134,9 @@ export default function HomeScreen() {
 
         {/* orgnazires */}
         <View className="px-6 pt-6">
-          <Text className="text-xl font-bold text-alpha"><TransText en="Organizers" fr="organisateurs" ar="المنظمون" /></Text>
+          <Text className="text-xl font-bold text-alpha">
+            <TransText en="Organizers" fr="organisateurs" ar="المنظمون" />
+          </Text>
           <View className="flex py-6 flex-row justify-between w-full ">
             {organizres.map((organizre, index) => (
               <View
@@ -164,7 +162,11 @@ export default function HomeScreen() {
         {speakers?.length > 0 && (
           <View className="px-6 pb-6">
             <Text className="text-xl font-bold text-alpha">
-              <TransText en="Featured Speakers" fr="Conférenciers en vedette" ar="المتحدثون المميزون" />
+              <TransText
+                en="Featured Speakers"
+                fr="Conférenciers en vedette"
+                ar="المتحدثون المميزون"
+              />
             </Text>
             <ScrollView
               horizontal
@@ -205,46 +207,54 @@ export default function HomeScreen() {
 
         {/* partners */}
         {sponsors?.length > 0 && (
-          <View
-            className="px-6"
-          >
+          <View className="px-6">
             <Text className="text-xl font-bold text-alpha">Our Partners</Text>
-            {
-              ['sponsors', 'un agencies', 'technical partners'].map((rank, ind) => {
-                const sponsorsForRank = sponsors.filter((spo) => spo.rank === rank);
+            {["sponsors", "un agencies", "technical partners"].map(
+              (rank, ind) => {
+                const sponsorsForRank = sponsors.filter(
+                  (spo) => spo.rank === rank
+                );
 
                 if (sponsorsForRank.length === 0) return null;
                 return (
                   <View key={ind}>
-                    <Text className="text-xl underline text-beta font-bold">{rank.toUpperCase()}</Text>
+                    <Text className="text-xl underline text-beta font-bold">
+                      {rank.toUpperCase()}
+                    </Text>
                     <View className="flex flex-row py-6 flex-wrap w-full  ">
-
-                      {sponsors.filter((spo) => spo.rank == rank).map((partner, index) => (
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.navigate("sponsors/[id]", { sponsor: partner })
-                          }
-                          key={index}
-                          className="bg-white rounded-lg p-3 "
-                          style={{
-                            elevation: 3,
-                            width: "30%",
-                            marginBottom: 16,
-                            marginRight: "2%",
-                          }}
-                        >
-                          <Image
-                            source={{ uri: api.IMAGE_URL + partner.image }}
-                            style={{ width: 90, height: 60, resizeMode: "contain" }}
-                          />
-                        </TouchableOpacity>
-                      ))}
+                      {sponsors
+                        .filter((spo) => spo.rank == rank)
+                        .map((partner, index) => (
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.navigate("sponsors/[id]", {
+                                sponsor: partner,
+                              })
+                            }
+                            key={index}
+                            className="bg-white rounded-lg p-3 "
+                            style={{
+                              elevation: 3,
+                              width: "30%",
+                              marginBottom: 16,
+                              marginRight: "2%",
+                            }}
+                          >
+                            <Image
+                              source={{ uri: api.IMAGE_URL + partner.image }}
+                              style={{
+                                width: 90,
+                                height: 60,
+                                resizeMode: "contain",
+                              }}
+                            />
+                          </TouchableOpacity>
+                        ))}
                     </View>
                   </View>
-                )
-
-              })
-            }
+                );
+              }
+            )}
           </View>
         )}
       </Animated.ScrollView>

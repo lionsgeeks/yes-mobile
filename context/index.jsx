@@ -66,14 +66,14 @@ const AppProvider = ({ children }) => {
   const fetchMatches = async () => {
     try {
       if (user?.id) {
-        setLoading(true);
+        // setLoading(true);
         const response = await api.get("participants/matches/?auth=" + user?.id);
         setMatches(response.data.matches);
       }
     } catch (error) {
       console.error("❌ Failed to fetch matches:", error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -212,6 +212,7 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (!user?.id) return;
     const fetchAll = async () => {
       setLoading(true);
       await Promise.all([
@@ -272,13 +273,8 @@ const AppProvider = ({ children }) => {
     conversations,
     setConversations,
     fetchConversations,
-<<<<<<< Updated upstream
     setMyCategory,
     setMyPrograme,
-=======
-    setMyPrograme
->>>>>>> Stashed changes
-
   };
 
   const sendStorageRepport = async () => {

@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Image } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { IconSymbol } from "../ui/IconSymbol";
-import { router } from "expo-router";
+import { useNavigation } from "expo-router";
 import { useAuthContext } from "@/context/auth";
 import api from "@/api";
 import { useCameraPermissions } from "expo-camera";
@@ -10,7 +10,7 @@ import { useAppContext } from "@/context";
 export default function Navbar({ title = "Screen", setIsCameraReady }) {
   const { user } = useAuthContext();
   const { messageNotif } = useAppContext()
-
+  const navigation = useNavigation();
   const imageURL = api.IMAGE_URL + user?.image;
   const [permission, requestPermission] = useCameraPermissions();
   const toggleCamera = async () => {
@@ -35,7 +35,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
       {/* Left: Home Button */}
       <Pressable
         onPress={() => {
-          router.push("/account");
+          navigation.navigate("account/index");
         }}
       >
         <Image
@@ -50,7 +50,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
       {/* Right: Bell + Profile */}
       <View className="flex-row items-center gap-x-4">
         {title != "chat" && title != "Program Details" && title != "Badge" && (
-          <Pressable onPress={() => router.push("/chat")} className="relative">
+          <Pressable onPress={() => navigation.navigate("chat/index")} className="relative">
             {messageNotif && <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>}
             <IconSymbol name="message" size={22} color="#000" />
           </Pressable>
@@ -68,7 +68,7 @@ export default function Navbar({ title = "Screen", setIsCameraReady }) {
 
         {title != "Notifications" &&
           <Pressable
-            onPress={() => { router.push('notifications') }}
+            onPress={() => { navigation.navigate('notifications/index') }}
             className="relative"
           >
             <View className="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0 z-10"></View>
