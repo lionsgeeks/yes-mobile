@@ -16,13 +16,14 @@ import * as Network from "expo-network";
 import ErrorBoundary from "react-native-error-boundary";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingScreen from "@/app/(tabs)/loading";
+import AuthLoader from "@/components/loading";
 
 const appContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(useColorScheme() == "dark");
   const [language, setLanguage] = useState("en");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [matches, setMatches] = useState([]);
   const [ngos, setNgos] = useState([]);
   const ablyClient = useRef(null);
@@ -323,7 +324,7 @@ const AppProvider = ({ children }) => {
   };
   return (
     <ErrorBoundary onError={errorHandler}>
-      <appContext.Provider value={appValue}>{loading ? <LoadingScreen /> : children}</appContext.Provider>
+      <appContext.Provider value={appValue}>{loading ? <AuthLoader /> : children}</appContext.Provider>
     </ErrorBoundary>
   );
 };
